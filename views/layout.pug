@@ -1,0 +1,14 @@
+include templates/head
+include templates/nav
+include templates/footer
+
+doctype html
+html
+  +head
+  body(class=(user ? 'admin' : ''))
+    +nav
+    block body
+      .container
+        h1 Express MVC Boilerplate
+        p It's working!
+    +footer

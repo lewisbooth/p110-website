@@ -1,0 +1,17 @@
+mixin nav
+  //- Manage the nav links from here
+  - 
+    const navLinks = {
+      "Home": "/",
+      "Contact": "/contact",
+    }
+  - const pages = Object.keys(navLinks)
+  nav.nav
+    .container
+      a(href="/")
+        img(src="/images/logos/main-logo.svg" alt="Main Logo").nav-logo
+      ul.nav-menu
+        //- Generate auto-highlighting <li> elements from navLinks object
+        each page in pages
+          li(class=currentPath.startsWith(link) ? "active" : "")
+            a(href=navLinks[page])= page

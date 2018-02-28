@@ -1,0 +1,22 @@
+// Inlined in the <head> for faster page renders
+// Try to keep the compiled CSS below 10kb for maximum performance
+
+@import 'variables/variables'
+@import 'critical/reset'
+@import 'critical/fonts'
+@import 'critical/typography'
+@import 'critical/grid'
+
+.nav
+  background-color primary-color
+  width 100%
+
+  .container
+    display flex
+    justify-content space-between
+    align-items center
+
+  &-logo
+    max-height 40px
+    width auto
+    padding 1rem 0
