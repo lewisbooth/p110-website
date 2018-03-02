@@ -15,8 +15,8 @@ exports.upload = (Bucket, Key) => {
   // Upload the file to S3
   s3.upload(options, (err, data) => {
     if (err) {
-      console.log("Error uploading to S3");
-      console.log(err);
+      console.log("🚫  Error uploading to S3");
+      console.log(err.message);
     } else {
       console.log("Upload successful");
       console.log(data.Location);
@@ -64,7 +64,7 @@ exports.downloadIndex = (Bucket, saveFolder) => {
     s3.listObjectsV2({ Bucket }, async (err, data) => {
       // Handle errors
       if (err) {
-        console.log(err)
+        console.log(err.message)
         return null
       } else if (data.Contents.KeyCount === 0) {
         console.log("No items found in bucket: " + Bucket)
@@ -97,8 +97,8 @@ exports.cleanBucket = (Bucket, limit) => {
   // Get a list of all bucket items
   s3.listObjectsV2(options, (err, data) => {
     if (err) {
-      console.log("🚫 Error retrieving bucket information")
-      console.log(err)
+      console.log("🚫  Error retrieving bucket information")
+      console.log(err.message)
       return;
     }
     // If there are more files than the given limit, delete them
@@ -116,8 +116,8 @@ exports.cleanBucket = (Bucket, limit) => {
       // Delete the outdated items
       s3.deleteObjects(deleteOptions, (err, data) => {
         if (err) {
-          console.log("🚫 Error deleting items")
-          console.log(err)
+          console.log("🚫  Error deleting items")
+          console.log(err.message)
         }
       })
     }

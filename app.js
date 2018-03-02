@@ -16,6 +16,7 @@ const bodyParser = require("body-parser");
 const expressValidator = require("express-validator");
 const { logging } = require("./helpers/logging");
 const errorHandlers = require("./helpers/errorHandlers");
+const cookieParser = require('cookie-parser');
 
 // Load Pug views
 app.set("views", "views");
@@ -36,15 +37,16 @@ const md5 = require("md5");
 const css = fs.readFileSync("public/css/main.css");
 const cssHash = md5(css);
 
-// Log non-static requests with a timestamp, HTTP method, path and IP address
-app.use(logging);
-
 // Parses POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 // Data validation library
 app.use(expressValidator());
+
+// Populates req.cookies with any cookies that came along with the request
+app.use(cookieParser());
 
 // Dynamic flash messages that are passed to the template (e.g. "Successfully logged in" or "Incorrect login details")
 app.use(flash());
@@ -64,6 +66,9 @@ app.use(
 // PassportJS handles user logins
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Log non-static requests with a timestamp, HTTP method, path and IP address
+app.use(logging);
 
 // Expose variables and functions for use in Pug templates
 app.use((req, res, next) => {

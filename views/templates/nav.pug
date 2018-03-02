@@ -3,7 +3,8 @@ mixin nav
   - 
     const navLinks = {
       "Home": "/",
-      "Contact": "/contact",
+      "Create User": "/create-user",
+      "Log In": "/login"
     }
   - const pages = Object.keys(navLinks)
   nav.nav
@@ -11,7 +12,13 @@ mixin nav
       a(href="/")
         img(src="/images/logos/main-logo.svg" alt="Main Logo").nav-logo
       ul.nav-menu
-        //- Generate auto-highlighting <li> elements from navLinks object
-        each page in pages
-          li(class=currentPath.startsWith(link) ? "active" : "")
-            a(href=navLinks[page])= page
+        li
+          a(href="/" class=(currentPath === "/" ? "active" : "")) Home
+        li
+          a(href="/create-user" class=(currentPath === "/create-user" ? "active" : "")) Create User
+        if user
+          li
+            a(href="/logout") Log Out
+        else
+          li
+            a(href="/login" class=(currentPath === "/login" ? "active" : "")) Log In

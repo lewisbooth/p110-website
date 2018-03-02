@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 
 // 1 hour expiry
-const timeout = 1
+const timeout = 3600000
 const sitemapFile = path.join(__dirname, '../public/sitemap.xml')
 const localURL = "http://localhost:" + process.env.PORT || 8888
 

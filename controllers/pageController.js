@@ -1,14 +1,30 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
-// Titles and descriptions are written here
+// Titles and descriptions are written in the controllers
 // Titles are appended with "| AMP" in views/templates/head.pug
 
 exports.homepage = async (req, res) => {
   res.render("index", {
     title: "Express MVC Boilerplate",
     description:
-      "Index page description"
+      "home"
+  });
+};
+
+exports.login = async (req, res) => {
+  res.render("login", {
+    title: "Express MVC Boilerplate",
+    description:
+      "Log In"
+  });
+};
+
+exports.createUser = async (req, res) => {
+  res.render("create-user", {
+    title: "Create User",
+    description:
+      "Create a user with no validation"
   });
 };
 
