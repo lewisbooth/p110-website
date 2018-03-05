@@ -2,3 +2,8 @@ mixin footer
   .footer
     .container
       p Boilerplate created by #[a(href="https://amp.studio" target="_blank") AMP Studio]
+      if user
+        p Signed in as #{user.email}
+        a(href='/logout') Log Out
+      else
+        a(href='/login') Log In

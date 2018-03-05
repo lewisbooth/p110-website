@@ -17,8 +17,8 @@ html
                 .container
                   p.flash__text!= message
                   button.flash__remove(onClick="this.parentElement.parentElement.remove()") &times;
+    block p110AlbumBanner
+      .container.p110-album-banner
+        img(src="/images/p110-album-banner-desktop.png" alt="P110 the Album - Available Now")
     block body
-      .container
-        h1 Express MVC Boilerplate
-        p It's working!
     +footer

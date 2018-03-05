@@ -6,10 +6,11 @@ var cssnano = require("cssnano");
 var babel = require("gulp-babel");
 var minify = require("gulp-minify");
 var browserSync = require("browser-sync").create();
+require("dotenv").config({ path: "variables.env" });
 
 gulp.task("serve", ["stylus", "scripts"], function () {
   browserSync.init({
-    proxy: "localhost:8888"
+    proxy: `localhost:${process.env.PORT || 8888}`
   });
   gulp.watch("styles/**/*.styl", ["stylus"]);
   gulp.watch("scripts/**/*.js", ["watch-scripts"]);

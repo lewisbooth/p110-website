@@ -26,6 +26,16 @@ exports.isLoggedIn = (req, res, next) => {
   res.redirect('/');
 }
 
+exports.isLoggedInFlash = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    req.flash('success', 'You are already logged in!');
+    res.redirect('back');
+    return;
+  } else {
+    next();
+  }
+}
+
 exports.validateRegister = (req, res, next) => {
   req.checkBody('email', 'That email address is not valid').isEmail();
   req.sanitizeBody('email').normalizeEmail({

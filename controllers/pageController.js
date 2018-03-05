@@ -6,7 +6,7 @@ const User = mongoose.model("User");
 
 exports.homepage = async (req, res) => {
   res.render("index", {
-    title: "Express MVC Boilerplate",
+    title: "Grime, Rap & Freestyle Music Videos - The Home Of Urban Entertainment",
     description:
       "home"
   });
@@ -14,7 +14,7 @@ exports.homepage = async (req, res) => {
 
 exports.login = async (req, res) => {
   res.render("login", {
-    title: "Express MVC Boilerplate",
+    title: "Log In",
     description:
       "Log In"
   });

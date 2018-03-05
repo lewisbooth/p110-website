@@ -16,7 +16,10 @@ const upload = multer({
 
 router.get("/", pageController.homepage);
 router.get("/logout", authController.logout);
-router.get("/login", pageController.login);
+router.get("/login",
+  authController.isLoggedInFlash,
+  pageController.login
+);
 router.post("/login", authController.login);
 router.get("/create-user", pageController.createUser);
 router.post("/create-user",
