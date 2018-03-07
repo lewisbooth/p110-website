@@ -2,3 +2,140 @@
 
 @import 'variables/variables'
 @import 'main/fonts'
+
+.latest-videos
+  padding 1rem 0 4rem 0
+  margin 3rem 0 0 0
+  background-color black
+
+  &__feed
+    display flex
+    justify-content space-between
+    align-items flex-start
+    flex-wrap wrap
+
+    &--entry
+      width calc(33.333% - 1rem)
+      margin-bottom 2rem
+
+      .youtube-embed
+        margin-bottom 2rem
+
+.latest-news
+  padding 1rem 0 2rem 0
+  background-color lightGrey 
+  color black
+
+  &__feed
+    display flex
+    justify-content space-between
+    align-items flex-start
+    flex-wrap wrap
+
+    &--entry
+      width calc(25% - 1rem)
+      margin-bottom 2rem
+      display inline-block
+
+      &:hover p
+        text-decoration underline
+
+      h5
+        margin 1rem 0
+        line-height 1em
+
+      p
+        font-size 1.4rem
+
+.video-production
+  background-color black
+  position relative
+
+  .container
+    background-image url('/images/banners/video-production-banner.jpg')
+    background-size cover
+    background-position center
+
+  &__text
+    padding 8rem 0 7rem 0
+
+    p
+      margin 0
+      text-transform uppercase
+      color p110Yellow
+
+    h2
+      margin 0 0 2rem 0
+      font-size 6.2rem
+
+.instagram-feed
+  padding 1rem 0 4rem 0
+
+  &__images
+    display flex
+    justify-content space-between
+
+  &__image
+    width calc(16.666% - 2rem)
+    min-width 15rem
+    
+
+.subscribe-now
+  background-color youtubeRed 
+  padding 2rem 0
+  display block
+
+  &:hover
+    background-color youtubeRedHover
+
+  .container
+    display flex
+    align-items center
+    justify-content center
+
+  &__youtube-logo
+    width 4.6rem
+  
+  h3
+    margin -.5rem 3rem 0 3rem
+  
+  &__subscriber-count
+    helveticaCondensed()
+    font-size 2.6rem
+    line-height .9em
+    margin 0
+    margin-top -.5rem
+    color youtubeRedText
+
+.footer
+  background-color black
+  padding 1rem 0 0 0
+  font-size 1.4rem
+
+  a
+    text-decoration underline
+
+    &:hover
+      color p110Blue
+
+  .container
+    display flex
+    justify-content space-between
+    flex-wrap wrap
+
+  &__signed-in
+    display flex
+    flex-wrap wrap
+
+    p
+      margin-right 1.5rem
+
+  &__column
+    width calc(33.333% - 2rem)
+    margin-bottom 3rem
+
+  &__list
+    line-height 1.6em
+
+  .nav__social-media-icons
+    margin-top 3rem

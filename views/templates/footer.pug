@@ -1,9 +1,44 @@
 mixin footer
   .footer
     .container
-      p Boilerplate created by #[a(href="https://amp.studio" target="_blank") AMP Studio]
+      .footer__column
+        h5 Contents
+        ul.footer__list
+          li 
+            a(href="/") Home
+          li 
+            a(href="/videos") Latest Videos
+          li 
+            a(href="/news") Latest News
+          li 
+            a(href="/video-production") Video Production
+          li 
+            a(href="/about") About P110
+      .footer__column
+        h5 Music Videos
+        ul.footer__list
+          li 
+            a(href="/videos/p110-premiere") P110 Premiere
+          li 
+            a(href="/videos/scene-smasher") Scene Smasher
+          li 
+            a(href="/videos/1take") #1Take
+          li 
+            a(href="/videos/music-video") Music Video
+      .footer__column
+        h5 Contact P110
+        a(href="mailto:adam@p110.media") adam@p110.media
+        .nav__social-media-icons
+          a(href="https://www.facebook.com/P110Media/" target="_blank")
+            img(src="/images/icons/facebook-logo-white.svg" alt="P110 Facebook Page Link")
+          a(href="https://twitter.com/p110media/" target="_blank")
+            img(src="/images/icons/twitter-logo-white.svg" alt="P110 Twitter Page Link")
+          a(href="https://www.instagram.com/p110media/" target="_blank")
+            img(src="/images/icons/instagram-logo-white.svg" alt="P110 instagram Page Link")
+      p Website by #[a(href="https://amp.studio" target="_blank") AMP Studio]
       if user
-        p Signed in as #{user.email}
-        a(href='/logout') Log Out
+        .footer__signed-in
+          p Signed in as #{user.email}
+          a(href='/logout') Log Out
       else
         a(href='/login') Log In

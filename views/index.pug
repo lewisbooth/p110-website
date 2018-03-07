@@ -1,1 +1,174 @@
 extends layout
+
+block body
+  section.promoted.container
+    .promoted__left-column
+      .youtube-embed
+        iframe(src="https://www.youtube.com/embed/hrSGMg8GTLw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+        h2.youtube-embed__featured Featured
+      .promoted__left-column--video-description
+        .video-description
+          .video-description__type Music Video
+          .video-description__title Jaykae – Toothache
+    .promoted__right-column
+      .promoted__hottest-videos
+        h1 Top Grime Videos
+        h2 Most Viewed This Month
+        ul.promoted__hottest-videos--list
+          li
+            a.promoted__hottest-videos--list--item(href="/")
+              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
+              .video-description
+                .video-description__type #1take
+                .video-description__title Dext - #1TAKE (PT.2)
+              .video-viewcount
+                .video-viewcount__count 53,590
+                .video-viewcount__views Views
+          li
+            a.promoted__hottest-videos--list--item(href="/")
+              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
+              .video-description
+                .video-description__type P110 Premiere
+                .video-description__title SparkaMan - Know How It Goes
+              .video-viewcount
+                .video-viewcount__count 42,011
+                .video-viewcount__views Views
+          li
+            a.promoted__hottest-videos--list--item(href="/")
+              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
+              .video-description
+                .video-description__type #1take
+                .video-description__title Brett Haze - #1TAKE
+              .video-viewcount
+                .video-viewcount__count 27,781
+                .video-viewcount__views Views
+          li
+            a.promoted__hottest-videos--list--item(href="/")
+              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
+              .video-description
+                .video-description__type Scene smasher
+                .video-description__title ESCO X SHADOW ON THE BEAT
+              .video-viewcount
+                .video-viewcount__count 11,043
+                .video-viewcount__views Views
+          li
+            a.promoted__hottest-videos--list--item(href="/")
+              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
+              .video-description
+                .video-description__type Scene smasher
+                .video-description__title Stoney x Jsav x Slitz
+              .video-viewcount
+                .video-viewcount__count 9,189
+                .video-viewcount__views Views
+      a.promoted__store-banner(href="https://p110store.bigcartel.com/" target="_blank")        
+        img(src="/images/banners/p110-store-banner-400.jpg" alt="P110 Merchandise Store")
+  section.latest-videos
+    .container
+      .space-between
+        h2 Latest Videos
+        a.underline-hover(href="/videos") View All
+      .latest-videos__feed
+        .latest-videos__feed--entry
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/NPISpyfJnzI?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type P110 Premiere
+            .video-description__title Krimsz X RA - Money Affi Mek (6IXTY 6IX)
+        .latest-videos__feed--entry
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/P4h80v_58UU?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type Scene smasher
+            .video-description__title Pee Man
+        .latest-videos__feed--entry
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type P110 Premiere
+            .video-description__title SparkaMan - Know How It Goes
+        .latest-videos__feed--entry
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/7Xe4jFvCV6g?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type Scene smasher
+            .video-description__title Stoney x Jsav x Slitz
+        .latest-videos__feed--entry
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/8KldncXmuRY?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type 1Take
+            .video-description__title Dext - #1TAKE (PT.2)
+        .latest-videos__feed--entry
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/ipPEAJd1T7c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type 1Take
+            .video-description__title Brett Haze - #1TAKE
+  section.latest-news
+    .container
+      .space-between
+        h2 Latest News
+        a.underline-hover(href="/news") View All
+      .latest-news__feed
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/1.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/2.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/3.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/4.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/5.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/6.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/7.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        a(href="/news/").latest-news__feed--entry
+          img(src="/images/news-articles/temp/8.jpg")
+          h5 LD On UK Drill scene, 67 Being Back &amp; More
+          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+  section.instagram-feed
+    .container
+      .space-between
+        h2 P110 Instagram
+        a.underline-hover(href="https://www.instagram.com/p110media/") View All
+      .instagram-feed__images        
+        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/TEMP_instagram/1.jpg")
+        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/TEMP_instagram/2.jpg")
+        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/TEMP_instagram/3.jpg")
+        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/TEMP_instagram/4.jpg")
+        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/TEMP_instagram/5.jpg")
+        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/TEMP_instagram/6.jpg")
+  section.video-production
+    .container
+      .video-production__text
+        p Video Production
+        h2 Get your#[br]video online
+        a.button.button-secondary(href="/video-production") Start Now
+            
+  a(href="https://www.youtube.com/user/P110HD" target="_blank").subscribe-now
+    .container
+      img.subscribe-now__youtube-logo(src='/images/icons/youtube-logo-white.svg')
+      h3 Subscribe to p110 media
+      .subscribe-now__subscriber-count 198K

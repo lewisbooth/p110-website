@@ -8,7 +8,23 @@ exports.homepage = async (req, res) => {
   res.render("index", {
     title: "Grime, Rap & Freestyle Music Videos - The Home Of Urban Entertainment",
     description:
-      "home"
+      "Watch the hottest grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
+  });
+};
+
+exports.latestNews = async (req, res) => {
+  res.render("latest-news", {
+    title: "Latest Grime & Rap News",
+    description:
+      "Get the latest news & trends from the UK grime & rap scene."
+  });
+};
+
+exports.newsArticle = async (req, res) => {
+  res.render("news-article", {
+    title: "Latest Grime & Rap News",
+    description:
+      "Get the latest news & trends from the UK grime & rap scene."
   });
 };
 

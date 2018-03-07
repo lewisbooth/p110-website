@@ -18,7 +18,9 @@ html
                   p.flash__text!= message
                   button.flash__remove(onClick="this.parentElement.parentElement.remove()") &times;
     block p110AlbumBanner
-      .container.p110-album-banner
-        img(src="/images/p110-album-banner-desktop.png" alt="P110 the Album - Available Now")
+      .container
+        a(href="/album")
+          .p110-album-banner
+            img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now")
     block body
     +footer
