@@ -5,6 +5,22 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://p110.co.uk/news</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.co.uk/artists</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.co.uk/videos</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.co.uk/news/article/1</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://p110.co.uk/login</loc>
     <changefreq>weekly</changefreq>
   </url>

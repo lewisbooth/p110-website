@@ -1,7 +1,43 @@
 extends layout
 
 block body
-  section.latest-news
+  section.news
     .container
-      h1 LD On UK Drill scene, 67 Being Back &amp; More   
-      
+      a.news__back-link.underline-hover(href="/news") << Back to News
+      .news__article
+        article.news__article--content
+          h1 LD On UK Drill scene, 67 Being Back &amp; More 
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/8UDctGGXXJ0?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .news__article--social-icons
+            a.news__article--social-icons--facebook(href="/" target="_blank")
+              img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
+              p Share on Facebook
+            a.news__article--social-icons--twitter(href="/" target="_blank")
+              img(src="/images/icons/twitter-logo-white.svg" alt="Facebook icon")
+              p Share on Twitter
+            a.news__article--social-icons--google(href="/" target="_blank")
+              img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
+              p Share on Google+
+          .news__article--content--meta
+            h3 Artists
+            .news__article--content--meta--tags
+              a(href="/artists/ld")
+
+          .news__article--content--text
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back, Scribz’s ban, the industry, and so much more. Throughout the interview, the South London driller who’s undoubtedly one of the main reasons for the rise in the popularity of the genre, speaks on what he feels about the current state of UK Drill, mentioning how it’s losing its authenticity, also stating his intentions of bringing the original UK Drill sound back. LD also speaks on the police trying to stop 67 from being successful, industry politics, and so much more in what is a very insightful interview.
+            p Watch the full interview above now!
+        aside.news__article--sidebar.news__feed
+          h3 Latest News Stories
+          a(href="/news/article/1").news__feed--entry
+            img(src="/images/news-articles/temp/1.jpg")
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          a(href="/news/article/1").news__feed--entry
+            img(src="/images/news-articles/temp/2.jpg")
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          a(href="/news/article/1").news__feed--entry
+            img(src="/images/news-articles/temp/3.jpg")
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…

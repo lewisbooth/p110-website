@@ -5,8 +5,28 @@
 
 .latest-videos
   padding 1rem 0 4rem 0
-  margin 3rem 0 0 0
   background-color black
+
+  &__categories
+      display flex
+      align-items stretch
+      font-size 1.4rem
+
+    li
+
+      a
+        color white
+        text-decoration none 
+        padding .25rem 1.5rem
+        display inline-flex
+        height 100%
+        align-items center
+
+        &.active
+          background-color midGrey
+          
+        &:hover
+          background-color p110BlueMidDark
 
   &__feed
     display flex
@@ -21,10 +41,15 @@
       .youtube-embed
         margin-bottom 2rem
 
-.latest-news
-  padding 1rem 0 2rem 0
+.news
   background-color lightGrey 
   color black
+
+.video
+  background-color black 
+
+.news, .video
+  padding 1rem 0 2rem 0
 
   &__feed
     display flex
@@ -47,11 +72,88 @@
       p
         font-size 1.4rem
 
+  &__back-link
+    margin-top 1rem
+    display block
+
+  &__article
+    display flex
+    align-items flex-start
+    justify-content space-between
+    flex-wrap wrap
+
+    & .news__feed--entry, .latest-videos__feed--entry
+      width 100%
+
+    &--content
+      width calc(75% - 12rem)
+
+      &--title
+        margin-top 2rem
+
+        h1
+          margin-bottom 2.5rem
+          margin-top 0
+
+      &--text
+        margin-top 3rem
+        display block
+      
+      &--meta
+
+        h3
+          margin 3rem 0 1rem 0
+
+    &--social-icons
+      width 100
+      display flex
+      flex-wrap wrap
+      color white
+
+      a
+        padding 1rem 2rem
+        box-sizing border-box
+        width 33.333%
+        display flex
+        align-items center
+        justify-content center
+
+        p
+          margin 0 0 0 1.5rem
+      
+      img 
+        height 2rem
+        width auto
+
+      &--facebook
+        background-color facebookBlue
+
+        &:hover
+          background-color facebookBlueDark
+
+      &--twitter
+        background-color twitterBlue
+
+        &:hover
+          background-color twitterBlueDark
+
+      &--google
+        background-color googlePlusRed
+
+        &:hover
+          background-color googlePlusRedDark
+    
+    &--sidebar
+      width calc(25%)
+
+      h3
+        margin-top 2.8rem
+
 .video-production
   background-color black
   position relative
 
-  .container
+  &__image
     background-image url('/images/banners/video-production-banner.jpg')
     background-size cover
     background-position center
@@ -68,17 +170,52 @@
       margin 0 0 2rem 0
       font-size 6.2rem
 
+  &__title
+    text-align center
+    width 100%
+    position absolute
+    top 6rem
+
+    h3
+      text-transform uppercase
+      font-family helveticaNeueMedium
+      font-size 1.6rem
+      color p110Yellow
+      margin 0
+
+    h1
+      margin 0
+      font-size 6.2rem
+
+  &__page
+    padding 6rem 0
+    position relative
+    max-width 100rem
+
+    &--content
+      margin -15rem auto 0 auto
+      max-width 82rem
+
 .instagram-feed
   padding 1rem 0 4rem 0
 
   &__images
     display flex
     justify-content space-between
+    align-items flex-start
 
   &__image
     width calc(16.666% - 2rem)
     min-width 15rem
-    
+
+    &--container
+      padding-top 100%
+      position relative
+      background-color black
+
+      img 
+        position absolute
+        top 0
 
 .subscribe-now
   background-color youtubeRed 

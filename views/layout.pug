@@ -21,6 +21,12 @@ html
       .container
         a(href="/album")
           .p110-album-banner
-            img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now")
+            img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now on Spotify, Apple Music & Google Play")
     block body
+    block subscribeNow            
+      a(href="https://www.youtube.com/user/P110HD" target="_blank").subscribe-now
+        .container
+          img.subscribe-now__youtube-logo(src='/images/icons/youtube-logo-white.svg')
+          h3 Subscribe to p110 media
+          .subscribe-now__subscriber-count 198K
     +footer

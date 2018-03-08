@@ -24,7 +24,7 @@ mixin head
         include ../../public/css/critical.css
     //- Use <link> during development to allow BrowserSync to inject changes during development
     else
-      link(rel='stylesheet' href=`/css/critical.css?ver=${cssHash}` type="text/css")
+      link(rel='stylesheet' href=`/css/critical.css` type="text/css")
 
     //- External non-critical styles
     link(rel='stylesheet' href=`/css/main.css?ver=${cssHash}` type="text/css")

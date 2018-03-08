@@ -30,6 +30,8 @@ mixin nav
       .container
         ul.nav__secondary--menu
           li
+            a(href="/videos" class=(currentPath === "/videos" ? "active" : "")) All Videos
+          li
             a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
           li
             a(href="/videos/1take" class=(currentPath === "/videos/1take" ? "active" : "")) #1Take

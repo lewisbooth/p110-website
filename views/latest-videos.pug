@@ -1,0 +1,91 @@
+extends layout
+
+block body
+  section.latest-videos
+    .container
+      .space-between
+        h1 Latest Videos
+        ul.latest-videos__categories
+          li
+            a(href="/videos" class=(currentPath === "/videos" ? "active" : "")) All
+          li
+            a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
+          li
+            a(href="/videos/id/1take" class=(currentPath === "/videos/id/1take" ? "active" : "")) #1Take
+          li
+            a(href="/videos/p110-premiere" class=(currentPath === "/videos/p110-premiere" ? "active" : "")) P110 Premiere
+          li
+            a(href="/videos/music-video" class=(currentPath === "/videos/music-video" ? "active" : "")) Music Video  
+      .latest-videos__feed
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/NPISpyfJnzI?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type P110 Premiere
+            .video-description__title Krimsz X RA - Money Affi Mek (6IXTY 6IX)
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/P4h80v_58UU?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type Scene smasher
+            .video-description__title Pee Man
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type P110 Premiere
+            .video-description__title SparkaMan - Know How It Goes
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/7Xe4jFvCV6g?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type Scene smasher
+            .video-description__title Stoney x Jsav x Slitz
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/8KldncXmuRY?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type 1Take
+            .video-description__title Dext - #1TAKE (PT.2)
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/ipPEAJd1T7c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type 1Take
+            .video-description__title Brett Haze - #1TAKE
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/NPISpyfJnzI?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type P110 Premiere
+            .video-description__title Krimsz X RA - Money Affi Mek (6IXTY 6IX)
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/P4h80v_58UU?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type Scene smasher
+            .video-description__title Pee Man
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type P110 Premiere
+            .video-description__title SparkaMan - Know How It Goes
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/7Xe4jFvCV6g?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type Scene smasher
+            .video-description__title Stoney x Jsav x Slitz
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/8KldncXmuRY?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type 1Take
+            .video-description__title Dext - #1TAKE (PT.2)
+        a.latest-videos__feed--entry(href="/videos/id/1")
+          .youtube-embed
+            iframe(src="https://www.youtube.com/embed/ipPEAJd1T7c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          .video-description
+            .video-description__type 1Take
+            .video-description__title Brett Haze - #1TAKE

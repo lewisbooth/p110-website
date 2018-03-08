@@ -14,12 +14,33 @@ const upload = multer({
 
 // NOTE: Use catchErrors() to wrap any async controller methods, e.g. Mongo queries
 
-router.get("/", pageController.homepage);
-router.get("/news", pageController.latestNews);
+router.get("/",
+  catchErrors(pageController.homepage)
+);
+router.get("/videos",
+  catchErrors(pageController.videos)
+);
+router.get("/videos/:category",
+  catchErrors(pageController.videos)
+);
+router.get("/videos/id/:youtubeId",
+  catchErrors(pageController.videoArticle)
+);
+router.get("/news",
+  catchErrors(pageController.news)
+);
 router.get("/news/article", (req, res) => {
   res.redirect('/news');
 });
-router.get("/news/article/:articleId", pageController.newsArticle);
+router.get("/news/article/:articleId",
+  catchErrors(pageController.newsArticle)
+);
+router.get("/artists",
+  catchErrors(pageController.artists)
+);
+router.get("/video-production",
+  pageController.videoProduction
+);
 
 
 // Authentication
