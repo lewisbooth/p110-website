@@ -9,6 +9,23 @@ block body
         h1 Get your video online
       img(src="/images/banners/video-production-main.jpg" alt="Video Production Photo")
       .video-production__page--content
-        .video-production__page--content--left
+        div
           p Get your own P110 music video produced by our team of experienced videographers and be promoted through our platform today.
           p Fill in the contact form or DM us on social media to get in touch.
+          .nav__social-media-icons
+            a(href="https://www.facebook.com/P110Media/" target="_blank")
+              img(src="/images/icons/facebook-logo-white.svg" alt="P110 Facebook Page Link")
+            a(href="https://twitter.com/p110media/" target="_blank")
+              img(src="/images/icons/twitter-logo-white.svg" alt="P110 Twitter Page Link")
+            a(href="https://www.instagram.com/p110media/" target="_blank")
+              img(src="/images/icons/instagram-logo-white.svg" alt="P110 instagram Page Link")
+        div
+          form(action="/video-production" method="POST").video-production__page--content--form
+            label(for="name") Your Name
+            input(type="text" name="name" maxlength="50" required)
+            label(for="email") Your Email
+            input(type="email" name="email" maxlength="50" required)
+            label(for="message") Message
+            textarea(name="message" maxlength="1000" rows="10" placeholder="Tell us about your video" required)
+            input.hidden(type="text" name="bot" maxlength="50")
+            button.button__secondary(type="submit") Submit

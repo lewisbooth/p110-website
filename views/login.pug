@@ -1,11 +1,12 @@
 extends layout
 
 block body
-  .container
-    h2 Log In
-    form(method="POST")
-      label(for="email") Email
-      input(type="email" name="email" required)
-      label(for="password") Password
-      input(type="password" name="password" required)
-      button(type="submit") Log In
+  section.login
+    .container
+      h2 Log In
+      form(method="POST")
+        label(for="email") Email
+        input(type="email" name="email" required)
+        label(for="password") Password
+        input(type="password" name="password" required)
+        button(type="submit") Log In

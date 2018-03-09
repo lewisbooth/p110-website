@@ -41,6 +41,9 @@ router.get("/artists",
 router.get("/video-production",
   pageController.videoProduction
 );
+router.post("/video-production",
+  catchErrors(pageController.videoProductionForm)
+);
 
 
 // Authentication

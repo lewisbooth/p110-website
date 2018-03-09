@@ -78,13 +78,15 @@ app.use((req, res, next) => {
   res.locals.flashes = req.flash();
   // Expose the current user data if logged in
   res.locals.user = req.user || null;
+  // Expose the public URL for building sharing links etc
+  res.locals.publicURL = process.env.PUBLIC_URL
   // Expose the URL path
   res.locals.currentPath = req.path;
   // Expose the URL query strings
   res.locals.query = req.query;
   // Pass an MD5 hash of the CSS file for automatic cache-busting
   res.locals.cssHash = cssHash;
-  // Detect production mode
+  // Detect production mode for inlining CSS
   if (process.env.NODE_ENV === "production") {
     res.locals.production = true;
   }

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { contactForm } = require("../helpers/contactForm");
 const User = mongoose.model("User");
 
 // Titles and descriptions are written in the controllers
@@ -52,13 +53,38 @@ exports.artists = async (req, res) => {
   });
 };
 
-exports.videoProduction = async (req, res) => {
+exports.videoProduction = (req, res) => {
   res.render("video-production", {
     title: "Video Production -  Get Featured On P110 Media Today",
     description:
       "Get your own P110 music video produced by our team of experienced videographers and be promoted through our platform along with Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
   });
 };
+
+exports.videoProductionForm = async (req, res, next) => {
+  const name = String(req.body.name)
+  const email = String(req.body.email)
+  const message = String(req.body.message)
+  const bot = String(req.body.bot)
+
+  if (bot.length > 0) {
+    console.log('🤖  Bot detected');
+    req.flash("error", "Error sending message, please try again later")
+    res.status(400).send();
+    return
+  }
+
+  await contactForm({ messageData: { name, email, message } }).then(err => {
+    if (err) {
+      req.flash("error", "Error sending message, please try again later")
+    } else {
+      req.flash("success", "Thank you for contacting P110, we'll be in touch soon.")
+    }
+    // Always use res.redirect() on POST data, otherwise req.flash() does not work as flashes are shown on subsequent requests.
+    res.redirect('/video-production')
+  })
+};
+
 
 
 

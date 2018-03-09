@@ -12,13 +12,14 @@ block body
           .youtube-embed
             iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
           .video__article--social-icons
-            a.video__article--social-icons--facebook(href="/" target="_blank")
+            a.video__article--social-icons--facebook(href=`https://www.facebook.com/sharer/sharer.php?u=https%3A//p110.media${currentPath}` target="_blank")
               img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
               p Share on Facebook
-            a.video__article--social-icons--twitter(href="/" target="_blank")
+            - const videoTitle = video && video.title ? "P110 Media – " + video.title + " " : ""
+            a.video__article--social-icons--twitter(href=`https://twitter.com/home?status=${videoTitle}https%3A//p110.media${currentPath}` target="_blank")
               img(src="/images/icons/twitter-logo-white.svg" alt="Facebook icon")
               p Share on Twitter
-            a.video__article--social-icons--google(href="/" target="_blank")
+            a.video__article--social-icons--google(href=`https://plus.google.com/share?url=https%3A//p110.media${currentPath}` target="_blank")
               img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
               p Share on Google+
           .video__article--content--meta
