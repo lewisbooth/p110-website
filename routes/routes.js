@@ -12,7 +12,8 @@ const upload = multer({
   }
 });
 
-// NOTE: Use catchErrors() to wrap any async controller methods, e.g. Mongo queries
+// NOTE: Use catchErrors() to wrap any async controller methods
+// This will safely pass any errors on to a middleware handler
 
 router.get("/",
   catchErrors(pageController.homepage)
@@ -38,11 +39,17 @@ router.get("/news/article/:articleId",
 router.get("/artists",
   catchErrors(pageController.artists)
 );
+router.get("/artists/:artistId",
+  catchErrors(pageController.artistPage)
+);
 router.get("/video-production",
   pageController.videoProduction
 );
 router.post("/video-production",
   catchErrors(pageController.videoProductionForm)
+);
+router.get("/about",
+  pageController.about
 );
 
 

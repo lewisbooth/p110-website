@@ -17,6 +17,10 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://p110.media/about</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://p110.media/videos</loc>
     <changefreq>weekly</changefreq>
   </url>
@@ -49,7 +53,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://p110.media/videos/id/1take</loc>
+    <loc>https://p110.media/artists/jaykae</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.media/artists/skepta</loc>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>

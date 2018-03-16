@@ -3,7 +3,7 @@ extends layout
 block body
   section.video
     .container
-      a.video__back-link.underline-hover(href="/news") << Back to News
+      a.back-link.underline-hover(href="/videos") << Back to Videos
       .video__article
         article.video__article--content
           .video__article--content--title
@@ -11,21 +11,7 @@ block body
             h1 SparkaMan - Know How It Goes
           .youtube-embed
             iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video__article--social-icons
-            a.video__article--social-icons--facebook(href=`https://www.facebook.com/sharer/sharer.php?u=https%3A//p110.media${currentPath}` target="_blank")
-              img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
-              p Share on Facebook
-            - const videoTitle = video && video.title ? "P110 Media – " + video.title + " " : ""
-            a.video__article--social-icons--twitter(href=`https://twitter.com/home?status=${videoTitle}https%3A//p110.media${currentPath}` target="_blank")
-              img(src="/images/icons/twitter-logo-white.svg" alt="Facebook icon")
-              p Share on Twitter
-            a.video__article--social-icons--google(href=`https://plus.google.com/share?url=https%3A//p110.media${currentPath}` target="_blank")
-              img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
-              p Share on Google+
-          .video__article--content--meta
-            h3 Artists
-            .video__article--content--meta--tags
-              a.underline(href="/artists/sparkaman") Sparkaman
+          +socialSharingIcons  
 
           .video__article--content--text
             p It’s been a long, long time since we’ve had something new from Sparkaman, but Know How It Goes is quite a statement for his return. His latest track is as stylish as the visuals that compliment it. 2018 is seeing so many artists step out and display their own creativity and direction. This track is definitely one of the standouts as he seamlessly transitions from singing to rapping without a sweat.

@@ -62,6 +62,10 @@ block body
                 .video-viewcount__views Views
       a.promoted__store-banner(href="https://p110store.bigcartel.com/" target="_blank")        
         img(src="/images/banners/p110-store-banner-400.jpg" alt="P110 Merchandise Store")
+      a(href="/album").p110-album-banner--mobile
+        picture
+          source(srcset="/images/banners/p110-album-banner-mobile.png" media="(max-width: 767px)")
+          img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now on Spotify, Apple Music & Google Play")
   section.latest-videos
     .container
       .space-between
@@ -112,36 +116,44 @@ block body
       .news__feed
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/1.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/2.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/3.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/4.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/5.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/6.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/7.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
         a(href="/news/article/1").news__feed--entry
           img(src="/images/news-articles/temp/8.jpg")
-          h5 LD On UK Drill scene, 67 Being Back &amp; More
-          p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+          .news__feed--entry--text
+            h5 LD On UK Drill scene, 67 Being Back &amp; More
+            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
   section.instagram-feed
     .container
       .space-between
@@ -167,7 +179,8 @@ block body
           .instagram-feed__image--container
             img(src="/images/TEMP_instagram/6.jpg")
   section.video-production
-    .container.video-production__image
+    .container
+      .video-production__image
       .video-production__text
         p Video Production
         h2 Get your#[br]video online

@@ -1,6 +1,7 @@
 include templates/head
 include templates/nav
 include templates/footer
+include mixins/socialSharingIcons
 
 doctype html
 html
@@ -18,10 +19,12 @@ html
                   p.flash__text!= message
                   button.flash__remove(onClick="this.parentElement.parentElement.remove()") &times;
     block p110AlbumBanner
-      .container
+      .container(class=(currentPath === "/" ? "mobile-hide" : ""))
         a(href="/album")
           .p110-album-banner
-            img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now on Spotify, Apple Music & Google Play")
+            picture
+              source(srcset="/images/banners/p110-album-banner-mobile.png" media="(max-width: 767px)")
+              img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now on Spotify, Apple Music & Google Play")
     block body
     block subscribeNow            
       a(href="https://www.youtube.com/user/P110HD" target="_blank").subscribe-now
@@ -30,3 +33,6 @@ html
           h3 Subscribe to p110 media
           .subscribe-now__subscriber-count 198K
     +footer
+    block footerScripts
+      script(src="/js/mobileMenu.js" async)
+    block extraFooterScripts

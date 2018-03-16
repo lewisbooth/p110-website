@@ -56,7 +56,7 @@
 .video
   background-color black 
 
-.news, .video
+.news, .video, .artist
   padding 1rem 0 2rem 0
 
   &__feed
@@ -79,10 +79,6 @@
 
       p
         font-size 1.4rem
-
-  &__back-link
-    margin-top 1rem
-    display block
 
   &__article
     display flex
@@ -111,45 +107,6 @@
 
         h3
           margin 3rem 0 1rem 0
-
-    &--social-icons
-      width 100
-      display flex
-      flex-wrap wrap
-      color white
-
-      a
-        padding 1rem 2rem
-        box-sizing border-box
-        width 33.333%
-        display flex
-        align-items center
-        justify-content center
-
-        p
-          margin 0 0 0 1.5rem
-      
-      img 
-        height 2rem
-        width auto
-
-      &--facebook
-        background-color facebookBlue
-
-        &:hover
-          background-color facebookBlueDark
-
-      &--twitter
-        background-color twitterBlue
-
-        &:hover
-          background-color twitterBlueDark
-
-      &--google
-        background-color googlePlusRed
-
-        &:hover
-          background-color googlePlusRedDark
     
     &--sidebar
       width calc(25%)
@@ -157,14 +114,109 @@
       h3
         margin-top 2.8rem
 
+.artists
+  padding 1rem 0 2rem 0
+  background-color black  
+
+  &__feed
+    display flex
+    flex-wrap wrap
+    align-items flex-start
+    margin 0 -1rem
+
+    &--entry
+      display flex
+      align-items center
+      width 25%
+      padding 1rem
+      margin-bottom 2rem
+      box-sizing border-box
+
+      &:hover
+        background-color darkGrey
+      
+      img 
+        width 8rem
+        min-width 0
+        border-radius 100%
+
+      &--info
+        margin-left 1.5rem
+
+        h3, p
+          margin .25rem 0
+
+        p
+          color p110Yellow
+  
+.artist
+  padding 1rem 0 2rem 0
+  background-color black  
+
+  h1
+    font-size 6.2rem
+    margin-bottom 4rem
+
+  h6
+    color p110Yellow
+    margin 0
+
+  &__article
+    margin-bottom 5rem
+    
+    &--content
+      width calc(50% - 2rem)
+
+      &--text
+        margin-top 1rem
+
+      &--stats
+        display flex
+        flex-wrap wrap
+        align-items flex-start      
+
+        &--stat
+          margin-right 2rem
+          width calc(25% - 2rem)
+          min-width 12rem
+          margin-bottom 2rem
+          
+          h6, p
+            margin 0
+
+      &--featured-image
+        margin-top 2rem
+
+    &--related-artists
+      margin-top 4rem
+
+      ul
+        display flex
+        flex-wrap wrap
+        align-items flex-start
+
+        li
+          margin-right .5rem
+
+          &:after
+            content ","
+
+          &:last-child:after
+            content ""
+
 .video-production
-  background-color black
   position relative
 
   &__image
     background-image url('/images/banners/video-production-banner.jpg')
     background-size cover
     background-position center
+    width 100%
+    height 100%
+    position absolute
+    top 0
+    left 0
+    z-index -1
 
   &__text
     padding 8rem 0 7rem 0
@@ -221,10 +273,10 @@
     display flex
     justify-content space-between
     align-items flex-start
+    flex-wrap wrap
 
   &__image
     width calc(16.666% - 2rem)
-    min-width 15rem
 
     &--container
       padding-top 100%
@@ -262,9 +314,72 @@
     margin-top -.5rem
     color youtubeRedText
 
+.about
+  background-color black
+
+  &__content
+    padding 2rem containerPadding 6rem containerPadding
+    max-width 50rem
+
+    h1
+      font-size 6.2rem
+      letter-spacing 0.03em
+      margin-bottom 4rem
+
+    h2
+      font-size 2.4rem
+      line-height 1.3em
+      font-family helveticaNeueMedium
+      text-transform none
+      margin-bottom 4rem
+
 .login
   background-color black
   padding 2rem 0
+
+.back-link
+  margin-top 1rem
+  display inline-block
+
+.social-sharing-icons
+  width 100
+  display flex
+  flex-wrap wrap
+  color white
+  font-size 1.4rem
+
+  a
+    padding 1rem 2rem
+    box-sizing border-box
+    width 33.333%
+    display flex
+    align-items center
+    justify-content center
+
+    p
+      margin 0 0 0 1.5rem
+  
+  img 
+    height 2rem
+    width auto
+
+  &--facebook
+    background-color facebookBlue
+
+    &:hover
+      background-color facebookBlueDark
+
+  &--twitter
+    background-color twitterBlue
+
+    &:hover
+      background-color twitterBlueDark
+
+  &--google
+    background-color googlePlusRed
+
+    &:hover
+      background-color googlePlusRedDark
 
 .footer
   background-color black
@@ -298,3 +413,10 @@
 
   .nav__social-media-icons
     margin-top 3rem
+
+@media(max-width: breakpointLarge)
+  @import 'main/_large'
+@media(max-width: breakpointMedium)
+  @import 'main/_medium'
+@media(max-width: breakpointSmall)
+  @import 'main/_small'

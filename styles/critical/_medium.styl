@@ -1,0 +1,111 @@
+.container
+  max-width 100%
+
+.p110-album-banner
+  margin 1.5rem 0 1.25rem 0
+
+// Responsive menu styles
+.nav
+
+  .container
+    justify-content space-between
+
+  &__logo
+    flex-grow 0
+
+  &__menu
+    flex-direction column
+    width 100%
+    order 2
+
+    li
+      a
+        width 100%
+        padding 1.5rem 2rem
+        box-sizing border-box
+        justify-content center
+
+        &:hover
+          background none
+
+  &__dropdown
+    flex-direction column
+    align-items center
+    position absolute
+    left 0
+    top 100%
+    width 100vw
+    z-index -1
+    box-sizing border-box
+    background-color p110Blue
+    transition transform 0.35s ease-in-out
+    transform translateY(-100%)
+    will-change transform
+
+  &__dropdown--toggle
+    display flex
+    align-items center
+
+    &--button
+      border 1px solid white
+      border-radius 3px
+      height 4rem
+      display flex
+      align-items center
+      padding 0 1rem
+
+      &:hover
+        cursor pointer
+
+      &--bars
+        display flex
+        flex-direction column
+        align-items center
+        justify-content space-around
+        height 2.5rem
+        margin-left 1rem
+
+        &--bar
+          background-color white
+          height 1px
+          width 30px
+
+  &__social-media-icons
+    margin 2rem 0 3rem 0
+    order 3
+
+  &__search
+    order 1
+    width 100%
+
+    &--box
+      border-radius 0
+      width 100%
+      background-color p110BlueMidDark
+
+      &--input
+        padding 1.5rem 1.75rem
+
+  &__secondary--menu li a:hover
+    background none
+
+.active .nav
+
+    &__dropdown
+      transform translateY(0)
+
+.promoted
+
+  &__left-column
+    width 100%
+    margin-bottom 2rem
+
+  &__right-column
+    width 100%
+    justify-content space-between
+
+  &__hottest-videos, &__store-banner
+    width calc(50% - 1rem)
+    
+  &__hottest-videos--list--item:hover
+    background none

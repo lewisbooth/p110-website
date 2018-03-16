@@ -10,8 +10,7 @@ exports.contactForm = async ({
   messageData = {}
 }) => {
   return new Promise(resolve => {
-    const timestamp = new Date().toString();
-    console.log(timestamp + " New contact form message");
+    console.log("New contact form message");
 
     const messageTemplate = pug.renderFile(
       templateFile,

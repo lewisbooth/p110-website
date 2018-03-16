@@ -53,6 +53,14 @@ exports.artists = async (req, res) => {
   });
 };
 
+exports.artistPage = async (req, res) => {
+  res.render("artist-page", {
+    title: "Jaykae – Artist Profile",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+  });
+};
+
 exports.videoProduction = (req, res) => {
   res.render("video-production", {
     title: "Video Production -  Get Featured On P110 Media Today",
@@ -67,6 +75,7 @@ exports.videoProductionForm = async (req, res, next) => {
   const message = String(req.body.message)
   const bot = String(req.body.bot)
 
+  // Invisible <input> field to capture some bots
   if (bot.length > 0) {
     console.log('🤖  Bot detected');
     req.flash("error", "Error sending message, please try again later")
@@ -80,11 +89,18 @@ exports.videoProductionForm = async (req, res, next) => {
     } else {
       req.flash("success", "Thank you for contacting P110, we'll be in touch soon.")
     }
-    // Always use res.redirect() on POST data, otherwise req.flash() does not work as flashes are shown on subsequent requests.
+    // Always use res.redirect() on POST controllers, otherwise req.flash() does not work. Flashes are only shown on subsequent requests.
     res.redirect('/video-production')
   })
 };
 
+exports.about = (req, res) => {
+  res.render("about", {
+    title: "About Us -  The Home of Urban Entertainment",
+    description:
+      "P110 is a broadcasting platform working with new and current talent. We offer a range of platforms within the channel, including freestyles, live performances, documentaries & high quality music videos."
+  });
+};
 
 
 

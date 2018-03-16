@@ -19,17 +19,28 @@ body
   position fixed
   top 0
   z-index 9
+  user-select none
 
   .container
     display flex
+    background-color p110Blue
+
+  &__dropdown
+    display flex
     justify-content space-between
     align-items stretch
+    flex-grow 3
 
+  &__dropdown--toggle
+    display none
 
   &__logo
-    height 50px
-    width 87px
-    padding 1rem 0
+    flex-grow 2
+
+    img
+      height 5rem
+      width 8.7rem
+      padding 1rem 0
 
   &__menu
     display flex
@@ -42,7 +53,7 @@ body
         helveticaCondensed()
         font-size 1.8rem
         color white
-        padding 0 2rem
+        padding 0 2.25rem
         display inline-flex
         height 100%
         align-items center
@@ -53,15 +64,15 @@ body
   &__social-media-icons
     display flex
     align-items center
-    width 98px
+    width 10rem
     justify-content space-between
 
     & a
       transition opacity 0.25s
-      max-width 32px
-      max-height 32px
-      min-width 12px
-      min-height 12px
+      max-width 30%
+      max-height 30%
+      min-width 12%
+      min-height 12%
       
       &:hover
         opacity 0.75
@@ -81,7 +92,7 @@ body
         padding 1rem 1.75rem
         color white
         font-size 1.4rem
-        width 200px
+        width 100%
 
         &::placeholder
           color p110BlueExtraLight
@@ -95,6 +106,12 @@ body
     .container
       display flex
       justify-content space-between
+      background-color p110BlueDark
+      overflow-x scroll
+      white-space nowrap
+
+      &::-webkit-scrollbar
+        display none
 
     &--menu
       display flex
@@ -177,13 +194,16 @@ body
     position absolute
     top 0
 
+  &--mobile
+    display none
+
 .promoted
   display flex
   justify-content space-between
   align-items flex-start
   flex-wrap wrap
   margin-bottom 3rem
-
+  
   &__left-column
     width calc(66.666% - 1rem)
 
@@ -197,11 +217,16 @@ body
 
   &__right-column
     width calc(33.333% - 1rem)
+    display flex
+    align-items flex-start
+    flex-wrap wrap
 
   &__hottest-videos
     background-color p110Blue
     padding 1.6rem 2rem 1rem 2rem
     margin-bottom 2rem
+    width 100%
+    box-sizing border-box
 
     h1
       font-size 3.2rem
@@ -249,16 +274,6 @@ body
             text-transform uppercase
             font-size 1.2rem
             color p110BlueExtraLight
-
-  &__store-banner
-    padding-top 41.8%
-    position relative
-    display block
-    background-color #2C333C
-
-    img
-      position absolute
-      top 0
         
 .play-icon
   width 2.8rem
@@ -278,8 +293,9 @@ body
 
   &__featured
     position absolute
+    margin 0
     left 0
-    top 2rem
+    top 4rem
     background-color p110Yellow
     helveticaCondensed()
     font-size 3.2rem
@@ -316,3 +332,10 @@ form
 
   button
     align-self flex-start
+
+@media(max-width: breakpointLarge)
+  @import 'critical/_large'
+@media(max-width: breakpointMedium)
+  @import 'critical/_medium'
+@media(max-width: breakpointSmall)
+  @import 'critical/_small'

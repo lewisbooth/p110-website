@@ -2,29 +2,37 @@ mixin nav
   .nav
     nav
       .container
-        a(href="/")
-          img(src="/images/logos/p110-logo-white.svg" alt="P110 Logo").nav__logo
-        ul.nav__menu
-          li
-            a(href="/" class=(currentPath === "/" || currentPath.startsWith("/videos") ? "active" : "")) Videos
-          li
-            a(href="/news" class=(currentPath.startsWith("/news") ? "active" : "")) News
-          li
-            a(href="/artists" class=(currentPath.startsWith("/artists") ? "active" : "")) Artists
-          li
-            a(href="/video-production" class=(currentPath.startsWith("/video-production") ? "active" : "")) Video Production
-          li
-            a(href="/about" class=(currentPath.startsWith("/about") ? "active" : "")) About
-        .nav__social-media-icons
-          a(href="https://www.facebook.com/P110Media/" target="_blank")
-            img(src="/images/icons/facebook-logo-white.svg" alt="P110 Facebook Page Link")
-          a(href="https://twitter.com/p110media/" target="_blank")
-            img(src="/images/icons/twitter-logo-white.svg" alt="P110 Twitter Page Link")
-          a(href="https://www.instagram.com/p110media/" target="_blank")
-            img(src="/images/icons/instagram-logo-white.svg" alt="P110 instagram Page Link")
-        .nav__search
-          .nav__search--box
-            input(placeholder="Search...").nav__search--box--input
+        a(href="/").nav__logo
+          img(src="/images/logos/p110-logo-white.svg" alt="P110 Logo")
+        .nav__dropdown
+          ul.nav__menu
+            li
+              a(href="/" class=(currentPath === "/" || currentPath.startsWith("/videos") ? "active" : "")) Videos
+            li
+              a(href="/news" class=(currentPath.startsWith("/news") ? "active" : "")) News
+            li
+              a(href="/artists" class=(currentPath.startsWith("/artists") ? "active" : "")) Artists
+            li
+              a(href="/video-production" class=(currentPath.startsWith("/video-production") ? "active" : "")) Video Production
+            li
+              a(href="/about" class=(currentPath.startsWith("/about") ? "active" : "")) About
+          .nav__social-media-icons
+            a(href="https://www.facebook.com/P110Media/" target="_blank")
+              img(src="/images/icons/facebook-logo-white.svg" alt="P110 Facebook Page Link")
+            a(href="https://twitter.com/p110media/" target="_blank")
+              img(src="/images/icons/twitter-logo-white.svg" alt="P110 Twitter Page Link")
+            a(href="https://www.instagram.com/p110media/" target="_blank")
+              img(src="/images/icons/instagram-logo-white.svg" alt="P110 instagram Page Link")
+          .nav__search
+            .nav__search--box
+              input(placeholder="Search...").nav__search--box--input
+        .nav__dropdown--toggle
+          .nav__dropdown--toggle--button
+            div Menu
+            .nav__dropdown--toggle--button--bars
+              .nav__dropdown--toggle--button--bars--bar
+              .nav__dropdown--toggle--button--bars--bar
+              .nav__dropdown--toggle--button--bars--bar
 
     nav.nav__secondary
       .container
