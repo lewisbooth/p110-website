@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pageController = require("../controllers/pageController");
 const authController = require("../controllers/authController");
+const adminController = require("../controllers/adminController");
 const { catchErrors } = require("../helpers/errorHandlers");
 const multer = require("multer");
 const upload = multer({
@@ -24,7 +25,7 @@ router.get("/videos",
 router.get("/videos/:category",
   catchErrors(pageController.videos)
 );
-router.get("/videos/id/:youtubeId",
+router.get("/videos/id/:id",
   catchErrors(pageController.videoArticle)
 );
 router.get("/news",
@@ -51,6 +52,9 @@ router.post("/video-production",
 router.get("/about",
   pageController.about
 );
+router.get("/album",
+  pageController.album
+);
 
 
 // Authentication
@@ -65,6 +69,45 @@ router.post("/create-user",
   authController.validateRegister,
   authController.createUser,
   authController.login
+);
+
+
+// Admin
+router.all(/admin/,
+  // Matches any /admin route
+  authController.isLoggedIn
+);
+router.get("/admin/", (req, res) => {
+  res.redirect("/admin/videos")
+});
+router.get("/admin/videos",
+  catchErrors(adminController.videos)
+);
+router.get("/admin/videos/new",
+  catchErrors(adminController.newVideoPage)
+);
+router.post("/admin/videos/new/:id",
+  catchErrors(adminController.newVideo)
+);
+router.get("/admin/videos/edit/:id",
+  catchErrors(adminController.editVideoPage)
+);
+router.post("/admin/videos/edit/:id",
+  catchErrors(adminController.editVideo)
+);
+router.get("/admin/videos/delete/:id",
+  catchErrors(adminController.deleteVideo)
+);
+router.get("/admin/news",
+  catchErrors(adminController.news)
+);
+router.get("/admin/artists",
+  catchErrors(adminController.artists)
+);
+
+// Admin API
+router.post("/admin/api/videos/:id",
+  catchErrors(adminController.searchById)
 );
 
 module.exports = router;

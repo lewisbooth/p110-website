@@ -2,11 +2,13 @@ include templates/head
 include templates/nav
 include templates/footer
 include mixins/socialSharingIcons
+include mixins/videoListing
+include mixins/articleListing
 
 doctype html
 html
   +head
-  body(class=(user ? 'admin' : ''))
+  body
     +nav
     block messages
       if flashes
@@ -34,5 +36,5 @@ html
           .subscribe-now__subscriber-count 198K
     +footer
     block footerScripts
-      script(src="/js/mobileMenu.js" async)
+      script(async src="/js/mobileMenu.js")
     block extraFooterScripts

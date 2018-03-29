@@ -1,0 +1,16 @@
+extends dashboard
+
+block dashboardContent
+  .space-between.dashboard__filter    
+    form
+      input(type="text" name="search" value=(query.search || "") placeholder="Search Videos")
+      button(type="submit") Search
+    a.button(href="/admin/videos/new") 
+      img(src="/images/icons/plus.svg")
+      div New Video
+  .latest-videos__feed
+    if videos.length === 0
+      h4 No Videos Found
+    else 
+      for video in videos
+        +videoListing(video, true)

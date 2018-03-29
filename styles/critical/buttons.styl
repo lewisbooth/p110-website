@@ -6,8 +6,14 @@ button, .button
   background-color p110Blue
   color white
   font-size 1.4rem
-  display inline-block
+  display inline-flex
+  white-space nowrap
   letter-spacing 0.05em
+  align-items center
+
+  img 
+    max-height 2rem
+    margin-right 1rem
 
   &:hover
     background-color p110BlueDark
@@ -18,3 +24,9 @@ button, .button
 
     &:hover
       background-color p110YellowDark
+
+  &__danger
+    background-color youtubeRed
+
+    &:hover
+      background-color youtubeRedHover

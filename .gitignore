@@ -2,6 +2,12 @@ mongodb/
 backups/
 public/sitemap.xml
 
+# dotenv environment variables file
+.env
+variables.env
+variables.aws.json
+variables.google.json
+
 # Logs
 logs
 *.log
@@ -58,7 +64,3 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-variables.env
-variables.aws.json

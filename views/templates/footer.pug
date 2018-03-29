@@ -39,6 +39,7 @@ mixin footer
       if user
         .footer__signed-in
           p Signed in as #{user.email}
+          a(href='/admin') Control Panel
           a(href='/logout') Log Out
       else
         a(href='/login') Log In

@@ -1,0 +1,99 @@
+@import 'variables/variables'
+
+.dashboard
+  padding-top 2rem
+  padding-bottom 2rem
+
+  h1
+    margin-bottom 4rem
+
+  &__nav
+    display flex
+    z-index 1
+
+    li 
+      background-color black
+      margin-right 1rem
+      border-radius 4px
+      text-align center
+      user-select none
+      
+      a
+        helveticaCondensed()
+        padding 1.25rem 5rem 1.75rem 5rem
+        display block
+
+      &:hover
+        background-color midGrey
+
+      &.active
+        background-color p110Yellow
+
+  &__filter
+    flex-wrap wrap
+    margin-bottom 2rem
+
+    a.button
+      margin 0
+
+    form
+      flex-direction row
+      align-items center
+
+      input 
+        padding 1rem 1.5rem
+        margin 0
+
+      button 
+        padding 1rem 2rem
+        margin 0
+
+  &__panel
+    background-color black
+    padding 2rem
+    margin-top -.7rem
+    z-index 2
+    position relative
+    border-top 2px solid p110Yellow
+
+  &__edit-video
+
+    &--load-youtube-form
+      max-width 100%
+
+      &--input
+        display flex
+
+        &--error
+          color red
+          font-size 1.4rem
+
+        & input.failed
+          outline 1px solid red
+
+        button
+          margin 0 0 0 1rem
+          padding 1rem 2rem
+
+    &--youtube-data
+      max-width 100%
+      flex-direction row
+      justify-content space-between
+      
+      > div
+        display flex
+        flex-direction column
+        width 50% - 2rem
+
+        input, textarea
+          width 100%
+          max-width 100%
+
+      button[type="submit"]
+        background-color green
+
+        &:hover
+          background-color darkgreen
+
+@media(max-width: breakpointSmall)
+  @import 'admin/_small'

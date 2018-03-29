@@ -3,17 +3,20 @@ extends layout
 block body
   section.promoted.container
     .promoted__left-column
-      .youtube-embed
-        iframe(src="https://www.youtube.com/embed/hrSGMg8GTLw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-        h2.youtube-embed__featured Featured
-      .promoted__left-column--video-description
-        .video-description
-          .video-description__type Music Video
-          .video-description__title Jaykae – Toothache
+      if featuredVideo
+        a.youtube-embed(href=(admin ? `/admin/videos/edit/${featuredVideo.youtubeId}` : `/videos/id/${featuredVideo.youtubeId}`)) 
+          img(src=(`https://i.ytimg.com/vi/${featuredVideo.youtubeId}/maxresdefault.jpg`) alt=(featuredVideo.title))
+          img.youtube-embed__logo(src="/images/icons/youtube-logo-grey.svg")
+          img.youtube-embed__logo.youtube-embed__logo--rollover(src="/images/icons/youtube-logo-red.svg")
+          h2.youtube-embed__featured Featured
+        a.promoted__left-column--video-description(href=`/videos/id/${featuredVideo.youtubeId}`)
+          .video-description(href=`/videos/id/${featuredVideo.youtubeId}`)
+            .video-description__type= featuredVideo.category.split("-").join(" ")
+            .video-description__title= featuredVideo.title
     .promoted__right-column
       .promoted__hottest-videos
         h1 Top Grime Videos
-        h2 Most Viewed This Month
+        h2 Most Viewed This Week
         ul.promoted__hottest-videos--list
           li
             a.promoted__hottest-videos--list--item(href="/")
@@ -68,49 +71,18 @@ block body
           img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now on Spotify, Apple Music & Google Play")
   section.latest-videos
     .container
-      .space-between
+      .section-title
         h2 Latest Videos
-        a.underline-hover(href="/videos") View All
+        a.underline-hover(href="/videos") View All      
       .latest-videos__feed
-        a.latest-videos__feed--entry(href="/videos/id/1")
-          .youtube-embed
-            iframe(src="https://www.youtube.com/embed/NPISpyfJnzI?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video-description
-            .video-description__type P110 Premiere
-            .video-description__title Krimsz X RA - Money Affi Mek (6IXTY 6IX)
-        a.latest-videos__feed--entry(href="/videos/id/1")
-          .youtube-embed
-            iframe(src="https://www.youtube.com/embed/P4h80v_58UU?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video-description
-            .video-description__type Scene smasher
-            .video-description__title Pee Man
-        a.latest-videos__feed--entry(href="/videos/id/1")
-          .youtube-embed
-            iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video-description
-            .video-description__type P110 Premiere
-            .video-description__title SparkaMan - Know How It Goes
-        a.latest-videos__feed--entry(href="/videos/id/1")
-          .youtube-embed
-            iframe(src="https://www.youtube.com/embed/7Xe4jFvCV6g?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video-description
-            .video-description__type Scene smasher
-            .video-description__title Stoney x Jsav x Slitz
-        a.latest-videos__feed--entry(href="/videos/id/1")
-          .youtube-embed
-            iframe(src="https://www.youtube.com/embed/8KldncXmuRY?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video-description
-            .video-description__type 1Take
-            .video-description__title Dext - #1TAKE (PT.2)
-        a.latest-videos__feed--entry(href="/videos/id/1")
-          .youtube-embed
-            iframe(src="https://www.youtube.com/embed/ipPEAJd1T7c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          .video-description
-            .video-description__type 1Take
-            .video-description__title Brett Haze - #1TAKE
+        if videos.length === 0
+          h4 No Videos Found
+        else 
+          for video in videos
+            +videoListing(video)
   section.news
     .container
-      .space-between
+      .section-title
         h2 Latest News
         a.underline-hover(href="/news") View All
       .news__feed
@@ -156,8 +128,8 @@ block body
             p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
   section.instagram-feed
     .container
-      .space-between
-        h2 P110 Instagram
+      .section-title
+        h2 @P110Media
         a.underline-hover(href="https://www.instagram.com/p110media/" target="_blank") View All
       .instagram-feed__images        
         a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
@@ -178,7 +150,7 @@ block body
         a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
           .instagram-feed__image--container
             img(src="/images/TEMP_instagram/6.jpg")
-  section.video-production
+  section.video-production.video-production__banner
     .container
       .video-production__image
       .video-production__text

@@ -17,6 +17,7 @@ const expressValidator = require("express-validator");
 const { logging } = require("./helpers/logging");
 const errorHandlers = require("./helpers/errorHandlers");
 const cookieParser = require('cookie-parser');
+const moment = require('moment');
 
 // Load Pug views
 app.set("views", "views");
@@ -86,6 +87,8 @@ app.use((req, res, next) => {
   res.locals.query = req.query;
   // Pass an MD5 hash of the CSS file for automatic cache-busting
   res.locals.cssHash = cssHash;
+  // For formatting dates
+  res.locals.moment = moment;
   // Detect production mode for inlining CSS
   if (process.env.NODE_ENV === "production") {
     res.locals.production = true;

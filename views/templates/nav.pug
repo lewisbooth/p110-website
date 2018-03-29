@@ -25,7 +25,7 @@ mixin nav
               img(src="/images/icons/instagram-logo-white.svg" alt="P110 instagram Page Link")
           .nav__search
             .nav__search--box
-              input(placeholder="Search...").nav__search--box--input
+              input(placeholder="Search P110").nav__search--box--input
         .nav__dropdown--toggle
           .nav__dropdown--toggle--button
             div Menu
@@ -40,13 +40,20 @@ mixin nav
           li
             a(href="/videos" class=(currentPath === "/videos" ? "active" : "")) All Videos
           li
+            a(href="/videos/music-video" class=(currentPath === "/videos/music-video" ? "active" : "")) Music Video
+          li
             a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
           li
             a(href="/videos/1take" class=(currentPath === "/videos/1take" ? "active" : "")) #1Take
           li
-            a(href="/videos/p110-premiere" class=(currentPath === "/videos/p110-premiere" ? "active" : "")) P110 Premiere
-          li
-            a(href="/videos/music-video" class=(currentPath === "/videos/music-video" ? "active" : "")) Music Video
-        a(href="https://www.youtube.com/user/P110HD" target="_blank").nav__secondary--youtube
-          img(src="/images/icons/youtube-logo-white.svg" alt="Youtube Logo")
-          p Subscribe #[span.nav__secondary--youtube--subscriber-count 198K]
+            a(href="/videos/net-video" class=(currentPath === "/videos/net-video" ? "active" : "")) Net Video
+        .nav__secondary--items
+          if user
+            a(href="/admin")        
+              .nav__secondary--items--item.nav__secondary--items--item--control-panel
+                img(src="/images/icons/settings.svg" alt="Control Panel")
+                p Control Panel
+          a(href="https://www.youtube.com/user/P110HD" target="_blank")        
+            .nav__secondary--items--item.nav__secondary--items--item--youtube
+              img(src="/images/icons/youtube-logo-white.svg" alt="Youtube Logo")
+              p Subscribe #[span.nav__secondary--items--item--youtube--subscriber-count 198K]

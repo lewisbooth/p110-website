@@ -1,0 +1,19 @@
+extends ../layout
+
+block p110AlbumBanner
+block subscribeNow
+block extraHeaderScripts
+  link(rel='stylesheet' href=`/css/admin.css` type="text/css")
+
+block body
+  .container.dashboard
+    h1 Control Panel
+    ul.dashboard__nav
+      li(class=(currentPath.startsWith("/admin/videos") ? "active" : "")) 
+        a(href="/admin/videos") Videos
+      li(class=(currentPath.startsWith("/admin/news") ? "active" : "")) 
+        a(href="/admin/news") News
+      li(class=(currentPath.startsWith("/admin/artists") ? "active" : "")) 
+        a(href="/admin/artists") Artists
+    .dashboard__panel
+      block dashboardContent

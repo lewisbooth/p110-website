@@ -3,37 +3,21 @@ extends layout
 block body
   section.video
     .container
-      a.back-link.underline-hover(href="/videos") << Back to Videos
+      .back-links
+        a.back-links__link.underline-hover(href="/videos") << Back to Videos
+        if user
+          a.back-links__link.underline-hover(href=(`/admin/videos/edit/${video.youtubeId}`)) Edit as Admin
       .video__article
         article.video__article--content
           .video__article--content--title
-            .video-description__type P110 Premiere
-            h1 SparkaMan - Know How It Goes
+            .video-description__type= video.category.split('-').join(' ')
+            h1= video.title
           .youtube-embed
-            iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-          +socialSharingIcons  
-
-          .video__article--content--text
-            p It’s been a long, long time since we’ve had something new from Sparkaman, but Know How It Goes is quite a statement for his return. His latest track is as stylish as the visuals that compliment it. 2018 is seeing so many artists step out and display their own creativity and direction. This track is definitely one of the standouts as he seamlessly transitions from singing to rapping without a sweat.
-            p The cold visuals showcase lots of edgy editing across various locations in London, featuring some of his clique. Know How It Goes is for sure a head bopper, and this one will be on repeat for a while!
-            p Check out the new video above, it’s a must!
+            iframe(src=`https://www.youtube.com/embed/${video.youtubeId}?rel=0&amp;showinfo=0` frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+          +socialSharingIcons
+          //- Format \n into <br />
+          .video__article--content--text !{video.description.replace(/(?:\r\n|\r|\n)/g, '<br/>')}
         aside.video__article--sidebar.latest-videos__feed
-          h3 Latest Videos          
-          a.latest-videos__feed--entry(href="/videos/id/1")
-            .youtube-embed
-              iframe(src="https://www.youtube.com/embed/NPISpyfJnzI?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-            .video-description
-              .video-description__type P110 Premiere
-              .video-description__title Krimsz X RA - Money Affi Mek (6IXTY 6IX)
-          a.latest-videos__feed--entry(href="/videos/id/1")
-            .youtube-embed
-              iframe(src="https://www.youtube.com/embed/P4h80v_58UU?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-            .video-description
-              .video-description__type Scene smasher
-              .video-description__title Pee Man
-          a.latest-videos__feed--entry(href="/videos/id/1")
-            .youtube-embed
-              iframe(src="https://www.youtube.com/embed/vLXLU215BEw?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
-            .video-description
-              .video-description__type P110 Premiere
-              .video-description__title SparkaMan - Know How It Goes
+          h3 Latest Videos
+          for video in latestVideos
+            +videoListing(video)

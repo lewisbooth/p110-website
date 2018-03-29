@@ -33,21 +33,22 @@
 
   &__feed
     display flex
-    justify-content space-between
+    justify-content left
     align-items flex-start
     flex-wrap wrap
 
     &--entry
-      width calc(33.333% - 1rem)
+      width calc(25% - 1rem)
       margin-bottom 1rem
       padding .5rem .5rem 2rem .5rem
       box-sizing border-box
+      margin-right 1.333rem
 
-      &:hover
-        background-color midGrey
+      &:nth-child(4n)
+        margin-right 0
 
       .youtube-embed
-        margin-bottom 2rem
+        margin-bottom 1rem
 
 .news
   background-color lightGrey 
@@ -56,19 +57,40 @@
 .video
   background-color black 
 
+.section-title
+  display flex
+  justify-content space-between
+  flex-wrap wrap
+  align-items flex-end
+  margin 2rem 0 3rem 0
+
+  h2, a
+    margin 0
+
 .news, .video, .artist
   padding 1rem 0 2rem 0
 
   &__feed
     display flex
-    justify-content space-between
+    justify-content left
     align-items flex-start
     flex-wrap wrap
 
+    h4
+      margin-top 0
+
     &--entry
       width calc(25% - 1rem)
-      margin-bottom 2rem
-      display inline-block
+      margin-bottom 1rem
+      padding .5rem .5rem 2rem .5rem
+      box-sizing border-box
+      margin-right 1.333rem
+
+      &:nth-child(4n)
+        margin-right 0
+
+      .youtube-embed
+        margin-bottom 1rem
 
       &:hover p
         text-decoration underline
@@ -85,6 +107,7 @@
     align-items flex-start
     justify-content space-between
     flex-wrap wrap
+    padding-bottom 8rem
 
     & .news__feed--entry, .latest-videos__feed--entry
       width 100%
@@ -187,6 +210,9 @@
       &--featured-image
         margin-top 2rem
 
+        &--mobile
+          display none
+
     &--related-artists
       margin-top 4rem
 
@@ -205,7 +231,13 @@
             content ""
 
 .video-production
-  position relative
+  background-color black
+
+  &__banner
+    
+    .container
+      position relative
+      z-index 1
 
   &__image
     background-image url('/images/banners/video-production-banner.jpg')
@@ -220,6 +252,7 @@
 
   &__text
     padding 8rem 0 7rem 0
+    z-index 2
 
     p
       margin 0
@@ -248,7 +281,7 @@
       font-size 6.2rem
 
   &__page
-    padding 6rem 0
+    padding 6rem containerPadding
     position relative
     max-width 100rem
 
@@ -266,6 +299,37 @@
         &:first-child
           margin-top 2rem
 
+      &--form 
+        width 100%
+
+.album
+  background-color black
+  margin 0
+  padding 3rem
+  text-align center
+
+  .container > img 
+    width auto
+    max-width 100%
+    margin 2rem auto
+
+  &__platform-links
+    display flex
+    flex-wrap wrap
+    max-width 600px
+    margin 0 auto
+    justify-content center
+
+    a
+      width 33.33%
+      min-width 180px
+      display inline-block
+
+    img 
+      height 50px
+      width auto
+      margin 0 auto 2rem auto
+
 .instagram-feed
   padding 1rem 0 4rem 0
 
@@ -276,7 +340,7 @@
     flex-wrap wrap
 
   &__image
-    width calc(16.666% - 2rem)
+    width calc(16.666% - 1rem)
 
     &--container
       padding-top 100%
@@ -289,7 +353,7 @@
 
 .subscribe-now
   background-color youtubeRed 
-  padding 2rem 0
+  padding 1rem 0
   display block
 
   &:hover
@@ -337,16 +401,26 @@
   background-color black
   padding 2rem 0
 
-.back-link
-  margin-top 1rem
-  display inline-block
+.back-links
+  display flex
+  flex-wrap wrap
+  justify-content space-between
+  align-items flex-start
+
+  &__link
+    margin-top 1rem
+    display inline-block
+
+    &:last-child
+      margin-left 2rem
 
 .social-sharing-icons
   width 100
   display flex
   flex-wrap wrap
   color white
-  font-size 1.4rem
+  font-size 1.2rem
+  white-space nowrap
 
   a
     padding 1rem 2rem
@@ -355,12 +429,13 @@
     display flex
     align-items center
     justify-content center
+    flex-wrap wrap
 
     p
       margin 0 0 0 1.5rem
   
   img 
-    height 2rem
+    height 1.75rem
     width auto
 
   &--facebook
@@ -401,7 +476,7 @@
     display flex
     flex-wrap wrap
 
-    p
+    *
       margin-right 1.5rem
 
   &__column
@@ -413,6 +488,41 @@
 
   .nav__social-media-icons
     margin-top 3rem
+
+.lightbox
+  position fixed
+  background-color rgba(0,0,0,0.75)
+  top 0
+  left 0
+  width 100vw
+  height 100vh
+  display none
+  justify-content center
+  align-items center
+
+  &.active
+    display flex
+
+  &__modal
+    padding 3rem
+    background-color darkGrey
+    border-radius 5px
+
+    &--delete-video 
+      max-width 90vw
+      box-sizing border-box
+
+      h4
+        margin 0 0 2rem 0
+
+      p
+        margin-bottom 0
+
+      .button
+        margin-bottom 0
+
+        &:last-child
+          margin-left 2rem
 
 @media(max-width: breakpointLarge)
   @import 'main/_large'

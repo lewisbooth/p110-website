@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const { contactForm } = require("../helpers/contactForm");
 const User = mongoose.model("User");
-
-// Titles and descriptions are written in the controllers
-// Titles are appended with "| AMP" in views/templates/head.pug
+const Video = mongoose.model("Video");
+const { getFeaturedVideo } = require("../helpers/featuredVideo");
 
 exports.homepage = async (req, res) => {
+  const videos = await Video.find().sort({ _id: -1 }).limit(8)
+  const featuredVideo = await getFeaturedVideo()
   res.render("index", {
+    videos,
+    featuredVideo,
     title: "Grime, Rap & Freestyle Music Videos - The Home Of Urban Entertainment",
     description:
       "Watch the hottest grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more. Get your videos produced on the P110 platform today."
@@ -14,7 +17,13 @@ exports.homepage = async (req, res) => {
 };
 
 exports.videos = async (req, res) => {
+  const filter = {}
+  if (req.params.category) {
+    filter.category = req.params.category
+  }
+  const videos = await Video.find(filter).sort({ _id: -1 })
   res.render("latest-videos", {
+    videos,
     title: "Latest Videos",
     description:
       "View our latest grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
@@ -22,7 +31,19 @@ exports.videos = async (req, res) => {
 };
 
 exports.videoArticle = async (req, res) => {
+  const video = await Video.findOne({ youtubeId: req.params.id })
+  if (!video) {
+    req.flash('error', 'Video not found')
+    res.redirect('/videos')
+    return
+  }
+  const latestVideos = await Video
+    .find()
+    .sort({ _id: -1 })
+    .limit(4)
   res.render("video-article", {
+    video,
+    latestVideos,
     title: "Video Title",
     description:
       "Video Description"
@@ -64,6 +85,14 @@ exports.artistPage = async (req, res) => {
 exports.videoProduction = (req, res) => {
   res.render("video-production", {
     title: "Video Production -  Get Featured On P110 Media Today",
+    description:
+      "Get your own P110 music video produced by our team of experienced videographers and be promoted through our platform along with Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
+  });
+};
+
+exports.album = (req, res) => {
+  res.render("album", {
+    title: "The Album - Featuring Mist, Fredo, Jaykae, Astar, Ard Ardz, Tempa, Stardom & Splinta",
     description:
       "Get your own P110 music video produced by our team of experienced videographers and be promoted through our platform along with Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
   });
@@ -118,21 +147,5 @@ exports.createUser = async (req, res) => {
     title: "Create User",
     description:
       "Create a user with no validation"
-  });
-};
-
-
-
-
-// Reference controller for creating queries
-exports.sampleQuery = async (req, res) => {
-  const users = await User.find({})
-    .limit(3)
-    .sort({ updatedAt: -1 });
-  res.render("queryResults", {
-    users,
-    title: "Last 3 users",
-    description:
-      "A list of the 3 most recently updated users"
   });
 };

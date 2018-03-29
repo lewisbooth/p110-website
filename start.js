@@ -29,6 +29,14 @@ mongoose.Promise = global.Promise;
 
 // Load the MongoDB models
 require("./models/User");
+require("./models/Video");
+require("./models/Settings");
+
+require("./youtube/stats")
+
+// Create default settings if they don't exist
+const { checkSettingsExist } = require("./helpers/checkSettingsExist");
+checkSettingsExist()
 
 // Schedule daily backups at 4am
 // Manual database management is available using helpers/mongo-backup.js and helpers/mongo-restore.js
@@ -37,7 +45,7 @@ cron.schedule("0 4 * * *", () => {
 });
 
 // Generate a fresh sitemap 
-// Skipped if sitemap is < 1 hour old
+// Skipped if sitemap is < 6 hours old
 sitemap.generate()
 
 // Schedule daily sitemaps at 5am

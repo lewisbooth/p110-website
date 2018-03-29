@@ -1,0 +1,52 @@
+extends dashboard
+
+block extraFooterScripts
+  script(async src="/js/adminVideoForm.js")
+  script(async src="/js/libs/axios.min.js")
+
+block dashboardContent
+  if video
+    .lightbox
+      .lightbox__modal.lightbox__modal--delete-video
+        h4 Delete this video?
+        p You can't undo this action 
+        p.grey (unless you call Lewis)
+        a.button.button__danger(href=(`/admin/videos/delete/${video.youtubeId}`)) Delete
+        .button.lightbox__modal--cancel Cancel
+  .back-links.dashboard__filter     
+    div
+      a.back-links__link.underline-hover(href="/admin/videos") << Back to all Videos
+      a.back-links__link.underline-hover(href=(`/videos/id/${video.youtubeId}`)) View Public Page
+    if video  
+      a.button.button__danger#dashboard__edit-video--delete
+        img(src="/images/icons/trash.svg")
+        div Delete Video
+  form.dashboard__edit-video--load-youtube-form
+    label Youtube ID
+    div.dashboard__edit-video--load-youtube-form--input
+      div
+        input(type="text" name="youtubeId" placeholder="e.g. NPISpyfJnzI" disabled=(video ? true : false) value=(video ? video.youtubeId : ""))
+        div.dashboard__edit-video--load-youtube-form--input--error
+      button(type="submit").dashboard__edit-video--load-youtube-form--button 
+        img(src="/images/icons/youtube-logo-white.svg")
+        div=(video ? "Reload Data" : "Load Data")
+  form.dashboard__edit-video--youtube-data(class=(video ? "" : "disabled"))
+    div
+      label Title
+      input(type="text" name="title" value=(video ? video.title : "") required)
+      label Description
+      textarea(type="text" name="description" rows="10" required)=(video ? video.description : "")
+      label Category
+      select(name="category" required)
+        option(value="music-video" selected=(video && video.category === "music-video" ? true : false)) Music Video
+        option(value="net-video" selected=(video && video.category === "net-video" ? true : false)) Net Video
+        option(value="p110-premiere" selected=(video && video.category === "p110-premiere" ? true : false)) P110 Premiere
+        option(value="scene-smasher" selected=(video && video.category === "scene-smasher" ? true : false)) Scene Smasher
+        option(value="1take" selected=(video && video.category === "1take" ? true : false)) 1Take
+      .checkbox
+        input(type="checkbox" name="featured")
+        label Set as featured video
+      button(type="submit")=(video ? "Edit Video" : "Add Video")
+    div
+      label Cover Image
+      img(src=(video ? video.rawData.snippet.thumbnails.high.url : ""))

@@ -1,0 +1,6 @@
+mixin articleListing(article, admin = false)
+  a(href=(`/news/article/${article._id}`)).news__feed--entry
+    img(src=(`/images/article/${article._id}/8.jpg`))
+    .news__feed--entry--text
+      h5= article.title
+      article=article.content

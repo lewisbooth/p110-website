@@ -2,8 +2,8 @@ const generateSitemap = require("sitemap-generator");
 const path = require('path')
 const fs = require('fs')
 
-// 1 hour expiry
-const timeout = 3600000
+// 6 hour expiry
+const timeout = 21600000
 const sitemapFile = path.join(__dirname, '../public/sitemap.xml')
 const localURL = "http://localhost:" + process.env.PORT || 8888
 

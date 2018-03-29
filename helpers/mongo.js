@@ -35,7 +35,7 @@ exports.restore = async () => {
       mongoRestore({
         drop: true,
         uri: process.env.DATABASE,
-        root: "mongodb/temp/mongodb/backup/msd",
+        root: "mongodb/temp/mongodb/backup/p110",
         callback: err => {
           if (err) {
             console.log("Error restoring database")
