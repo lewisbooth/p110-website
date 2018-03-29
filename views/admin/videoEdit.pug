@@ -16,6 +16,7 @@ block dashboardContent
   .back-links.dashboard__filter     
     div
       a.back-links__link.underline-hover(href="/admin/videos") << Back to all Videos
+    if video
       a.back-links__link.underline-hover(href=(`/videos/id/${video.youtubeId}`)) View Public Page
     if video  
       a.button.button__danger#dashboard__edit-video--delete
