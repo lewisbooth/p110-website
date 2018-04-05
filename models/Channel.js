@@ -22,10 +22,13 @@ channelSchema.statics.getStats = async function () {
     const currentTime = Date.now()
     const age = currentTime - Date.parse(currentStats.updatedAt)
     // 6 hour cache
-    if (age < 21600000) resolve(currentStats)
-    channelSchema.statics.updateStats(this).then(updatedStats => {
-      resolve(updatedStats)
-    })
+    if (age < 21600000) {
+      resolve(currentStats)
+    } else {
+      channelSchema.statics.updateStats(this).then(updatedStats => {
+        resolve(updatedStats)
+      })
+    }
   })
 };
 
