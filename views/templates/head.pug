@@ -28,8 +28,11 @@ mixin head
       link(rel='stylesheet' href=`/css/critical.css` type="text/css")
 
     //- External non-critical styles asynchronously
-    link(rel='stylesheet' href=hashes.mainCSS type="text/css" media="none" onload="if(media!='all')media='all'")
-    noscript
-      link(rel="stylesheet" href=hashes.mainCSS)
+    if path === "/"
+      link(rel='stylesheet' href=hashes.mainCSS type="text/css" media="none" onload="if(media!='all')media='all'")
+      noscript
+        link(rel="stylesheet" href=hashes.mainCSS)
+    else 
+      link(rel='stylesheet' href=hashes.mainCSS type="text/css")
 
     block extraHeaderScripts
