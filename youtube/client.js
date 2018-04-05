@@ -45,9 +45,8 @@ exports.searchById = (id, part = 'snippet,contentDetails,statistics') => {
   })
 }
 
-exports.channelStats = () => {
+exports.getChannelStats = () => {
   return new Promise((resolve, reject) => {
-    console.log("Fetching stats for P110 channel")
     const params = {
       id: "UC_2WoPonjo8MdKOF5VCpr9g",
       part: "statistics"
@@ -61,92 +60,108 @@ exports.channelStats = () => {
         console.log("No channels found")
         reject()
       } else {
-        resolve(res.data.items[0])
+        resolve(res.data.items[0].statistics)
       }
     })
   })
 }
 
 // Searches for the latest 50 videos and adds them to the database
-const dumpLatestVideos = () => {
+exports.scrapeLatestVideos = () => {
+  return new Promise((resolve, reject) => {
 
-  const params = {
-    channelId: "UC_2WoPonjo8MdKOF5VCpr9g",
-    type: "video",
-    part: "snippet",
-    maxResults: "50",
-    order: "date"
-  }
+    console.log("Scraping latest 50 videos")
 
-  const detectCategory = title => {
-    if (title.match(/P110 Premiere/i)) return "music-video"
-    if (title.match(/Scene Smasher/i)) return "scene-smasher"
-    if (title.match(/Music Video/i)) return "music-video"
-    if (title.match(/Net Video/i)) return "net-video"
-    if (title.match(/#1TAKE/i)) return "1take"
-    return "music-video"
-  }
+    const params = {
+      channelId: "UC_2WoPonjo8MdKOF5VCpr9g",
+      type: "video",
+      part: "snippet",
+      maxResults: "50",
+      order: "date"
+    }
 
-  const formatTitle = string => {
-    return string
-      .replace(/P110 - /i, '')
-      .replace(/\| P110/i, '')
-      .replace(/\[.*\]/i, '')
-      .replace(/- #1TAKE/i, '')
-      .replace(/\| #1TAKE/i, '')
-      .replace(/#1TAKE/i, '')
-      .replace(/- Scene Smasher/i, '')
-      .replace(/Scene Smasher/i, '')
-  }
+    const detectCategory = title => {
+      if (title.match(/P110 Premiere/i)) return "music-video"
+      if (title.match(/Scene Smasher/i)) return "scene-smasher"
+      if (title.match(/Music Video/i)) return "music-video"
+      if (title.match(/Net Video/i)) return "net-video"
+      if (title.match(/#1TAKE/i)) return "1take"
+      return "music-video"
+    }
 
-  let results = []
+    const formatTitle = string => {
+      return string
+        .replace(/P110 - /i, '')
+        .replace(/\| P110/i, '')
+        .replace(/\[.*\]/i, '')
+        .replace(/- #1TAKE/i, '')
+        .replace(/\| #1TAKE/i, '')
+        .replace(/#1TAKE/i, '')
+        .replace(/- Scene Smasher/i, '')
+        .replace(/Scene Smasher/i, '')
+    }
 
-  youtube.search.list(params, (err, res) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(res.data.nextPageToken)
-      res.data.items.reverse().forEach((item, i) => {
-        const singleParams = {
-          id: item.id.videoId,
-          part: 'snippet'
-        }
-        youtube.videos.list(singleParams, (err, singleRes) => {
-          if (err) {
-            console.log(err)
-          } else {
-            const title = formatTitle(item.snippet.title)
-            const data = {
-              title,
-              youtubeId: item.id.videoId,
-              category: detectCategory(item.snippet.title),
-              description: singleRes.data.items[0].snippet.description,
-              rawData: item
-            }
-            results.push(data)
-            if (i === res.data.items.length - 1) {
-              setTimeout(saveItems, 3000)
-            }
+    let results = []
+
+    youtube.search.list(params, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        res.data.items.reverse().forEach(async (item, i) => {
+          const videoExists = await Video.findOne({ youtubeId: item.id.videoId })
+          if (videoExists) {
+            console.log("Video already exists: " + item.snippet.title)
+            return
           }
+          const singleParams = {
+            id: item.id.videoId,
+            part: 'snippet'
+          }
+          youtube.videos.list(singleParams, (err, singleRes) => {
+            if (err) {
+              reject(err)
+            } else {
+              const title = formatTitle(item.snippet.title)
+              const data = {
+                title,
+                youtubeId: item.id.videoId,
+                category: detectCategory(item.snippet.title),
+                description: singleRes.data.items[0].snippet.description,
+                rawData: item
+              }
+              results.push(data)
+            }
+          })
         })
 
+        // Give all the requests time to resolve before saving to DB
+        // Messy, should be Promise.all
+        setTimeout(saveItems, 3000)
+      }
+    })
+
+    const saveItems = () => {
+      results.sort((a, b) => {
+        return Date.parse(a.rawData.snippet.publishedAt) > Date.parse(b.rawData.snippet.publishedAt)
       })
+      results.forEach(result => {
+        result.published = Date.parse(result.rawData.snippet.publishedAt)
+        const videoSave = Video.findOneAndUpdate({
+          youtubeId: result.youtubeId
+        },
+          result,
+          { upsert: true },
+          err => {
+            if (err) {
+              console.log("Error saving video")
+            } else {
+              console.log("Saved video: " + result.title)
+            }
+          });
+      })
+      console.log("Successfully scraped latest 50 videos")
+      resolve(results.length)
     }
   })
-
-  const saveItems = () => {
-    results.sort((a, b) => {
-      return Date.parse(a.rawData.snippet.publishedAt) > Date.parse(b.rawData.snippet.publishedAt)
-    })
-    results.forEach(result => {
-      const videoSave = new Video(result).save(err => {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log("Saved " + result.title)
-        }
-      });
-    })
-  }
 
 }

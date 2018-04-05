@@ -56,4 +56,6 @@ mixin nav
           a(href="https://www.youtube.com/user/P110HD" target="_blank")        
             .nav__secondary--items--item.nav__secondary--items--item--youtube
               img(src="/images/icons/youtube-logo-white.svg" alt="Youtube Logo")
-              p Subscribe #[span.nav__secondary--items--item--youtube--subscriber-count 198K]
+              p Subscribe 
+              if channelStats
+                span.nav__secondary--items--item--youtube--subscriber-count= numberFormatter(channelStats.subscriberCount)

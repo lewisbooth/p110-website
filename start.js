@@ -30,13 +30,12 @@ mongoose.Promise = global.Promise;
 // Load the MongoDB models
 require("./models/User");
 require("./models/Video");
+require("./models/Article");
 require("./models/Settings");
+require("./models/Channel");
 
-require("./youtube/stats")
-
-// Create default settings if they don't exist
-const { checkSettingsExist } = require("./helpers/checkSettingsExist");
-checkSettingsExist()
+// Start tracking stats
+require("./youtube/statTracker")
 
 // Schedule daily backups at 4am
 // Manual database management is available using helpers/mongo-backup.js and helpers/mongo-restore.js

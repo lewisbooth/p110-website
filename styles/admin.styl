@@ -34,7 +34,7 @@
     margin-bottom 2rem
 
     a.button
-      margin 0
+      margin 0 0 0 2rem
 
     form
       flex-direction row
@@ -89,11 +89,89 @@
           width 100%
           max-width 100%
 
-      button[type="submit"]
-        background-color green
+  &__edit-article
+    max-width 100%
+    flex-direction row
+    justify-content space-between
 
-        &:hover
-          background-color darkgreen
+    label
+      display block
+
+    > div
+      display flex
+      flex-direction column
+      width 50% - 2rem
+
+      input, textarea
+        width 100%
+        max-width 100%
+
+    &--cover
+
+      &.youtube 
+        
+        .dashboard__edit-article--cover--youtube
+          display block
+
+        .dashboard__edit-article--cover--image
+          display none
+
+      &.image 
+        
+        .dashboard__edit-article--cover--youtube
+          display none
+
+        .dashboard__edit-article--cover--image
+          display block
+
+.split-selection
+  display inline-flex
+  background-color #111
+  border 2px solid darkGrey 
+
+  &--option
+    padding 1rem 1.5rem
+
+    &.active
+      background-color midGrey
+
+#pell
+  margin-bottom 2rem
+
+.pell
+
+
+  &__actionbar
+    display flex
+    flex-wrap wrap
+    justify-content left
+    background-color darkGrey 
+
+  &__button
+    margin 0
+    height 45px
+    background-color darkGrey  
+  
+  &__content
+    height 400px
+    background #111
+    border 2px solid darkGrey
+    padding 1rem
+
+    h1, h2
+      helveticaCondensed()
+      font-family helveticaNeueCondensedMedium !important
+      margin 1rem 0
+
+    h1
+      font-size 3.6rem
+
+    h2
+      font-size 2.6rem
+
+    &:focus
+      outline 1px solid p110Yellow
+  
 
 @media(max-width: breakpointSmall)
   @import 'admin/_small'

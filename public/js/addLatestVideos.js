@@ -1,0 +1,1 @@
+"use strict";var scrapeButton=document.querySelector("#scrape-videos"),lightbox=document.querySelector(".lightbox");scrapeButton.addEventListener("click",function(t){t.preventDefault(),lightbox.classList.add("active"),window.location=scrapeButton.getAttribute("href")});

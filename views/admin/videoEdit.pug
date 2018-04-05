@@ -1,10 +1,10 @@
 extends dashboard
 
 block extraFooterScripts
-  script(async src="/js/adminVideoForm.js")
+  script(async src=hashes.adminVideoForm)
   script(async src="/js/libs/axios.min.js")
 
-block dashboardContent
+block lightbox
   if video
     .lightbox
       .lightbox__modal.lightbox__modal--delete-video
@@ -13,12 +13,13 @@ block dashboardContent
         p.grey (unless you call Lewis)
         a.button.button__danger(href=(`/admin/videos/delete/${video.youtubeId}`)) Delete
         .button.lightbox__modal--cancel Cancel
+
+block dashboardContent
   .back-links.dashboard__filter     
     div
       a.back-links__link.underline-hover(href="/admin/videos") << Back to all Videos
     if video
       a.back-links__link.underline-hover(href=(`/videos/id/${video.youtubeId}`)) View Public Page
-    if video  
       a.button.button__danger#dashboard__edit-video--delete
         img(src="/images/icons/trash.svg")
         div Delete Video
@@ -45,9 +46,10 @@ block dashboardContent
         option(value="scene-smasher" selected=(video && video.category === "scene-smasher" ? true : false)) Scene Smasher
         option(value="1take" selected=(video && video.category === "1take" ? true : false)) 1Take
       .checkbox
-        input(type="checkbox" name="featured")
+        input(type="checkbox" name="featured" checked=(featured) disabled=(featured))
         label Set as featured video
-      button(type="submit")=(video ? "Edit Video" : "Add Video")
+      button.button__green(type="submit")=(video ? "Edit Video" : "Add Video")
     div
       label Cover Image
-      img(src=(video ? video.rawData.snippet.thumbnails.high.url : ""))
+      p.grey Images are hosted by Youtube – make sure the video has a 1280x720 thumbnail in its Youtube settings if you want to use it as a Featured Video. 
+      img(src=(video ? `https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg` : ""))

@@ -3,7 +3,7 @@ extends dashboard
 block dashboardContent
   .space-between.dashboard__filter    
     form
-      input(type="text" name="search" value=(query.search || "") placeholder="Search Videos")
+      input(type="text" name="search" value=(query.search || "") placeholder="Search Articles")
       button(type="submit") Search
     a.button(href="/admin/news/new") 
       img(src="/images/icons/plus.svg")
@@ -11,7 +11,6 @@ block dashboardContent
   .news__feed
     if !articles || articles.length === 0
       h4 No Articles Found
-      +articleListing(article, true)
     else 
       for article in articles
         +articleListing(article, true)

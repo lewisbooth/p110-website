@@ -38,11 +38,10 @@
     flex-wrap wrap
 
     &--entry
-      width calc(25% - 1rem)
-      margin-bottom 1rem
-      padding .5rem .5rem 2rem .5rem
+      width calc(25% - 1.25rem)
+      padding 0 0 2rem 0
       box-sizing border-box
-      margin-right 1.333rem
+      margin-right 1.666rem
 
       &:nth-child(4n)
         margin-right 0
@@ -81,8 +80,7 @@
 
     &--entry
       width calc(25% - 1rem)
-      margin-bottom 1rem
-      padding .5rem .5rem 2rem .5rem
+      padding 0 0 3rem 0
       box-sizing border-box
       margin-right 1.333rem
 
@@ -101,13 +99,14 @@
 
       p
         font-size 1.4rem
+        margin 0
 
   &__article
     display flex
     align-items flex-start
     justify-content space-between
     flex-wrap wrap
-    padding-bottom 8rem
+    padding-bottom 4rem
 
     & .news__feed--entry, .latest-videos__feed--entry
       width 100%
@@ -414,6 +413,9 @@
     &:last-child
       margin-left 2rem
 
+    &:first-child
+      margin-left 0
+
 .social-sharing-icons
   width 100
   display flex
@@ -499,6 +501,11 @@
   display none
   justify-content center
   align-items center
+  z-index 10
+
+  h3
+    margin-top 0
+    margin-bottom 1rem
 
   &.active
     display flex

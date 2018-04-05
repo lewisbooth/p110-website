@@ -95,11 +95,20 @@ router.get("/admin/videos/edit/:id",
 router.post("/admin/videos/edit/:id",
   catchErrors(adminController.editVideo)
 );
+router.get("/admin/videos/scrape",
+  catchErrors(adminController.scrapeLatestVideos)
+);
 router.get("/admin/videos/delete/:id",
   catchErrors(adminController.deleteVideo)
 );
 router.get("/admin/news",
   catchErrors(adminController.news)
+);
+router.get("/admin/news/new",
+  catchErrors(adminController.editArticlePage)
+);
+router.get("/admin/news/edit/:id",
+  catchErrors(adminController.editArticlePage)
 );
 router.get("/admin/artists",
   catchErrors(adminController.artists)

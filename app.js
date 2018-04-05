@@ -6,16 +6,19 @@ const path = require("path");
 const { promisify } = require("es6-promisify");
 const compression = require("compression");
 const mongoose = require("mongoose");
+const Channel = mongoose.model("Channel");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const passport = require("passport");
 require("./helpers/passport");
 const flash = require("connect-flash");
-const device = require("device");
 const bodyParser = require("body-parser");
 const expressValidator = require("express-validator");
+const device = require("device");
 const { logging } = require("./helpers/logging");
 const errorHandlers = require("./helpers/errorHandlers");
+const { numberFormatter } = require("./helpers/numberFormatter");
+const { hashify } = require("./helpers/hashify");
 const cookieParser = require('cookie-parser');
 const moment = require('moment');
 
@@ -30,13 +33,6 @@ app.use(compression());
 // Static content should be served by an Nginx proxy in production
 const maxAge = process.env.NODE_ENV === "production" ? 31536000 : 1;
 app.use(express.static(path.join(__dirname, "public"), { maxAge }));
-
-// Cache-bust CSS files with a query string of the MD5 file hash
-// e.g. <link src="main.css?v=7815696ecbf1c96e6894b779456d330e">
-// The hash is passed into the template variables further down
-const md5 = require("md5");
-const css = fs.readFileSync("public/css/main.css");
-const cssHash = md5(css);
 
 // Parses POST data
 app.use(bodyParser.json());
@@ -71,8 +67,17 @@ app.use(passport.session());
 // Log non-static requests with a timestamp, HTTP method, path and IP address
 app.use(logging);
 
+// Cache-bust CSS files with a query string of the MD5 file hash
+// e.g. <link src="main.css?v=7815696ecbf1c96e6894b779456d330e">
+// The hash is passed into the template variables further down
+const hashes = {
+  mainCSS: hashify("/css/main.css"),
+  adminArticleForm: hashify("/js/adminArticleForm.js"),
+  adminVideoForm: hashify("/js/adminVideoForm.js")
+}
+
 // Expose variables and functions for use in Pug templates
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   // Parses the User Agent into desktop, phone, tablet, phone, bot or car
   res.locals.device = device(req.headers['user-agent']).type
   // Pass success/error messages into the template
@@ -85,10 +90,14 @@ app.use((req, res, next) => {
   res.locals.currentPath = req.path;
   // Expose the URL query strings
   res.locals.query = req.query;
-  // Pass an MD5 hash of the CSS file for automatic cache-busting
-  res.locals.cssHash = cssHash;
+  // Cache-busting hashes
+  res.locals.hashes = hashes
   // For formatting dates
   res.locals.moment = moment;
+  // For formatting numbers, e.g. 198,485 to 198K
+  res.locals.numberFormatter = numberFormatter;
+  // P110 Youtube channel stats
+  res.locals.channelStats = await Channel.getStats()
   // Detect production mode for inlining CSS
   if (process.env.NODE_ENV === "production") {
     res.locals.production = true;

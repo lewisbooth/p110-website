@@ -1,0 +1,48 @@
+extends dashboard
+
+block extraFooterScripts
+  script(async src="/js/libs/axios.min.js")
+  script(src="/js/libs/pell.min.js")
+  script(src=hashes.adminArticleForm)
+  link(rel="stylesheet" type="text/css" href="https://unpkg.com/pell/dist/pell.min.css")
+
+block lightbox
+  if article
+    .lightbox
+      .lightbox__modal.lightbox__modal--delete-video
+        h4 Delete this article?
+        p You can't undo this action 
+        p.grey (unless you call Lewis)
+        a.button.button__danger(href=(`/admin/news/delete/${article._id}`)) Delete
+        .button.lightbox__modal--cancel Cancel
+
+block dashboardContent
+  .back-links.dashboard__filter     
+    div
+      a.back-links__link.underline-hover(href="/admin/news") << Back to all News
+    if article
+      a.back-links__link.underline-hover(href=(`/news/${article._id}`)) View Public Page
+      a.button.button__danger#dashboard__edit-video--delete
+        img(src="/images/icons/trash.svg")
+        div Delete Article
+  form.dashboard__edit-article
+    div
+      label Title
+      input(type="text" name="title" value=(article ? article.title : "") required)
+      label Content
+      div#pell= article ? article.content : ""  
+      .checkbox
+        input(type="checkbox" name="published")
+        label Published
+      button.button__green(type="submit")=(video ? "Edit Article" : "Add Article")
+    div.dashboard__edit-article--cover(class=(article ? article.cover.type : "youtube"))
+      label Cover type
+      select(name="cover-type")
+        option(name="youtube") Youtube
+        option(name="image") Image
+      .dashboard__edit-article--cover--youtube
+        label Youtube ID
+        input(type="text" name="cover-youtube" value=(article ? article.title : ""))
+      .dashboard__edit-article--cover--image
+        label Cover Image
+        input(type="file" accept="image/*" name="cover-image")

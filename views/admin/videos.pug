@@ -1,13 +1,26 @@
 extends dashboard
 
-block dashboardContent
+block extraFooterScripts
+  script(async src="/js/addLatestVideos.js")
+
+block lightbox
+  .lightbox
+    .lightbox__modal.lightbox__modal--delete-video
+      h3 Loading latest videos...
+      p This will take a few seconds
+
+block dashboardContent  
   .space-between.dashboard__filter    
     form
       input(type="text" name="search" value=(query.search || "") placeholder="Search Videos")
       button(type="submit") Search
-    a.button(href="/admin/videos/new") 
-      img(src="/images/icons/plus.svg")
-      div New Video
+    div
+      a.button#scrape-videos(href="/admin/videos/scrape") 
+        img(src="/images/icons/plus.svg")
+        div Add Latest videos
+      a.button.button__green(href="/admin/videos/new") 
+        img(src="/images/icons/plus.svg")
+        div New Video
   .latest-videos__feed
     if videos.length === 0
       h4 No Videos Found

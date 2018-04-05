@@ -27,7 +27,9 @@ mixin head
     else
       link(rel='stylesheet' href=`/css/critical.css` type="text/css")
 
-    //- External non-critical styles
-    link(rel='stylesheet' href=`/css/main.css?ver=${cssHash}` type="text/css")
+    //- External non-critical styles asynchronously
+    link(rel='stylesheet' href=hashes.mainCSS type="text/css" media="none" onload="if(media!='all')media='all'")
+    noscript
+      link(rel="stylesheet" href=hashes.mainCSS)
 
     block extraHeaderScripts

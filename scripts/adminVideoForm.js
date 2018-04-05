@@ -63,7 +63,7 @@ function getYoutubeData(e) {
       populateForm()
     })
     .catch(err => {
-      console.log(err.response)
+      console.log(err)
       const message = "Error loading data" + (err.response ? ": " + err.response.data.err : "")
       flashError({ message })
     })
@@ -84,7 +84,7 @@ function flashError({ error = true, message = "Error loading data" }) {
 function populateForm() {
   youtubeTitle.value = videoData.title
   youtubeDescription.value = videoData.description
-  youtubeThumbnail.src = videoData.rawData.snippet.thumbnails.high.url
+  youtubeThumbnail.src = `https://i.ytimg.com/vi/${videoData.youtubeId}/maxresdefault.jpg`
   youtubeCategories.forEach(category => {
     category.selected = category.value === videoData.category
   })

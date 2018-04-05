@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Video = mongoose.model("Video");
+const Article = mongoose.model("Article");
+const Settings = mongoose.model("Settings");
 const youtube = require("../youtube/client");
-const { setFeaturedVideo } = require("../helpers/featuredVideo");
+const { scrapeLatestVideos } = require("../youtube/client");
 
 exports.videos = async (req, res) => {
   const filter = {}
   if (req.query.search) {
     filter.title = { $regex: req.query.search, $options: "i" };
   }
-  const videos = await Video.find(filter).sort({ _id: -1 })
+  const videos = await Video.getLatestVideos({ filter, limit: 0 })
   res.render("admin/videos", {
     title: "Admin Dashboard | Videos",
     description: "P110 Admin Dashboard",
@@ -24,9 +26,28 @@ exports.newVideoPage = async (req, res) => {
   });
 };
 
+exports.editVideoPage = async (req, res) => {
+  const video = await Video.findOne({
+    youtubeId: req.params.id
+  })
+  if (video) {
+    const featuredVideo = await Settings.getFeaturedVideo()
+    res.render("admin/videoEdit", {
+      title: "Admin Dashboard | Edit Video",
+      description: "P110 Admin Dashboard",
+      featured: video.youtubeId === featuredVideo.youtubeId,
+      video
+    });
+  } else {
+    req.flash("error", "Video not found")
+    res.redirect("/admin/videos")
+  }
+};
+
 exports.newVideo = async (req, res) => {
   const videoSave = await new Video(req.body).save(err => {
     if (err) {
+      console.log(err)
       req.flash("error", "Video already exists");
       res.status(400);
       res.send()
@@ -35,22 +56,29 @@ exports.newVideo = async (req, res) => {
       res.status(200);
       res.send();
       if (req.body.featured) {
-        setFeaturedVideo(req.body.youtubeId)
+        Settings.setFeaturedVideo(req.body.youtubeId)
       }
     }
   });
 };
 
-exports.editVideoPage = async (req, res) => {
-  const video = await Video.findOne({
-    youtubeId: req.params.id
+exports.scrapeLatestVideos = async (req, res) => {
+  scrapeLatestVideos().then(newVideos => {
+    if (newVideos === 0) {
+      req.flash("success", "No new videos found")
+    } else if (newVideos === 1) {
+      req.flash("success", `1 video added to database`)
+    } else {
+      req.flash("success", `${newVideos} videos added to database`)
+    }
+    res.redirect("/admin/videos")
+  }).catch(err => {
+    console.log(err)
+    req.flash("error", "Error retrieving latest videos")
+    res.redirect("/admin/videos")
   })
-  res.render("admin/videoEdit", {
-    title: "Admin Dashboard | Edit Video",
-    description: "P110 Admin Dashboard",
-    video
-  });
 };
+
 
 exports.editVideo = async (req, res) => {
   const videoSave = await Video.findOneAndUpdate(
@@ -75,7 +103,7 @@ exports.editVideo = async (req, res) => {
         res.status(200);
         res.send()
         if (req.body.featured) {
-          setFeaturedVideo(item._id)
+          Settings.setFeaturedVideo(item._id)
         }
       });
     }
@@ -83,14 +111,21 @@ exports.editVideo = async (req, res) => {
 };
 
 exports.deleteVideo = async (req, res) => {
-  const deleted = await Video.remove({ youtubeId: req.params.id }, err => {
-    if (err) {
-      req.flash("error", "Error deleting vehicle");
-    } else {
-      req.flash("success", "Successfully deleted vehicle");
-    }
-    res.redirect("/admin/videos");
-  });
+  const featuredVideo = await Settings.getFeaturedVideo()
+  if (featuredVideo.youtubeId === req.params.id) {
+    req.flash("error", "Please set another Featured Video first");
+    res.redirect("back");
+    return
+  } else {
+    const deleted = await Video.remove({ youtubeId: req.params.id }, err => {
+      if (err) {
+        req.flash("error", "Error deleting vehicle");
+      } else {
+        req.flash("success", "Successfully deleted vehicle");
+      }
+      res.redirect("/admin/videos");
+    });
+  }
 };
 
 exports.searchById = async (req, res) => {
@@ -106,9 +141,35 @@ exports.searchById = async (req, res) => {
 };
 
 exports.news = async (req, res) => {
+  const articles = await Article.getLatestArticles({
+    search: req.query.search || null,
+    limit: 0
+  })
+
   res.render("admin/news", {
     title: "Admin Dashboard | Videos",
-    description: "P110 Admin Dashboard"
+    description: "P110 Admin Dashboard",
+    articles
+  });
+};
+
+exports.editArticlePage = async (req, res) => {
+  let article
+  // Filtering by _id requires a valid MongoDB ObjectId type
+  if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
+    article = await Article.findOne({
+      _id: req.params.id
+    })
+    if (!article) {
+      req.flash("error", "Article not found")
+      res.redirect("/admin/news")
+      return
+    }
+  }
+  res.render("admin/articleEdit", {
+    title: "Admin Dashboard | Edit Article",
+    description: "P110 Admin Dashboard",
+    article: article
   });
 };
 

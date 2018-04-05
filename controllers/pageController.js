@@ -2,11 +2,16 @@ const mongoose = require("mongoose");
 const { contactForm } = require("../helpers/contactForm");
 const User = mongoose.model("User");
 const Video = mongoose.model("Video");
-const { getFeaturedVideo } = require("../helpers/featuredVideo");
+const Channel = mongoose.model("Channel");
+const Settings = mongoose.model("Settings");
 
 exports.homepage = async (req, res) => {
-  const videos = await Video.find().sort({ _id: -1 }).limit(8)
-  const featuredVideo = await getFeaturedVideo()
+  // Promise.all starts queries in parallel
+  // Only use when queries are not dependent on each other
+  [videos, featuredVideo] = await Promise.all([
+    Video.getLatestVideos(),
+    Settings.getFeaturedVideo()
+  ])
   res.render("index", {
     videos,
     featuredVideo,
@@ -21,7 +26,7 @@ exports.videos = async (req, res) => {
   if (req.params.category) {
     filter.category = req.params.category
   }
-  const videos = await Video.find(filter).sort({ _id: -1 })
+  const videos = await Video.getLatestVideos({ filter, limit: 0 })
   res.render("latest-videos", {
     videos,
     title: "Latest Videos",
@@ -39,14 +44,13 @@ exports.videoArticle = async (req, res) => {
   }
   const latestVideos = await Video
     .find()
-    .sort({ _id: -1 })
+    .sort({ published: -1 })
     .limit(4)
   res.render("video-article", {
     video,
     latestVideos,
-    title: "Video Title",
-    description:
-      "Video Description"
+    title: video.title,
+    description: video.description
   });
 };
 
@@ -131,9 +135,6 @@ exports.about = (req, res) => {
   });
 };
 
-
-
-
 exports.login = async (req, res) => {
   res.render("login", {
     title: "Log In",
@@ -142,6 +143,8 @@ exports.login = async (req, res) => {
   });
 };
 
+// Used for safely creating user accounts
+// Obviously not connected in production
 exports.createUser = async (req, res) => {
   res.render("create-user", {
     title: "Create User",
