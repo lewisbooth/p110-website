@@ -14,6 +14,8 @@ mixin head
     meta(name="msapplication-TileImage" content="/ms-icon-144x144.png")
     meta(name="format-detection" content="telephone=no")
 
+    +openGraph
+
     //- Preload fonts & assets linked from CSS rather than wait for CSS to download, parse and request them
     //- Much faster page loading speed in supported browsers
     link(rel='preload' href='/fonts/helvetica-neue-medium.woff2' as='font' type="font/woff2" crossorigin)

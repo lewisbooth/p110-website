@@ -8,7 +8,7 @@ const multer = require("multer");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: "20MB",
+    fileSize: "25MB",
     files: 1
   }
 });
@@ -31,17 +31,8 @@ router.get("/videos/id/:id",
 router.get("/news",
   catchErrors(pageController.news)
 );
-router.get("/news/article", (req, res) => {
-  res.redirect('/news');
-});
-router.get("/news/article/:articleId",
+router.get("/news/:slug",
   catchErrors(pageController.newsArticle)
-);
-router.get("/artists",
-  catchErrors(pageController.artists)
-);
-router.get("/artists/:artistId",
-  catchErrors(pageController.artistPage)
 );
 router.get("/video-production",
   pageController.videoProduction
@@ -107,8 +98,19 @@ router.get("/admin/news",
 router.get("/admin/news/new",
   catchErrors(adminController.editArticlePage)
 );
-router.get("/admin/news/edit/:id",
+router.post("/admin/news/new",
+  upload.single("image"),
+  catchErrors(adminController.newArticle)
+);
+router.get("/admin/news/edit/:slug",
   catchErrors(adminController.editArticlePage)
+);
+router.post("/admin/news/edit/:slug",
+  upload.single("image"),
+  catchErrors(adminController.editArticle)
+);
+router.get("/admin/news/delete/:slug",
+  catchErrors(adminController.deleteArticle)
 );
 router.get("/admin/artists",
   catchErrors(adminController.artists)

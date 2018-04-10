@@ -1,5 +1,5 @@
 mixin videoListing(video, admin = false, youtube = false)
-  a.latest-videos__feed--entry(href=(admin ? `/admin/videos/edit/${video.youtubeId}` : `/videos/id/${video.youtubeId}`))
+  a.video__feed--entry(href=(admin ? `/admin/videos/edit/${video.youtubeId}` : `/videos/id/${video.youtubeId}`))
     .youtube-embed
       img(src=(video.rawData.snippet.thumbnails.medium.url) alt=(video.title))
       if !admin

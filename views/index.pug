@@ -69,67 +69,42 @@ block body
         picture
           source(srcset="/images/banners/p110-album-banner-mobile.png" media="(max-width: 767px)")
           img(src="/images/banners/p110-album-banner-desktop.png" alt="P110 the Album - Available Now on Spotify, Apple Music & Google Play")
-  section.latest-videos
+  section.video
     .container
       .section-title
         h2 Latest Videos
         a.underline-hover(href="/videos") View All      
-      .latest-videos__feed
+      .video__feed
         if videos.length === 0
           h4 No Videos Found
         else 
           for video in videos
             +videoListing(video)
+  section.mixtapes
+    .container
+      .section-title
+        h2 Mixtapes
+        a.underline-hover(href="/videos") View All      
+      .mixtapes__feed
+        .mixtapes__feed--entry
   section.news
     .container
       .section-title
         h2 Latest News
         a.underline-hover(href="/news") View All
       .news__feed
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/1.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/2.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/3.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/4.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/5.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/6.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/7.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
-        a(href="/news/article/1").news__feed--entry
-          img(src="/images/news-articles/temp/8.jpg")
-          .news__feed--entry--text
-            h5 LD On UK Drill scene, 67 Being Back &amp; More
-            p 67’s LD visits Tim Westwood for an in-depth interview where he offers up his view on the current UK Drill scene, 67 being back…
+        if articles.length === 0
+          h4 No Articles Found
+        else 
+          for article in articles
+            +articleListing(article)
+        
   section.instagram-feed
     .container
       .section-title
-        h2 @P110Media
+        a.instagram-feed__title(href="https://www.instagram.com/p110media/" target="_blank")
+          img(src="/images/icons/instagram-logo-white.svg" alt="Instagram Logo")
+          h3 P110Media
         a.underline-hover(href="https://www.instagram.com/p110media/" target="_blank") View All
       .instagram-feed__images        
         a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")

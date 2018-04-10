@@ -5,7 +5,7 @@ block dashboardContent
     form
       input(type="text" name="search" value=(query.search || "") placeholder="Search Articles")
       button(type="submit") Search
-    a.button(href="/admin/news/new") 
+    a.button.button__green(href="/admin/news/new") 
       img(src="/images/icons/plus.svg")
       div New Article
   .news__feed

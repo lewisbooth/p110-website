@@ -39,6 +39,7 @@
     form
       flex-direction row
       align-items center
+      margin-bottom 0
 
       input 
         padding 1rem 1.5rem
@@ -108,18 +109,16 @@
 
     &--cover
 
+      .dashboard__edit-article--cover--image,
+      .dashboard__edit-article--cover--youtube
+        display none
+
       &.youtube 
         
         .dashboard__edit-article--cover--youtube
           display block
 
-        .dashboard__edit-article--cover--image
-          display none
-
-      &.image 
-        
-        .dashboard__edit-article--cover--youtube
-          display none
+      &.image         
 
         .dashboard__edit-article--cover--image
           display block
@@ -135,11 +134,18 @@
     &.active
       background-color midGrey
 
+.form-errors
+  margin 2rem 0 0 0
+  
+  p
+    padding 1rem
+    background-color rgba(255,0,0,0.25)
+    border 1px solid red
+
 #pell
   margin-bottom 2rem
 
 .pell
-
 
   &__actionbar
     display flex
@@ -157,6 +163,7 @@
     background #111
     border 2px solid darkGrey
     padding 1rem
+    overflow-y scroll
 
     h1, h2
       helveticaCondensed()
@@ -168,6 +175,19 @@
 
     h2
       font-size 2.6rem
+
+  
+    li
+      list-style normal
+
+    ul
+      padding-left 4rem
+
+      li
+        list-style disc
+
+    a
+      color p110Blue
 
     &:focus
       outline 1px solid p110Yellow

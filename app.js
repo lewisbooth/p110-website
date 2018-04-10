@@ -18,6 +18,7 @@ const device = require("device");
 const { logging } = require("./helpers/logging");
 const errorHandlers = require("./helpers/errorHandlers");
 const { numberFormatter } = require("./helpers/numberFormatter");
+const { truncate } = require("./helpers/truncate");
 const { hashify } = require("./helpers/hashify");
 const cookieParser = require('cookie-parser');
 const moment = require('moment');
@@ -96,6 +97,8 @@ app.use(async (req, res, next) => {
   res.locals.moment = moment;
   // For formatting numbers, e.g. 198,485 to 198K
   res.locals.numberFormatter = numberFormatter;
+  // Safely format descriptions
+  res.locals.truncate = truncate
   // P110 Youtube channel stats
   res.locals.channelStats = await Channel.getStats()
   // Detect production mode for inlining CSS

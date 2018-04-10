@@ -2,22 +2,26 @@ const mongoose = require("mongoose");
 const { contactForm } = require("../helpers/contactForm");
 const User = mongoose.model("User");
 const Video = mongoose.model("Video");
+const Article = mongoose.model("Article");
 const Channel = mongoose.model("Channel");
 const Settings = mongoose.model("Settings");
 
 exports.homepage = async (req, res) => {
   // Promise.all starts queries in parallel
   // Only use when queries are not dependent on each other
-  [videos, featuredVideo] = await Promise.all([
+  [videos, articles, featuredVideo] = await Promise.all([
     Video.getLatestVideos(),
+    Article.getLatestArticles(),
     Settings.getFeaturedVideo()
   ])
   res.render("index", {
     videos,
+    articles,
     featuredVideo,
-    title: "Grime, Rap & Freestyle Music Videos - The Home Of Urban Entertainment",
+    openGraphImage: featuredVideo ? `https://i.ytimg.com/vi/${featuredVideo.youtubeId}/maxresdefault.jpg` : "",
+    title: "Grime, Rap & Freestyle Music Videos - The Home Of UK Urban Entertainment",
     description:
-      "Watch the hottest grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more. Get your videos produced on the P110 platform today."
+      "Watch the hottest UK grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more. Get your videos produced on the P110 platform today."
   });
 };
 
@@ -31,7 +35,7 @@ exports.videos = async (req, res) => {
     videos,
     title: "Latest Videos",
     description:
-      "View our latest grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
+      "View our latest UK grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
   });
 };
 
@@ -55,7 +59,9 @@ exports.videoArticle = async (req, res) => {
 };
 
 exports.news = async (req, res) => {
+  const articles = await Article.getLatestArticles()
   res.render("latest-news", {
+    articles,
     title: "Latest Grime & Rap News Articles",
     description:
       "Get the latest news & trends from the UK grime & rap scene."
@@ -63,27 +69,24 @@ exports.news = async (req, res) => {
 };
 
 exports.newsArticle = async (req, res) => {
-  res.render("news-article", {
-    title: "LD On UK Drill scene, 67 Being Back &amp; More",
-    description:
-      "Get the latest news & trends from the UK grime & rap scene."
-  });
-};
-
-exports.artists = async (req, res) => {
-  res.render("artists", {
-    title: "Our Artists",
-    description:
-      "View the artists on the P110 Media platform, from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
-  });
-};
-
-exports.artistPage = async (req, res) => {
-  res.render("artist-page", {
-    title: "Jaykae – Artist Profile",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-  });
+  [article, latestArticles] = await Promise.all([
+    Article.findOne({ slug: req.params.slug }),
+    Article.getLatestArticles({
+      limit: 4,
+      exclude: req.params.slug
+    })
+  ])
+  if (!article) {
+    req.flash("error", "Article not found")
+    res.redirect("back")
+  } else {
+    res.render("news-article", {
+      article,
+      latestArticles,
+      title: article.title,
+      description: article.text
+    });
+  }
 };
 
 exports.videoProduction = (req, res) => {

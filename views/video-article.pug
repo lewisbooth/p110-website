@@ -13,7 +13,7 @@ block body
             .video-description__type= video.category.split('-').join(' ')
             h1= video.title
           .youtube-embed
-            iframe(src=`https://www.youtube.com/embed/${video.youtubeId}?rel=0&amp;showinfo=0` frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
+            iframe(src=`https://www.youtube.com/embed/${video.youtubeId}?rel=0&amp;showinfo=0&autoplay=1` frameborder="0" allow="autoplay; encrypted-media" allowfullscreen)
           +socialSharingIcons
           //- Format \n into <br />
           .video__article--content--text !{video.description.replace(/(?:\r\n|\r|\n)/g, '<br/>')}

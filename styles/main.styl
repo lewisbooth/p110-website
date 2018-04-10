@@ -6,14 +6,30 @@
 .hidden
   display none
 
-.latest-videos
-  padding 1rem 0 4rem 0
-  background-color black
+.section-title
+  display flex
+  justify-content space-between
+  flex-wrap wrap
+  align-items flex-end
+  margin 2rem 0 3rem 0
+
+  h2, a
+    margin 0
+
+.news
+  background-color lightGrey 
+  color black
+
+.video
+  background-color black 
+
+.news, .video, .mixtapes
+  padding 1rem 0 2rem 0
 
   &__categories
-      display flex
-      align-items stretch
-      font-size 1.4rem
+    display flex
+    align-items stretch
+    font-size 1.4rem
 
     li
 
@@ -37,44 +53,6 @@
     align-items flex-start
     flex-wrap wrap
 
-    &--entry
-      width calc(25% - 1.25rem)
-      padding 0 0 2rem 0
-      box-sizing border-box
-      margin-right 1.666rem
-
-      &:nth-child(4n)
-        margin-right 0
-
-      .youtube-embed
-        margin-bottom 1rem
-
-.news
-  background-color lightGrey 
-  color black
-
-.video
-  background-color black 
-
-.section-title
-  display flex
-  justify-content space-between
-  flex-wrap wrap
-  align-items flex-end
-  margin 2rem 0 3rem 0
-
-  h2, a
-    margin 0
-
-.news, .video, .artist
-  padding 1rem 0 2rem 0
-
-  &__feed
-    display flex
-    justify-content left
-    align-items flex-start
-    flex-wrap wrap
-
     h4
       margin-top 0
 
@@ -83,6 +61,30 @@
       padding 0 0 3rem 0
       box-sizing border-box
       margin-right 1.333rem
+
+      &--image
+        padding-top 56.25%
+        position relative
+        overflow hidden
+        display flex
+        align-items center
+        background-size cover
+        background-position center
+
+        img 
+          position absolute
+          top 0
+          left 0
+
+      &--text 
+        
+        p
+          font-size 1.4rem
+          margin 0
+
+        h5
+          margin 1rem 0 .5rem 0
+          line-height 1em
 
       &:nth-child(4n)
         margin-right 0
@@ -93,13 +95,7 @@
       &:hover p
         text-decoration underline
 
-      h5
-        margin 1rem 0
-        line-height 1em
 
-      p
-        font-size 1.4rem
-        margin 0
 
   &__article
     display flex
@@ -121,9 +117,20 @@
           margin-bottom 2.5rem
           margin-top 0
 
-      &--text
-        margin-top 3rem
+      &--date
+        helveticaCondensed()
+        margin 2rem 0
+        color #777
         display block
+
+      &--text
+        display block
+
+        a
+          color p110Blue
+
+          &:hover
+            text-decoration underline
       
       &--meta
 
@@ -133,101 +140,11 @@
     &--sidebar
       width calc(25%)
 
+      > a
+        margin-right 0
+
       h3
         margin-top 2.8rem
-
-.artists
-  padding 1rem 0 2rem 0
-  background-color black  
-
-  &__feed
-    display flex
-    flex-wrap wrap
-    align-items flex-start
-    margin 0 -1rem
-
-    &--entry
-      display flex
-      align-items center
-      width 25%
-      padding 1rem
-      margin-bottom 2rem
-      box-sizing border-box
-
-      &:hover
-        background-color darkGrey
-      
-      img 
-        width 8rem
-        min-width 0
-        border-radius 100%
-
-      &--info
-        margin-left 1.5rem
-
-        h3, p
-          margin .25rem 0
-
-        p
-          color p110Yellow
-  
-.artist
-  padding 1rem 0 2rem 0
-  background-color black  
-
-  h1
-    font-size 6.2rem
-    margin-bottom 4rem
-
-  h6
-    color p110Yellow
-    margin 0
-
-  &__article
-    margin-bottom 5rem
-    
-    &--content
-      width calc(50% - 2rem)
-
-      &--text
-        margin-top 1rem
-
-      &--stats
-        display flex
-        flex-wrap wrap
-        align-items flex-start      
-
-        &--stat
-          margin-right 2rem
-          width calc(25% - 2rem)
-          min-width 12rem
-          margin-bottom 2rem
-          
-          h6, p
-            margin 0
-
-      &--featured-image
-        margin-top 2rem
-
-        &--mobile
-          display none
-
-    &--related-artists
-      margin-top 4rem
-
-      ul
-        display flex
-        flex-wrap wrap
-        align-items flex-start
-
-        li
-          margin-right .5rem
-
-          &:after
-            content ","
-
-          &:last-child:after
-            content ""
 
 .video-production
   background-color black
@@ -332,6 +249,14 @@
 .instagram-feed
   padding 1rem 0 4rem 0
 
+  &__title
+    display flex
+    align-items center
+    white-space nowrap
+
+    h3
+      margin 0 1rem .25rem 1rem
+
   &__images
     display flex
     justify-content space-between
@@ -367,7 +292,7 @@
     width 4.6rem
   
   h3
-    margin -.5rem 3rem 0 3rem
+    margin -.5rem 1.5rem 0 2rem
   
   &__subscriber-count
     helveticaCondensed()

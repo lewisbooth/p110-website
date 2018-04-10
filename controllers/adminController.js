@@ -3,8 +3,12 @@ const User = mongoose.model("User");
 const Video = mongoose.model("Video");
 const Article = mongoose.model("Article");
 const Settings = mongoose.model("Settings");
+const fs = require("fs");
+const path = require("path");
+const rmdir = require("rmdir");
 const youtube = require("../youtube/client");
 const { scrapeLatestVideos } = require("../youtube/client");
+const { uploadArticleCoverImage } = require("../helpers/uploadArticleCoverImage");
 
 exports.videos = async (req, res) => {
   const filter = {}
@@ -79,7 +83,6 @@ exports.scrapeLatestVideos = async (req, res) => {
   })
 };
 
-
 exports.editVideo = async (req, res) => {
   const videoSave = await Video.findOneAndUpdate(
     { youtubeId: req.body.youtubeId },
@@ -111,17 +114,18 @@ exports.editVideo = async (req, res) => {
 };
 
 exports.deleteVideo = async (req, res) => {
+  // User is blocked from deleting the currently featured video
   const featuredVideo = await Settings.getFeaturedVideo()
   if (featuredVideo.youtubeId === req.params.id) {
     req.flash("error", "Please set another Featured Video first");
     res.redirect("back");
     return
   } else {
-    const deleted = await Video.remove({ youtubeId: req.params.id }, err => {
-      if (err) {
-        req.flash("error", "Error deleting vehicle");
+    const deleted = await Video.findOneAndRemove({ youtubeId: req.params.id }, (err, doc) => {
+      if (err || !doc) {
+        req.flash("error", "Error deleting video");
       } else {
-        req.flash("success", "Successfully deleted vehicle");
+        req.flash("success", "Successfully deleted video");
       }
       res.redirect("/admin/videos");
     });
@@ -143,6 +147,7 @@ exports.searchById = async (req, res) => {
 exports.news = async (req, res) => {
   const articles = await Article.getLatestArticles({
     search: req.query.search || null,
+    showUnpublished: true,
     limit: 0
   })
 
@@ -155,10 +160,9 @@ exports.news = async (req, res) => {
 
 exports.editArticlePage = async (req, res) => {
   let article
-  // Filtering by _id requires a valid MongoDB ObjectId type
-  if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
+  if (req.params.slug) {
     article = await Article.findOne({
-      _id: req.params.id
+      slug: req.params.slug
     })
     if (!article) {
       req.flash("error", "Article not found")
@@ -173,9 +177,118 @@ exports.editArticlePage = async (req, res) => {
   });
 };
 
+exports.newArticle = async (req, res) => {
+  if (req.body.coverType === "image" && !req.file) {
+    res.status(400);
+    res.json({ "error": "Please supply an image" })
+  }
+  const article = {
+    title: req.body.title,
+    html: req.body.html,
+    text: req.body.text,
+    published: req.body.published,
+    cover: {
+      type: req.body.coverType,
+      youtubeId: req.body.coverYoutubeId,
+    }
+  }
+  const articleSave = await new Article(article).save(
+    (err, data) => {
+      if (err) {
+        console.log(err)
+        res.status(400);
+        if (err.code === 11000) {
+          res.json({ "error": "An article with that name already exists" })
+        } else {
+          res.json({ "error": "Error creating article" })
+        }
+      } else {
+        if (article.cover.type === "image") {
+          uploadArticleCoverImage(req.file.buffer, data._id).then(() => {
+            req.flash("success", "Successfully added article");
+            res.status(200);
+            res.send();
+          }).catch(err => {
+            res.status(400);
+            res.json({ "error": "Error uploading image" })
+            console.log(err)
+          })
+        } else {
+          req.flash("success", "Successfully added article");
+          res.status(200);
+          res.send();
+        }
+      }
+    });
+};
+
+exports.editArticle = async (req, res) => {
+  console.log(req.body)
+  const articleSave = await Article.findOneAndUpdate(
+    { slug: req.params.slug },
+    {
+      $set: {
+        title: req.body.title,
+        html: req.body.html,
+        text: req.body.text,
+        published: req.body.published,
+        cover: {
+          type: req.body.coverType,
+          youtubeId: req.body.coverYoutubeId
+        },
+      }
+    },
+    { new: true },
+    (err, item) => {
+      if (err || !item) {
+        req.flash("error", "Error updating article");
+        res.status(400);
+        res.send()
+        return;
+      }
+      item.save().then(saved => {
+        if (req.body.coverType === "image" && req.file) {
+          uploadArticleCoverImage(req.file.buffer, item._id).then(() => {
+            req.flash("success", "Successfully updated article");
+            res.status(200);
+            res.send();
+          }).catch(err => {
+            res.status(400);
+            res.json({ "error": "Error uploading image" })
+            console.log(err)
+          })
+        } else {
+          req.flash("success", "Successfully updated article");
+          res.status(200);
+          res.send()
+        }
+      });
+    }
+  );
+};
+
+exports.deleteArticle = async (req, res) => {
+  const deleted = await Article.findOneAndRemove(
+    { slug: req.params.slug }
+  );
+  if (deleted) {
+    console.log(deleted)
+    const imageFolder = path.join(process.env.ROOT, `public/images/articles/${deleted._id}`)
+    if (fs.existsSync(imageFolder)) {
+      rmdir(imageFolder)
+    }
+    req.flash("success", "Successfully deleted article");
+    res.redirect("/admin/news");
+  } else {
+    req.flash("error", "Error deleting article");
+    res.redirect("/admin/news");
+  }
+};
+
 exports.artists = async (req, res) => {
   res.render("admin/artists", {
     title: "Admin Dashboard | Videos",
     description: "P110 Admin Dashboard"
   });
 };
+

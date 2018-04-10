@@ -1,3 +1,4 @@
+include templates/openGraph
 include templates/head
 include templates/nav
 include templates/footer
@@ -34,7 +35,8 @@ html
         .container
           img.subscribe-now__youtube-logo(src='/images/icons/youtube-logo-white.svg')
           h3 Subscribe to p110 media
-          .subscribe-now__subscriber-count 198K
+          if channelStats            
+            span.subscribe-now__subscriber-count= numberFormatter(channelStats.subscriberCount)
     +footer
     block footerScripts
       script(async src="/js/mobileMenu.js")
