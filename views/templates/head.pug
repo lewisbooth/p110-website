@@ -25,14 +25,14 @@ mixin head
     if production
       style
         include ../../public/css/critical.css
-        include ../../public/css/main.css
+        
     //- Use <link> during development to allow BrowserSync to inject changes during development
-    //- else
-    //-   link(rel='stylesheet' href=`/css/critical.css` type="text/css")
+    else
+      link(rel='stylesheet' href=`/css/critical.css` type="text/css")
 
-    //- //- External non-critical styles asynchronously
-    //- link(rel='stylesheet' href=hashes.mainCSS type="text/css" media="none" onload="if(media!='all')media='all'")
-    //- noscript
-    //-   link(rel="stylesheet" href=hashes.mainCSS)
+    //- External non-critical styles asynchronously
+    link(rel='stylesheet' href=hashes.mainCSS type="text/css" media="none" onload="if(media!='all')media='all'")
+    noscript
+      link(rel="stylesheet" href=hashes.mainCSS)
 
     block extraHeaderScripts
