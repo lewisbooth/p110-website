@@ -58,7 +58,7 @@
 
     &--entry
       width calc(25% - 1rem)
-      padding 0 0 3rem 0
+      margin-bottom 3rem
       box-sizing border-box
       margin-right 1.333rem
 
@@ -75,6 +75,7 @@
           position absolute
           top 0
           left 0
+
 
       &--text 
         
@@ -95,8 +96,23 @@
       &:hover p
         text-decoration underline
 
+      &--cover
+        position relative
 
+        &--play-button
+          width 5rem
+          position absolute
+          top 50%
+          left 50%
+          transform translateX(-50%) translateY(-50%)
 
+          &--rollover
+            opacity 0
+            transition opacity 0.35s
+
+      &:hover .mixtapes__feed--entry--cover--play-button--rollover
+        opacity 1
+          
   &__article
     display flex
     align-items flex-start
@@ -104,7 +120,7 @@
     flex-wrap wrap
     padding-bottom 4rem
 
-    & .news__feed--entry, .latest-videos__feed--entry
+    & .news__feed--entry, .video__feed--entry
       width 100%
 
     &--content
@@ -125,6 +141,7 @@
 
       &--text
         display block
+        margin-top 2rem
 
         a
           color p110Blue
@@ -145,6 +162,16 @@
 
       h3
         margin-top 2.8rem
+
+.mixtapes__feed--entry
+  width calc(100% / 6 - 1rem)
+  margin-right 1.2rem
+
+  &:nth-child(4n)
+    margin-right 1.2rem
+
+  &:nth-child(6n)
+    margin-right 0
 
 .video-production
   background-color black

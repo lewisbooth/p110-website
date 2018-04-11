@@ -39,7 +39,6 @@ app.use(express.static(path.join(__dirname, "public"), { maxAge }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 // Data validation library
 app.use(expressValidator());
 
@@ -121,7 +120,7 @@ app.use("/", routes);
 app.use((req, res, next) => {
   if (req.accepts("html") && res.status(404)) {
     // Avoid spamming 404 console errors when sitemap is generated
-    // The sitemap tries all kinds of weird URLs from JavaScript functions so there are lots of 404s
+    // The sitemap tries all kinds of weird URLs so there are lots of 404s
     if (!req.headers['user-agent'].includes('Node/SitemapGenerator')) {
       console.error(`🚫  🔥  Error 404 ${req.method} ${req.path}`);
     }

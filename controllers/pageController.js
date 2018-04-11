@@ -40,16 +40,18 @@ exports.videos = async (req, res) => {
 };
 
 exports.videoArticle = async (req, res) => {
-  const video = await Video.findOne({ youtubeId: req.params.id })
+  [video, latestVideos] = await Promise.all([
+    Video.findOne({ youtubeId: req.params.id }),
+    Video.getLatestVideos({
+      limit: 4,
+      exclude: req.params.id
+    })
+  ])
   if (!video) {
     req.flash('error', 'Video not found')
     res.redirect('/videos')
     return
   }
-  const latestVideos = await Video
-    .find()
-    .sort({ published: -1 })
-    .limit(4)
   res.render("video-article", {
     video,
     latestVideos,
@@ -89,6 +91,16 @@ exports.newsArticle = async (req, res) => {
   }
 };
 
+exports.mixtapes = async (req, res) => {
+  // const mixtapes = await Mixtape.getLatestMixtapes()
+  res.render("mixtapes", {
+    // mixtapes,
+    title: "Latest Mixtapes from the UK Grime & Rap Scene",
+    description:
+      "Explore the Hottest Mixtapes, EPs, Albums & Singles from the Urban UK Grime & Rap scene."
+  });
+};
+
 exports.videoProduction = (req, res) => {
   res.render("video-production", {
     title: "Video Production -  Get Featured On P110 Media Today",
@@ -101,7 +113,7 @@ exports.album = (req, res) => {
   res.render("album", {
     title: "The Album - Featuring Mist, Fredo, Jaykae, Astar, Ard Ardz, Tempa, Stardom & Splinta",
     description:
-      "Get your own P110 music video produced by our team of experienced videographers and be promoted through our platform along with Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
+      "P110 The Album is Out Now! Featuring Mist, Fredo, Jaykae, Astar, Ard Ardz, Tempa, Stardom & Splinta. Stream Now Via Spotify, Apple Music & Google Play."
   });
 };
 

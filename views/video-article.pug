@@ -17,7 +17,7 @@ block body
           +socialSharingIcons
           //- Format \n into <br />
           .video__article--content--text !{video.description.replace(/(?:\r\n|\r|\n)/g, '<br/>')}
-        aside.video__article--sidebar.latest-videos__feed
+        aside.video__article--sidebar.video__feed
           h3 Latest Videos
           for video in latestVideos
             +videoListing(video)

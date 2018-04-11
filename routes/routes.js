@@ -34,6 +34,15 @@ router.get("/news",
 router.get("/news/:slug",
   catchErrors(pageController.newsArticle)
 );
+router.get("/mixtapes",
+  catchErrors(pageController.mixtapes)
+);
+router.get("/mixtapes/:artist", (req, res) => {
+  res.redirect('/mixtapes')
+});
+router.get("/mixtapes/:artist/:title",
+  catchErrors(pageController.mixtapeArticle)
+);
 router.get("/video-production",
   pageController.videoProduction
 );

@@ -9,10 +9,6 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://p110.media/artists</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://p110.media/video-production</loc>
     <changefreq>weekly</changefreq>
   </url>
@@ -77,19 +73,35 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://p110.media/news/5acb455bba97986b04efc4c7</loc>
+    <loc>https://p110.media/news/7ths-woosh-drops-brand-new-why-visuals</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://p110.media/news/5acb454aba97986b04efc4c6</loc>
+    <loc>https://p110.media/news/watch-rv-go-in-for-his-lightwork-freestyle</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://p110.media/news/5acb450d2d55da6af68200d2</loc>
+    <loc>https://p110.media/news/jords-returns-with-brand-new-track-tek-time</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://p110.media/news/5ac79a32b00fab5d35747569</loc>
+    <loc>https://p110.media/news/cardi-b-cancels-wireless-festival-appearance-following-pregnancy-news</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.media/news/shauna-shadae-returns-with-kiss-me</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.media/news/meek-mill-keeps-it-real-in-brand-new-1942-flows-visuals</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.media/news/brotherhood-unveil-visuals-to-new-drop-repeat</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.media/news/paigey-cakey-unveils-visuals-to-new-release-notice-me</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
@@ -98,10 +110,6 @@
   </url>
   <url>
     <loc>https://p110.media/login</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/jaykae</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
@@ -186,6 +194,10 @@
   </url>
   <url>
     <loc>https://p110.media/videos/id/mHu-Eaf6IY8</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://p110.media/videos/id/rBtwVKCkCZs</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
@@ -542,34 +554,6 @@
   </url>
   <url>
     <loc>https://p110.media/videos/Hypez</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/skepta</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/Apple</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/471</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/England.</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/including</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/before</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://p110.media/artists/and</loc>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>

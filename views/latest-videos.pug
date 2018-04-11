@@ -1,11 +1,11 @@
 extends layout
 
 block body
-  section.latest-videos
+  section.video
     .container
       .space-between
         h1 Latest Videos
-        ul.latest-videos__categories
+        ul.video__categories
           li
             a(href="/videos" class=(currentPath === "/videos" ? "active" : "")) All
           li
@@ -16,7 +16,7 @@ block body
             a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
           li
             a(href="/videos/net-video" class=(currentPath === "/videos/net-video" ? "active" : "")) Net Video
-      .latest-videos__feed
+      .video__feed
         if videos.length === 0
           h4 No Videos Found
         else 

@@ -42,8 +42,12 @@ videoSchema.pre('save', async function (next) {
 // Get latest X videos
 videoSchema.statics.getLatestVideos = function ({
   limit = 8,
+  exclude = null,
   filter = {}
 } = {}) {
+  if (exclude) {
+    filter.youtubeId = { $ne: exclude }
+  }
   return this
     .find(filter)
     .sort({ published: -1 })
