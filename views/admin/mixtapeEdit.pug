@@ -1,0 +1,53 @@
+extends dashboard
+
+block extraFooterScripts
+  script(async src="/js/libs/axios.min.js")
+  script(async src="/js/adminMixtapeForm.js")
+
+block lightbox
+  if mixtape
+    .lightbox
+      .lightbox__modal.lightbox__modal--delete-video
+        h4 Delete this mixtape?
+        p You can't undo this action 
+        p.grey (unless you call Lewis)
+        a.button.button__danger(href=(`/admin/mixtapes/delete/${mixtape._id}`)) Delete
+        .button.lightbox__modal--cancel Cancel
+
+block dashboardContent
+  .back-links.dashboard__filter     
+    div
+      a.back-links__link.underline-hover(href="/admin/mixtapes") << Back to all Mixtapes
+    if mixtape
+      a.back-links__link.underline-hover(href=(`/mixtapes/${mixtape._id}`)) View Public Page
+      a.button.button__danger#dashboard__edit-video--delete
+        img(src="/images/icons/trash.svg")
+        div Delete Mixtape
+  form.dashboard__edit-article(method="POST")
+    div
+      label Title
+      input(type="text" name="title" value=(mixtape ? mixtape.title : "") required)
+      label Artists
+      label.grey Separate multiple artists with a comma
+      -
+        let artists = mixtape ? mixtape.artists.join(", ") : ""
+      input(type="text" name="artists" value=artists required)
+      label Description
+      textarea(name="description" rows="5")
+      label Release Date
+      -
+        const date = moment().format("YYYY-MM-DD")
+      input(type="date" name="releaseDate" value=(mixtape ? mixtape.releaseDate : date))
+      label Upload Mixtape
+      label.grey ZIP file containing MP3s
+      input(type="file" name="zip" accept=".zip")
+      .checkbox
+        input(type="checkbox" name="published" checked=(article && article.published))
+        label Published
+      .form-errors
+      button.button__green(type="submit")=(mixtape ? "Edit mixtape" : "Add mixtape")
+    div
+      label Mixtape Artwork
+      label.grey Artwork will be cropped to square ratio
+      input(type="file" accept="image/*" name="coverImage")
+      img.dashboard__edit-mixtape--artwork(src=(mixtape ? `/images/mixtapes/${mixtape._id}/large.jpg` : "/images/mixtapes/mixtape-default.png"))

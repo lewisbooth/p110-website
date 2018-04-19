@@ -4,7 +4,8 @@ const coverTypeSelect = document.querySelector('select[name="cover-type"]')
 const coverTypeOptions = document.querySelectorAll('select[name="cover-type"] option')
 const coverYoutube = document.querySelector('input[name="cover-youtube"]')
 const coverYoutubeImage = document.querySelector('.dashboard__edit-article--cover--youtube--image')
-const coverImage = document.querySelector('input[name="cover-image"]')
+const coverImageInput = document.querySelector('input[name="cover-image"]')
+const coverUserImage = document.querySelector('.dashboard__edit-article--cover--user--image')
 const coverSection = document.querySelector('.dashboard__edit-article--cover')
 const submitButton = document.querySelector('button[type="submit"]')
 const formErrors = document.querySelector('.form-errors')
@@ -100,7 +101,7 @@ function updateStateFromDOM(render = false) {
   const selectedType = coverTypeOptions[coverTypeSelect.selectedIndex]
   const type = selectedType.value.toLowerCase()
   const youtubeId = type === "youtube" ? coverYoutube.value : ""
-  const imageData = type === "image" ? coverImage.files[0] : ""
+  const imageData = type === "image" ? coverImageInput.files[0] : ""
   const newState = {
     title: titleInput.value,
     html: editor.content.innerHTML,
@@ -162,8 +163,8 @@ function submitForm(e) {
     formData.append("published", state.published);
     if (state.cover.type === "youtube")
       formData.append("coverYoutubeId", state.cover.youtubeId);
-    else if (coverImage.files[0])
-      formData.append("image", coverImage.files[0]);
+    else if (coverImageInput.files[0])
+      formData.append("image", coverImageInput.files[0]);
     axios.post(window.location.href, formData).then((res) => {
       if (isEditPage) {
         window.scroll({ top: 0 })
@@ -183,3 +184,13 @@ function submitForm(e) {
 function toggleDeleteConfirmation() {
   lightbox.classList.toggle('active')
 }
+
+coverImageInput.addEventListener('change', function (e) {
+  if (coverImageInput.files && coverImageInput.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      coverUserImage.src = e.target.result
+    }
+    reader.readAsDataURL(coverImageInput.files[0]);
+  }
+})

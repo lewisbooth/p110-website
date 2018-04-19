@@ -1,0 +1,16 @@
+extends dashboard
+
+block dashboardContent
+  .space-between.dashboard__filter    
+    form
+      input(type="text" name="search" value=(query.search || "") placeholder="Search Mixtapes")
+      button(type="submit") Search
+    a.button.button__green(href="/admin/mixtapes/new") 
+      img(src="/images/icons/plus.svg")
+      div New Mixtape
+  .mixtapes__feed
+    if !mixtapes || mixtapes.length === 0
+      h4 No Mixtapes Found
+    else 
+      for mixtape in mixtapes
+        +mixtapeListing(mixtape, true)

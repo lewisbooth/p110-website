@@ -8,8 +8,8 @@ const multer = require("multer");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: "25MB",
-    files: 1
+    fileSize: "200MB",
+    files: 2
   }
 });
 
@@ -74,12 +74,12 @@ router.post("/create-user",
 
 // Admin
 router.all(/admin/,
-  // Matches any /admin route
   authController.isLoggedIn
 );
 router.get("/admin/", (req, res) => {
   res.redirect("/admin/videos")
 });
+
 router.get("/admin/videos",
   catchErrors(adminController.videos)
 );
@@ -101,6 +101,7 @@ router.get("/admin/videos/scrape",
 router.get("/admin/videos/delete/:id",
   catchErrors(adminController.deleteVideo)
 );
+
 router.get("/admin/news",
   catchErrors(adminController.news)
 );
@@ -121,8 +122,25 @@ router.post("/admin/news/edit/:slug",
 router.get("/admin/news/delete/:slug",
   catchErrors(adminController.deleteArticle)
 );
-router.get("/admin/artists",
-  catchErrors(adminController.artists)
+
+router.get("/admin/mixtapes",
+  catchErrors(adminController.mixtapes)
+);
+router.get("/admin/mixtapes/new",
+  catchErrors(adminController.editMixtapePage)
+);
+router.get("/admin/mixtapes/edit/:id",
+  catchErrors(adminController.editMixtapePage)
+);
+router.post("/admin/mixtapes/new",
+  upload.fields([
+    { name: "artwork" },
+    { name: "zip" }
+  ]),
+  catchErrors(adminController.newMixtape)
+);
+router.post("/admin/mixtapes/edit/:id",
+  catchErrors(adminController.editMixtape)
 );
 
 // Admin API

@@ -31,6 +31,7 @@ mongoose.Promise = global.Promise;
 require("./models/User");
 require("./models/Video");
 require("./models/Article");
+require("./models/Mixtape");
 require("./models/Settings");
 require("./models/Channel");
 

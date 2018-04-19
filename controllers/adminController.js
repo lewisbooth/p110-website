@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Video = mongoose.model("Video");
 const Article = mongoose.model("Article");
+const Mixtape = mongoose.model("Mixtape");
 const Settings = mongoose.model("Settings");
 const fs = require("fs");
 const path = require("path");
@@ -9,6 +10,7 @@ const rmdir = require("rmdir");
 const youtube = require("../youtube/client");
 const { scrapeLatestVideos } = require("../youtube/client");
 const { uploadArticleCoverImage } = require("../helpers/uploadArticleCoverImage");
+const { uploadMixtapeCoverImage } = require("../helpers/uploadMixtapeCoverImage");
 
 exports.videos = async (req, res) => {
   const filter = {}
@@ -173,7 +175,7 @@ exports.editArticlePage = async (req, res) => {
   res.render("admin/articleEdit", {
     title: "Admin Dashboard | Edit Article",
     description: "P110 Admin Dashboard",
-    article: article
+    article
   });
 };
 
@@ -272,7 +274,6 @@ exports.deleteArticle = async (req, res) => {
     { slug: req.params.slug }
   );
   if (deleted) {
-    console.log(deleted)
     const imageFolder = path.join(process.env.ROOT, `public/images/articles/${deleted._id}`)
     if (fs.existsSync(imageFolder)) {
       rmdir(imageFolder)
@@ -285,10 +286,73 @@ exports.deleteArticle = async (req, res) => {
   }
 };
 
-exports.artists = async (req, res) => {
-  res.render("admin/artists", {
-    title: "Admin Dashboard | Videos",
-    description: "P110 Admin Dashboard"
+exports.mixtapes = async (req, res) => {
+  const mixtapes = await Mixtape.getLatestMixtapes({
+    search: req.query.search || null,
+    showUnpublished: true,
+    limit: 0
+  })
+
+  res.render("admin/mixtapes", {
+    title: "Admin Dashboard | Mixtapes",
+    description: "P110 Admin Dashboard",
+    mixtapes
   });
 };
 
+exports.editMixtapePage = async (req, res) => {
+  let mixtape
+  if (req.params.id) {
+    mixtape = await Mixtape.findOne({
+      _id: req.params.id
+    })
+    if (!mixtape) {
+      req.flash("error", "mixtape not found")
+      res.redirect("/admin/mixtapes")
+      return
+    }
+  }
+  res.render("admin/mixtapeEdit", {
+    title: "Admin Dashboard | Edit mixtape",
+    description: "P110 Admin Dashboard",
+    mixtape
+  });
+};
+
+exports.newMixtape = async (req, res) => {
+  const mixtape = req.body
+
+  // Create array of artist names from string
+  mixtape.artists = mixtape.artists
+    .split(",")
+    .map(artist => artist.replace(/\s/g, ''))
+
+  console.log(req.file)
+  console.log(req.files)
+
+  mixtape.published = mixtape.published === "on" ? true : false
+  const mixtapeSave = await new Mixtape(mixtape).save(
+    (err, data) => {
+      if (err) {
+        console.log(err)
+        res.status(400);
+        res.json({ "error": "Error creating mixtape" })
+      } else {
+        if (req.files && req.files.coverImage) {
+          uploadMixtapeCoverImage(req.files.coverImage.buffer, data._id).then(() => {
+            req.flash("success", "Successfully added mixtape");
+            res.status(200);
+            res.send();
+          }).catch(err => {
+            res.status(400);
+            res.json({ "error": "Error uploading cover image" })
+            console.log(err)
+          })
+        } else {
+          req.flash("success", "Successfully added mixtape");
+          res.status(200);
+          res.send();
+        }
+      }
+    });
+};
