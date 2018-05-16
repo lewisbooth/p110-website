@@ -8,10 +8,22 @@ const multer = require("multer");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: "200MB",
-    files: 2
+    fileSize: "200MB"
   }
 });
+const uploadMixtape = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, `${process.env.ROOT}/public/mixtapes/temp/`)
+    },
+    filename: (req, file, cb) => {
+      cb(null, `temp.zip`)
+    }
+  }),
+  limits: {
+    fileSize: "150MB"
+  }
+})
 
 // NOTE: Use catchErrors() to wrap any async controller methods
 // This will safely pass any errors on to a middleware handler
@@ -140,8 +152,16 @@ router.post("/admin/mixtapes/new",
   catchErrors(adminController.newMixtape)
 );
 router.post("/admin/mixtapes/edit/:id",
+  upload.fields([
+    { name: "artwork" },
+    { name: "zip" }
+  ]),
   catchErrors(adminController.editMixtape)
 );
+router.get("/admin/mixtapes/delete/:id",
+  catchErrors(adminController.deleteMixtape)
+);
+
 
 // Admin API
 router.post("/admin/api/videos/:id",

@@ -21,7 +21,7 @@ submitButton.addEventListener('click', e => submitForm(e))
 coverTypeSelect.addEventListener('change', () => updateStateFromDOM(true))
 coverYoutube.addEventListener('change', () => updateStateFromDOM(true))
 
-const isEditPage = window.location.toString().indexOf('edit') > 0
+const isEditPage = window.location.toString().indexOf('/edit/') > 0
 
 if (isEditPage) {
   deleteVideoButton.addEventListener('click', () =>

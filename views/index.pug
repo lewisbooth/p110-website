@@ -12,7 +12,7 @@ block body
         a.promoted__left-column--video-description(href=`/videos/id/${featuredVideo.youtubeId}`)
           .video-description(href=`/videos/id/${featuredVideo.youtubeId}`)
             .video-description__type= featuredVideo.category.split("-").join(" ")
-            .video-description__title= featuredVideo.title
+            .video-description__title= truncate(featuredVideo.title, 50)
     .promoted__right-column
       .promoted__hottest-videos
         h1 Top Grime Videos
@@ -83,57 +83,14 @@ block body
   section.mixtapes.mixtapes__grey
     .container
       .section-title
-        h2 Mixtapes
+        h2 Latest Mixtapes
         a.underline-hover(href="/mixtapes") View All      
       .mixtapes__feed
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/mixtape-default.png" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 C's First
-            p.grey Benzo
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/2.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 Revenge
-            p.grey Axom Nelson
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/3.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 Game Changers 1 &amp; 2
-            p.grey DJ Big Ryde
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/4.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 In my prime
-            p.grey Big Nate
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/5.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 blue magic
-            p.grey Coll
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/6.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 still crafting
-            p.grey Unknown
+        if mixtapes.length === 0
+          h4 No mixtapes Found
+        else 
+          for mixtape in mixtapes
+            +mixtapeListing(mixtape)
          
   section.news
     .container
@@ -147,32 +104,6 @@ block body
           for article in articles
             +articleListing(article)
         
-  section.instagram-feed
-    .container
-      .section-title
-        a.instagram-feed__title(href="https://www.instagram.com/p110media/" target="_blank")
-          img(src="/images/icons/instagram-logo-white.svg" alt="Instagram Logo")
-          h3 P110Media
-        a.underline-hover(href="https://www.instagram.com/p110media/" target="_blank") View All
-      .instagram-feed__images        
-        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
-          .instagram-feed__image--container
-            img(src="/images/TEMP_instagram/1.jpg")
-        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
-          .instagram-feed__image--container
-            img(src="/images/TEMP_instagram/2.jpg")
-        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
-          .instagram-feed__image--container
-            img(src="/images/TEMP_instagram/3.jpg")
-        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
-          .instagram-feed__image--container
-            img(src="/images/TEMP_instagram/4.jpg")
-        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
-          .instagram-feed__image--container
-            img(src="/images/TEMP_instagram/5.jpg")
-        a.instagram-feed__image(href="https://www.instagram.com/p110media/" target="_blank")
-          .instagram-feed__image--container
-            img(src="/images/TEMP_instagram/6.jpg")
   section.video-production.video-production__banner
     .container
       .video-production__image

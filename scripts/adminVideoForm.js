@@ -13,7 +13,7 @@ const deleteVideoButton = document.querySelector('#dashboard__edit-video--delete
 const closeLightboxButton = document.querySelector('.lightbox__modal--cancel')
 const lightbox = document.querySelector('.lightbox')
 
-const isEditPage = window.location.toString().indexOf('edit') > 0
+const isEditPage = window.location.toString().indexOf('/edit/') > 0
 
 youtubeIdForm.addEventListener('submit', e => getYoutubeData(e))
 youtubeDataForm.addEventListener('submit', e => submitYoutubeData(e))

@@ -4,19 +4,22 @@ const User = mongoose.model("User");
 const Video = mongoose.model("Video");
 const Article = mongoose.model("Article");
 const Channel = mongoose.model("Channel");
+const Mixtape = mongoose.model("Mixtape");
 const Settings = mongoose.model("Settings");
 
 exports.homepage = async (req, res) => {
   // Promise.all starts queries in parallel
   // Only use when queries are not dependent on each other
-  [videos, articles, featuredVideo] = await Promise.all([
+  [videos, mixtapes, articles, featuredVideo] = await Promise.all([
     Video.getLatestVideos(),
+    Mixtape.getLatestMixtapes(),
     Article.getLatestArticles(),
     Settings.getFeaturedVideo()
   ])
   res.render("index", {
     videos,
     articles,
+    mixtapes,
     featuredVideo,
     openGraphImage: featuredVideo ? `https://i.ytimg.com/vi/${featuredVideo.youtubeId}/maxresdefault.jpg` : "",
     title: "Grime, Rap & Freestyle Music Videos - The Home Of UK Urban Entertainment",
@@ -92,9 +95,9 @@ exports.newsArticle = async (req, res) => {
 };
 
 exports.mixtapes = async (req, res) => {
-  // const mixtapes = await Mixtape.getLatestMixtapes()
+  const mixtapes = await Mixtape.getLatestMixtapes()
   res.render("mixtapes", {
-    // mixtapes,
+    mixtapes,
     title: "Latest Mixtapes from the UK Grime & Rap Scene",
     description:
       "Explore the Hottest Mixtapes, EPs, Albums & Singles from the Urban UK Grime & Rap scene."

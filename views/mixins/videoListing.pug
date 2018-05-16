@@ -7,5 +7,5 @@ mixin videoListing(video, admin = false, youtube = false)
         img.youtube-embed__logo.youtube-embed__logo--rollover(src="/images/icons/youtube-logo-red.svg")
     .video-description
       .video-description__type=video.category.split("-").join(" ")
-      .video-description__title=video.title
+      .video-description__title=truncate(video.title, 50)
       .video-description__published=moment(video.rawData.snippet.publishedAt).fromNow()

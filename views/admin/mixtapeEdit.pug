@@ -29,25 +29,26 @@ block dashboardContent
       input(type="text" name="title" value=(mixtape ? mixtape.title : "") required)
       label Artists
       label.grey Separate multiple artists with a comma
-      -
-        let artists = mixtape ? mixtape.artists.join(", ") : ""
-      input(type="text" name="artists" value=artists required)
+      input(type="text" name="artists" value=(mixtape ? mixtape.artistList : "") required)
       label Description
-      textarea(name="description" rows="5")
+      textarea(name="description" rows="5")= mixtape ? mixtape.description : ""
       label Release Date
       -
-        const date = moment().format("YYYY-MM-DD")
-      input(type="date" name="releaseDate" value=(mixtape ? mixtape.releaseDate : date))
+        const date = mixtape ? 
+          moment(mixtape.releaseDate).format("YYYY-MM-DD") : 
+          moment().format("YYYY-MM-DD")
+          
+      input(type="date" name="releaseDate" value=(date))
       label Upload Mixtape
       label.grey ZIP file containing MP3s
-      input(type="file" name="zip" accept=".zip")
+      input(type="file" name="zip" accept=".zip" required=(mixtape ? false : true))
       .checkbox
-        input(type="checkbox" name="published" checked=(article && article.published))
+        input(type="checkbox" name="published" checked=(mixtape && mixtape.published))
         label Published
       .form-errors
       button.button__green(type="submit")=(mixtape ? "Edit mixtape" : "Add mixtape")
     div
       label Mixtape Artwork
-      label.grey Artwork will be cropped to square ratio
+      label.grey Artwork will be cropped to square ratio when uploaded
       input(type="file" accept="image/*" name="coverImage")
-      img.dashboard__edit-mixtape--artwork(src=(mixtape ? `/images/mixtapes/${mixtape._id}/large.jpg` : "/images/mixtapes/mixtape-default.png"))
+      img.dashboard__edit-mixtape--artwork(src=(mixtape && mixtape.coverAvailable ? `/images/mixtapes/${mixtape._id}/large.jpg` : "/images/mixtapes/mixtape-default.png"))

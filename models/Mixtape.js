@@ -25,16 +25,40 @@ const mixtapeSchema = new Schema(
     },
     releaseDate: {
       type: Date
+    },
+    coverAvailable: {
+      type: Boolean,
+      default: false
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    virtuals: true
   }
 );
 
+// Convert comma-separated string of artists into Array
+mixtapeSchema.pre('save', function (next) {
+  if (typeof this.artists === "string")
+    this.artists = mixtape.artists
+      .split(",")
+      .map(artist => artist.replace(/\s/g, ''))
+  next()
+})
+
+mixtapeSchema.virtual('artistList')
+  .get(function () {
+    return this.artists.join(", ")
+  });
+
+mixtapeSchema.virtual('fullTitle')
+  .get(function () {
+    return `${this.artistList} - ${this.title}`
+  });
+
 // Get latest X mixtapes
 mixtapeSchema.statics.getLatestMixtapes = function ({
-  limit = 8,
+  limit = 6,
   filter = {},
   search = null,
   exclude = null,

@@ -1,9 +1,10 @@
 mixin mixtapeListing(mixtape, admin = false)
   a.mixtapes__feed--entry(href=(admin ? `/admin/mixtapes/edit/${mixtape._id}` : `/mixtapes/${mixtape._id}`))
     .mixtapes__feed--entry--cover
-      img(src=(mixtape.coverAvailable ? `/images/mixtapes/${mixtape._id}/large.jpg` : "/images/mixtapes/mixtape-default.png") alt=`${mixtape.artists.join(", ")} - ${mixtape.title} - Mixtape Cover Art`)
-      img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-      img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
+      img(src=(mixtape.coverAvailable ? `/images/mixtapes/${mixtape._id}/thumbnail.jpg` : "/images/mixtapes/mixtape-default.png") alt=`${mixtape.artists.join(", ")} - ${mixtape.title} - Mixtape Cover Art`)
+      if !admin
+        img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
+        img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
     .mixtapes__feed--entry--text
       h5= truncate(mixtape.title, 38)
       p.grey= truncate(mixtape.artists.join(", "), 60)

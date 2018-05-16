@@ -7,16 +7,16 @@ const Settings = mongoose.model("Settings");
 const fs = require("fs");
 const path = require("path");
 const rmdir = require("rmdir");
+const mkdirp = require("mkdirp");
 const youtube = require("../youtube/client");
 const { scrapeLatestVideos } = require("../youtube/client");
 const { uploadArticleCoverImage } = require("../helpers/uploadArticleCoverImage");
-const { uploadMixtapeCoverImage } = require("../helpers/uploadMixtapeCoverImage");
+const { uploadMixtapeFiles } = require("../helpers/uploadMixtapeFiles");
 
 exports.videos = async (req, res) => {
   const filter = {}
-  if (req.query.search) {
+  if (req.query.search)
     filter.title = { $regex: req.query.search, $options: "i" };
-  }
   const videos = await Video.getLatestVideos({ filter, limit: 0 })
   res.render("admin/videos", {
     title: "Admin Dashboard | Videos",
@@ -69,13 +69,13 @@ exports.newVideo = async (req, res) => {
 };
 
 exports.scrapeLatestVideos = async (req, res) => {
-  scrapeLatestVideos().then(newVideos => {
-    if (newVideos === 0) {
+  scrapeLatestVideos().then(newVideoCount => {
+    if (newVideoCount === 0) {
       req.flash("success", "No new videos found")
-    } else if (newVideos === 1) {
+    } else if (newVideoCount === 1) {
       req.flash("success", `1 video added to database`)
     } else {
-      req.flash("success", `${newVideos} videos added to database`)
+      req.flash("success", `${newVideoCount} videos added to database`)
     }
     res.redirect("/admin/videos")
   }).catch(err => {
@@ -123,7 +123,9 @@ exports.deleteVideo = async (req, res) => {
     res.redirect("back");
     return
   } else {
-    const deleted = await Video.findOneAndRemove({ youtubeId: req.params.id }, (err, doc) => {
+    const deleted = await Video.findOneAndRemove({
+      youtubeId: req.params.id
+    }, (err, doc) => {
       if (err || !doc) {
         req.flash("error", "Error deleting video");
       } else {
@@ -225,7 +227,6 @@ exports.newArticle = async (req, res) => {
 };
 
 exports.editArticle = async (req, res) => {
-  console.log(req.body)
   const articleSave = await Article.findOneAndUpdate(
     { slug: req.params.slug },
     {
@@ -321,38 +322,79 @@ exports.editMixtapePage = async (req, res) => {
 
 exports.newMixtape = async (req, res) => {
   const mixtape = req.body
+  if (!req.files.zip || req.files.zip[0].mimetype !== "application/zip") {
+    res.status(400);
+    res.json({ "error": "Please upload a ZIP containing the mixtape files" })
+    return
+  }
+  if (req.files.artwork)
+    mixtape.coverAvailable = true
 
-  // Create array of artist names from string
-  mixtape.artists = mixtape.artists
-    .split(",")
-    .map(artist => artist.replace(/\s/g, ''))
-
-  console.log(req.file)
-  console.log(req.files)
-
-  mixtape.published = mixtape.published === "on" ? true : false
   const mixtapeSave = await new Mixtape(mixtape).save(
-    (err, data) => {
+    (err, item) => {
       if (err) {
         console.log(err)
         res.status(400);
-        res.json({ "error": "Error creating mixtape" })
+        res.json({ "error": "Error saving to database, please try again" })
       } else {
-        if (req.files && req.files.coverImage) {
-          uploadMixtapeCoverImage(req.files.coverImage.buffer, data._id).then(() => {
+        uploadMixtapeFiles(req, item)
+          .then(() => {
             req.flash("success", "Successfully added mixtape");
             res.status(200);
             res.send();
           }).catch(err => {
-            res.status(400);
-            res.json({ "error": "Error uploading cover image" })
             console.log(err)
+            res.status(400);
+            res.json({ "error": "Error uploading files, please try again" })
           })
-        } else {
-          req.flash("success", "Successfully added mixtape");
-          res.status(200);
-          res.send();
-        }
       }
     });
+};
+
+exports.editMixtape = async (req, res) => {
+  const mixtape = req.body
+
+  if (req.files.artwork)
+    mixtape.coverAvailable = true
+
+  const mixtapeSave = await Mixtape.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: mixtape },
+    { new: true },
+    (err, item) => {
+      if (err) {
+        console.log(err)
+        res.status(400);
+        res.json({ "error": "Error saving to database, please try again" })
+      } else {
+        uploadMixtapeFiles(req, item)
+          .then(() => {
+            req.flash("success", "Successfully added mixtape");
+            res.status(200);
+            res.send();
+          }).catch(err => {
+            console.log(err)
+            res.status(400);
+            res.json({ "error": "Error uploading files, please try again" })
+          })
+      }
+    });
+};
+
+exports.deleteMixtape = async (req, res) => {
+  const deleted = await Mixtape.findOneAndRemove(
+    { _id: req.params.id }
+  );
+  if (deleted) {
+    const imageFolder = path.join(process.env.ROOT, `public/images/mixtapes/${deleted._id}`)
+    const mixtapeFolder = path.join(process.env.ROOT, `public/images/mixtapes/${deleted._id}`)
+    rmdir(imageFolder)
+    rmdir(mixtapeFolder)
+    console.log("Successfully removed mixtape: " + deleted.fullTitle)
+    req.flash("success", "Successfully deleted mixtape");
+    res.redirect("/admin/mixtapes");
+  } else {
+    req.flash("error", "Error deleting mixtape");
+    res.redirect("/admin/mixtapes");
+  }
 };

@@ -5,53 +5,10 @@ block body
     .container
       .section-title
         h2 Mixtapes
-        a.underline-hover(href="/mixtapes") View All      
+        a.underline-hover(href="/mixtapes") View All           
       .mixtapes__feed
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/1.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 C's First
-            p.grey Benzo
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/2.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 Revenge
-            p.grey Axom Nelson
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/3.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 Game Changers 1 &amp; 2
-            p.grey DJ Big Ryde
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/4.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 In my prime
-            p.grey Big Nate
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/5.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 blue magic
-            p.grey Coll
-        a.mixtapes__feed--entry(href="/mixtapes/benzo/-cs-first")
-          .mixtapes__feed--entry--cover
-            img(src="/images/mixtapes/TEMP/6.jpg" alt="Mixtape 1")
-            img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
-            img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
-          .mixtapes__feed--entry--text 
-            h5 still crafting
-            p.grey Unknown
+        if !mixtapes || mixtapes.length === 0
+          h4 No Mixtapes Found
+        else 
+          for mixtape in mixtapes
+            +mixtapeListing(mixtape)
