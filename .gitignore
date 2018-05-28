@@ -1,7 +1,7 @@
 mongodb/
 backups/
 public/sitemap.xml
-public/mixtapes/
+public/mixtapes/*
 
 # dotenv environment variables file
 .env
