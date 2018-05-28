@@ -2,11 +2,8 @@ mixin socialSharingIcons
   .social-sharing-icons
     a.social-sharing-icons--facebook(href=`https://www.facebook.com/sharer/sharer.php?u=https%3A//p110.media${currentPath}` target="_blank")
       img(src="/images/icons/facebook-logo-white.svg" alt="Facebook icon")
-      p Share on Facebook
     - const videoTitle = video && video.title ? "P110 Media – " + video.title + " " : ""
     a.social-sharing-icons--twitter(href=`https://twitter.com/home?status=${videoTitle}https%3A//p110.media${currentPath}` target="_blank")
       img(src="/images/icons/twitter-logo-white.svg" alt="Facebook icon")
-      p Share on Twitter
     a.social-sharing-icons--google(href=`https://plus.google.com/share?url=https%3A//p110.media${currentPath}` target="_blank")
       img(src="/images/icons/google-plus-logo-white.svg" alt="Facebook icon")
-      p Share on Google+

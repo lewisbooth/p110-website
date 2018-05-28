@@ -7,11 +7,13 @@ exports.uploadMixtapeFiles = (req, item) => {
   return new Promise((resolve, reject) => {
     Promise.all([
       uploadMixtapeCoverImage(req, item),
-      uploadMixtapeZip(req, item)
-    ]).then(resolve())
-      .catch(err => {
-        reject(err)
-      })
+      uploadMixtapeZip(req, item),
+      updateMixtapeZipTitle(item)
+    ]).then(() =>
+      resolve()
+    ).catch(err => {
+      reject(err)
+    })
   })
 }
 
@@ -24,8 +26,32 @@ uploadMixtapeZip = (req, item) => {
     const saveFolder = `${process.env.ROOT}/public/mixtapes/${item._id}/`
     const saveLocation = saveFolder + fileName
     writeFile(saveLocation, req.files.zip[0].buffer, err => {
+      if (err)
+        reject(err)
+      else
+        resolve()
+    })
+  })
+}
+
+// Updates the file name for the ZIP to the latest Mixtape title
+updateMixtapeZipTitle = (item) => {
+  return new Promise((resolve, reject) => {
+    const targetFolder = `${process.env.ROOT}/public/mixtapes/${item._id}`
+    // If the folder doesn't exist, it's currently being created for the first time by uploadMixtapeZip() with the correct title so we can skip this function
+    if (!fs.existsSync(targetFolder))
+      return resolve()
+    // There's only one file in each directory, so we can just select the first file and rename it using the new title.
+    const files = fs.readdir(targetFolder, (err, files) => {
       if (err) reject(err)
-      else resolve()
+      const targetFile = `${targetFolder}/${files[0]}`
+      const renamedFile = `${targetFolder}/${item.fullTitle}.zip`
+      fs.rename(targetFile, renamedFile, err => {
+        if (err)
+          reject(err)
+        else
+          resolve()
+      })
     })
   })
 }

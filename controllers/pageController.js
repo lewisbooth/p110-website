@@ -104,6 +104,32 @@ exports.mixtapes = async (req, res) => {
   });
 };
 
+exports.mixtapeArticle = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    req.flash("error", "Mixtape not found")
+    res.redirect("back")
+    return
+  }
+  [mixtape, latestMixtapes] = await Promise.all([
+    Mixtape.findOne({ _id: req.params.id }),
+    Mixtape.getLatestMixtapes({
+      limit: 4,
+      exclude: req.params.id
+    })
+  ])
+  if (!mixtape) {
+    req.flash("error", "Mixtape not found")
+    res.redirect("back")
+  } else {
+    res.render("mixtape-article", {
+      mixtape,
+      latestMixtapes,
+      title: mixtape.fullTitle,
+      description: mixtape.description
+    });
+  }
+};
+
 exports.videoProduction = (req, res) => {
   res.render("video-production", {
     title: "Video Production -  Get Featured On P110 Media Today",

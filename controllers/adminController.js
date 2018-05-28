@@ -274,17 +274,17 @@ exports.deleteArticle = async (req, res) => {
   const deleted = await Article.findOneAndRemove(
     { slug: req.params.slug }
   );
-  if (deleted) {
-    const imageFolder = path.join(process.env.ROOT, `public/images/articles/${deleted._id}`)
-    if (fs.existsSync(imageFolder)) {
-      rmdir(imageFolder)
-    }
-    req.flash("success", "Successfully deleted article");
-    res.redirect("/admin/news");
-  } else {
+  if (!deleted) {
     req.flash("error", "Error deleting article");
     res.redirect("/admin/news");
+    return
   }
+  const imageFolder = path.join(process.env.ROOT, `public/images/articles/${deleted._id}`)
+  if (fs.existsSync(imageFolder)) {
+    rmdir(imageFolder)
+  }
+  req.flash("success", "Successfully deleted article");
+  res.redirect("/admin/news");
 };
 
 exports.mixtapes = async (req, res) => {
@@ -293,7 +293,6 @@ exports.mixtapes = async (req, res) => {
     showUnpublished: true,
     limit: 0
   })
-
   res.render("admin/mixtapes", {
     title: "Admin Dashboard | Mixtapes",
     description: "P110 Admin Dashboard",
@@ -302,13 +301,18 @@ exports.mixtapes = async (req, res) => {
 };
 
 exports.editMixtapePage = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    req.flash("error", "Mixtape not found")
+    res.redirect("/admin/mixtapes")
+    return
+  }
   let mixtape
   if (req.params.id) {
     mixtape = await Mixtape.findOne({
       _id: req.params.id
     })
     if (!mixtape) {
-      req.flash("error", "mixtape not found")
+      req.flash("error", "Mixtape not found")
       res.redirect("/admin/mixtapes")
       return
     }
@@ -322,6 +326,12 @@ exports.editMixtapePage = async (req, res) => {
 
 exports.newMixtape = async (req, res) => {
   const mixtape = req.body
+
+  mixtape.trackListing = JSON.parse(mixtape.trackListing)
+  mixtape.artists = mixtape.artists
+    .split(",")
+    .map(artist => artist.replace(/\s/g, ''))
+
   if (!req.files.zip || req.files.zip[0].mimetype !== "application/zip") {
     res.status(400);
     res.json({ "error": "Please upload a ZIP containing the mixtape files" })
@@ -354,6 +364,11 @@ exports.newMixtape = async (req, res) => {
 exports.editMixtape = async (req, res) => {
   const mixtape = req.body
 
+  mixtape.trackListing = JSON.parse(mixtape.trackListing)
+  mixtape.artists = mixtape.artists
+    .split(",")
+    .map(artist => artist.replace(/\s/g, ''))
+
   if (req.files.artwork)
     mixtape.coverAvailable = true
 
@@ -367,6 +382,7 @@ exports.editMixtape = async (req, res) => {
         res.status(400);
         res.json({ "error": "Error saving to database, please try again" })
       } else {
+        item.save()
         uploadMixtapeFiles(req, item)
           .then(() => {
             req.flash("success", "Successfully added mixtape");
@@ -387,7 +403,7 @@ exports.deleteMixtape = async (req, res) => {
   );
   if (deleted) {
     const imageFolder = path.join(process.env.ROOT, `public/images/mixtapes/${deleted._id}`)
-    const mixtapeFolder = path.join(process.env.ROOT, `public/images/mixtapes/${deleted._id}`)
+    const mixtapeFolder = path.join(process.env.ROOT, `public/mixtapes/${deleted._id}`)
     rmdir(imageFolder)
     rmdir(mixtapeFolder)
     console.log("Successfully removed mixtape: " + deleted.fullTitle)

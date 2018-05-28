@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const mongodbErrorHandler = require("mongoose-mongodb-errors");
 const { removeNewLines } = require("../helpers/removeNewLines");
+const { updateMixtapeTitle } = require("../helpers/uploadMixtapeFiles");
 const slugify = require("slugify");
 mongoose.Promise = global.Promise;
 
@@ -19,7 +20,10 @@ const mixtapeSchema = new Schema(
     description: {
       type: String
     },
-    trackList: Array,
+    trackListing: [{
+      title: String,
+      duration: String
+    }],
     published: {
       type: Boolean
     },
@@ -36,15 +40,6 @@ const mixtapeSchema = new Schema(
     virtuals: true
   }
 );
-
-// Convert comma-separated string of artists into Array
-mixtapeSchema.pre('save', function (next) {
-  if (typeof this.artists === "string")
-    this.artists = mixtape.artists
-      .split(",")
-      .map(artist => artist.replace(/\s/g, ''))
-  next()
-})
 
 mixtapeSchema.virtual('artistList')
   .get(function () {
@@ -75,7 +70,7 @@ mixtapeSchema.statics.getLatestMixtapes = function ({
     filter.published = true
 
   if (exclude)
-    filter.slug = { $ne: exclude }
+    filter._id = { $ne: exclude }
 
   return this
     .find(filter)

@@ -11,19 +11,6 @@ const upload = multer({
     fileSize: "200MB"
   }
 });
-const uploadMixtape = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, `${process.env.ROOT}/public/mixtapes/temp/`)
-    },
-    filename: (req, file, cb) => {
-      cb(null, `temp.zip`)
-    }
-  }),
-  limits: {
-    fileSize: "150MB"
-  }
-})
 
 // NOTE: Use catchErrors() to wrap any async controller methods
 // This will safely pass any errors on to a middleware handler
@@ -49,10 +36,7 @@ router.get("/news/:slug",
 router.get("/mixtapes",
   catchErrors(pageController.mixtapes)
 );
-router.get("/mixtapes/:artist", (req, res) => {
-  res.redirect('/mixtapes')
-});
-router.get("/mixtapes/:artist/:title",
+router.get("/mixtapes/:id",
   catchErrors(pageController.mixtapeArticle)
 );
 router.get("/video-production",

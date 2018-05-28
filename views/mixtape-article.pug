@@ -1,0 +1,33 @@
+extends layout
+
+block body
+  section.mixtapes
+    .container
+      .back-links
+        a.back-links__link.underline-hover(href="/mixtapes") << Back to mixtapes
+        if user
+          a.back-links__link.underline-hover(href=(`/admin/mixtapes/edit/${mixtape._id}`)) Edit as Admin
+      .mixtapes__article
+        article.mixtapes__article--content
+          .mixtapes__article--content--title
+            .video-description__type= mixtape.artistList
+            h1= mixtape.title
+          //- Format \n into <br />
+          .mixtapes__article--content--sections
+            div
+              img(src=`/images/mixtapes/${mixtape._id}/large.jpg`)
+              +socialSharingIcons
+            div              
+              h3 Listen Now
+              a.button.button__yellow(href=`/mixtapes/${mixtape._id}/${mixtape.fullTitle}.zip`) 
+                img(src="/images/icons/download-button.svg")
+                div Download Mixtape
+              - const released = moment(mixtape.releaseDate).format("Do MMMM YYYY")
+              p.release-date
+                em Released on #{released}
+              .mixtapes__article--content--text !{mixtape.description.replace(/(?:\r\n|\r|\n)/g, '<br/>')}
+            div
+        aside.mixtapes__article--sidebar.mixtape__feed
+          h3 Latest mixtapes
+          for mixtape in latestMixtapes
+            +mixtapeListing(mixtape)

@@ -172,12 +172,97 @@
   &__feed--entry
     width calc(100% / 6 - 1rem)
     margin-right 1.2rem
+    display inline-block
 
     &:nth-child(4n)
       margin-right 1.2rem
 
     &:nth-child(6n)
       margin-right 0
+
+  &__article
+    
+    &--content
+      width 100%
+      margin-bottom 3rem
+
+      &--sections
+        display flex
+
+        > div
+          width 33%
+          box-sizing border-box
+
+          &:nth-child(2)
+            padding 0 4rem
+
+            h3
+              margin-top 0
+
+            .button
+              margin 0
+
+          .release-date
+            margin-top 2rem
+    
+    &--sidebar
+      width 100%
+
+  &__track-listing
+    margin-bottom 1rem
+
+    &--entry
+      width 100%
+      display flex
+      padding .5rem 0
+      border-top 1px solid midGrey
+
+      &:hover
+        cursor grab
+        background #333
+
+      &:first-child
+        border none
+
+      > input
+        margin 0
+
+      &--number
+        flex-grow 0
+        color p110Yellow
+        padding 0 .5rem
+
+      &--title
+        flex-grow 1
+        padding 0 .5rem
+
+        &:hover
+          cursor default
+
+      &--duration
+        flex-grow 0
+        padding 0 .5rem
+        width 5rem !important        
+        text-align center
+
+      &--delete
+        flex-grow 0
+        padding 0 .25rem 0 .5rem
+        font-size 1.2em
+        line-height 1em
+
+        &:hover
+          color p110Yellow
+          cursor pointer
+
+    &--add-track
+      color p110Yellow
+      text-decoration underline
+      font-size 1.4rem
+
+      &:hover
+        cursor pointer
+        color p110YellowDark
 
 .video-production
   background-color black
@@ -278,35 +363,6 @@
       height 50px
       width auto
       margin 0 auto 2rem auto
-
-.instagram-feed
-  padding 1rem 0 4rem 0
-
-  &__title
-    display flex
-    align-items center
-    white-space nowrap
-
-    h3
-      margin 0 1rem .25rem 1rem
-
-  &__images
-    display flex
-    justify-content space-between
-    align-items flex-start
-    flex-wrap wrap
-
-  &__image
-    width calc(16.666% - 1rem)
-
-    &--container
-      padding-top 100%
-      position relative
-      background-color black
-
-      img 
-        position absolute
-        top 0
 
 .subscribe-now
   background-color youtubeRed 
@@ -488,6 +544,20 @@
 
         &:last-child
           margin-left 2rem
+
+.progress-bar
+  margin 20px 0
+
+  h5
+    margin 0 0 10px 0
+
+  progress
+    display block
+    width 100%
+    height 10px
+    border none
+    -webkit-appearance none
+    appearance none
 
 @media(max-width: breakpointLarge)
   @import 'main/_large'
