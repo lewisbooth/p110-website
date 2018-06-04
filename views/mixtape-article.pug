@@ -25,9 +25,23 @@ block body
               - const released = moment(mixtape.releaseDate).format("Do MMMM YYYY")
               p.release-date
                 em Released on #{released}
-              .mixtapes__article--content--text !{mixtape.description.replace(/(?:\r\n|\r|\n)/g, '<br/>')}
-            div
-        aside.mixtapes__article--sidebar.mixtape__feed
+              if mixtape.description
+                -
+                  description = mixtape.description
+                    .replace(/(?:\r\n|\r|\n)/g, '<br/>')
+                .mixtapes__article--content--text= description
+            if mixtape.trackListing.length > 0
+              div
+                h3 Track Listing      
+                .mixtapes__track-listing
+                  for track, index in mixtape.trackListing
+                    .mixtapes__track-listing--entry
+                      .mixtapes__track-listing--entry--number= index
+                      .mixtapes__track-listing--entry--title= track.title
+                      if track.duration !== "0:00"
+                        .mixtapes__track-listing--entry--duration= track.duration
+        aside.mixtapes__article--sidebar
           h3 Latest mixtapes
-          for mixtape in latestMixtapes
-            +mixtapeListing(mixtape)
+          .mixtapes__feed
+            for mixtape in latestMixtapes
+              +mixtapeListing(mixtape)

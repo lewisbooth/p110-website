@@ -1,32 +1,41 @@
-const form = document.querySelector('.dashboard__edit-article')
-const titleInput = form.querySelector('input[name="title"]')
-const artistsInput = form.querySelector('input[name="artists"]')
-const descriptionInput = form.querySelector('textarea[name="description"]')
-const releaseDateInput = form.querySelector('input[name="releaseDate"]')
-const publishedInput = form.querySelector('input[name="published"]')
-const zipInput = form.querySelector('input[name="zip"]')
-const artworkInput = form.querySelector('input[name="coverImage"]')
-const artworkImage = form.querySelector('.dashboard__edit-mixtape--artwork')
-const progressBar = form.querySelector('progress')
-const progressBarText = form.querySelector('.progress-bar__percent-completed')
-const progressBarContainer = form.querySelector('.progress-bar')
-const defaultArtwork = artworkImage.src
-const formErrors = document.querySelector('.form-errors')
-const lightbox = document.querySelector('.lightbox')
-const deleteButton = document.querySelector('#dashboard__edit-video--delete')
-const closeLightboxButton = document.querySelector('.lightbox__modal--cancel')
-const trackListings = document.querySelector('.mixtapes__track-listing')
-const addTrackButton = document.querySelector('.mixtapes__track-listing--add-track')
-const isEditPage = window.location.toString().indexOf('/edit/') > 0
-
-if (isEditPage) {
-  deleteButton.addEventListener('click', () =>
-    lightbox.classList.toggle('active')
-  )
-  closeLightboxButton.addEventListener('click', () =>
-    lightbox.classList.toggle('active')
-  )
-}
+const form
+  = document.querySelector('.dashboard__edit-article')
+const titleInput
+  = form.querySelector('[name="title"]')
+const artistsInput
+  = form.querySelector('[name="artists"]')
+const descriptionInput
+  = form.querySelector('[name="description"]')
+const releaseDateInput
+  = form.querySelector('[name="releaseDate"]')
+const publishedInput
+  = form.querySelector('[name="published"]')
+const zipInput
+  = form.querySelector('[name="zip"]')
+const artworkInput
+  = form.querySelector('[name="coverImage"]')
+const artworkImage
+  = form.querySelector('.dashboard__edit-mixtape--artwork')
+const progressBar
+  = form.querySelector('progress')
+const progressBarText
+  = form.querySelector('.progress-bar__percent-completed')
+const progressBarContainer
+  = form.querySelector('.progress-bar')
+const formErrors
+  = form.querySelector('.form-errors')
+const trackListings
+  = form.querySelector('.mixtapes__track-listing')
+const addTrackButton
+  = form.querySelector('.mixtapes__track-listing--add-track')
+const lightbox
+  = document.querySelector('.lightbox')
+const deleteButton
+  = document.querySelector('#dashboard__edit-video--delete')
+const closeLightboxButton
+  = document.querySelector('.lightbox__modal--cancel')
+const defaultArtwork
+  = artworkImage.src
 
 form.addEventListener('submit', e => {
   submitForm(e)
@@ -35,31 +44,29 @@ form.addEventListener('submit', e => {
 function submitForm(e) {
   e.preventDefault()
   updateTrackListingStateFromDOM()
-  let formData = new FormData();
-  formData.append("title", titleInput.value);
-  formData.append("artists", artistsInput.value);
-  formData.append("description", descriptionInput.value);
-  formData.append("published", publishedInput.checked);
-  formData.append("releaseDate", releaseDateInput.value);
-  formData.append("trackListing", JSON.stringify(trackListingState));
+  let formData = new FormData()
+  formData.append("title", titleInput.value)
+  formData.append("artists", artistsInput.value)
+  formData.append("description", descriptionInput.value)
+  formData.append("published", publishedInput.checked)
+  formData.append("releaseDate", releaseDateInput.value)
+  formData.append("trackListing", JSON.stringify(trackListingState))
   if (zipInput.files && zipInput.files[0])
-    formData.append("zip", zipInput.files[0]);
+    formData.append("zip", zipInput.files[0])
   if (artworkInput.files && artworkInput.files[0])
-    formData.append("artwork", artworkInput.files[0]);
-
-  // Progress bar for uploading data
-  let config = {
-    onUploadProgress: progress => {
-      let percentCompleted = Math.floor((progress.loaded * 100) / progress.total)
-      progressBar.value = percentCompleted
-      progressBarText.innerText = percentCompleted + "%"
-    }
-  }
-
-  if (zipInput.files[0] || artworkInput.files[0])
+    formData.append("artwork", artworkInput.files[0])
+  if (artworkInput.files[0] || zipInput.files[0])
     progressBarContainer.classList.remove('hidden')
 
-  axios.post(window.location.href, formData, config)
+  // Progress bar for uploading data
+  const onUploadProgress = progress => {
+    let percentCompleted =
+      Math.floor((progress.loaded * 100) / progress.total)
+    progressBar.value = percentCompleted
+    progressBarText.innerText = percentCompleted + "%"
+  }
+
+  axios.post(window.location.href, formData, { onUploadProgress })
     .then(res => {
       window.location = "/admin/mixtapes"
     }).catch(error => {
@@ -85,23 +92,32 @@ function errorFlash(errors = []) {
 // Instant preview of cover artwork from local storage
 artworkInput.addEventListener('change', function (e) {
   if (artworkInput.files && artworkInput.files[0]) {
-    var reader = new FileReader();
+    var reader = new FileReader()
     reader.onload = e => {
       artworkImage.src = e.target.result
       artworkImage.classList.remove('hidden')
     }
-    reader.readAsDataURL(artworkInput.files[0]);
+    reader.readAsDataURL(artworkInput.files[0])
   } else {
     artworkImage.src = defaultArtwork
   }
 })
 
+// Lightbox
+if (deleteButton) {
+  deleteButton.addEventListener('click', () =>
+    lightbox.classList.toggle('active')
+  )
+  closeLightboxButton.addEventListener('click', () =>
+    lightbox.classList.toggle('active')
+  )
+}
 
 // Track Listings
 
-// We keep the track listing data in a global array
-// The state is rendered using renderTrackListingState()
+// We keep the state in a global array
 let trackListingState = []
+updateTrackListingStateFromDOM()
 
 function setState(newState) {
   if (newState == trackListingState) return
@@ -125,21 +141,22 @@ function renderState() {
   })
 }
 
-const generateListingMarkup = (listing, i) => `
+function generateListingMarkup(listing, i) {
+  return `
   <div class="mixtapes__track-listing--entry" draggable="true" ondragstart="dragTrack(event)" ondrop="dropTrack(event)" ondragover="allowDrop(event)" data-key="${i}">
     <div class="mixtapes__track-listing--entry--number">
       ${i}
     </div>
-    <input value="${listing.title}" type="text" class="mixtapes__track-listing--entry--title">
-    <input value="${listing.duration}" type="text" class="mixtapes__track-listing--entry--duration">
+    <input value="${listing.title}" oninput="updateTrackListingStateFromDOM(false)" type="text" class="mixtapes__track-listing--entry--title">
+    <input value="${listing.duration}" oninput="updateTrackListingStateFromDOM(false)" type="text" class="mixtapes__track-listing--entry--duration">
     <div class="mixtapes__track-listing--entry--delete">
       ✕
     </div>
-  </div>
-`
+  </div>`
+}
 
 
-const getTrackListingData = (listing) => {
+function getTrackListingData(listing) {
   const title = listing.querySelector('.mixtapes__track-listing--entry--title').value
   let duration = listing.querySelector('.mixtapes__track-listing--entry--duration').value
   const durationRegex = new RegExp(/([0-9]{1,2}:[0-9]{2})/)
@@ -148,22 +165,26 @@ const getTrackListingData = (listing) => {
   return { title, duration }
 }
 
-const getTrackListingEntries = () =>
-  trackListings.querySelectorAll('.mixtapes__track-listing--entry')
+function getTrackListingEntries() {
+  return trackListings
+    .querySelectorAll('.mixtapes__track-listing--entry')
+}
 
 // Updates the state object from the DOM
-// Run when the page first loads
-function updateTrackListingStateFromDOM() {
+// Run every time the form changes
+function updateTrackListingStateFromDOM(render = true) {
   const listings = getTrackListingEntries()
   const newState = []
   listings.forEach((listing, i) => {
     const { title, duration } = getTrackListingData(listing)
     newState.push({ title, duration })
   })
-  setState(newState)
+  // If we re-render inputs whilst the user is typing, the inputs lose focus. The render flag bypasses re-rendering.
+  if (render)
+    setState(newState)
+  else
+    trackListingState = newState
 }
-
-updateTrackListingStateFromDOM()
 
 addTrackButton.addEventListener("click", () => {
   updateTrackListingStateFromDOM()
@@ -171,22 +192,25 @@ addTrackButton.addEventListener("click", () => {
   renderState()
 })
 
-// Drag & drop handler
+// Store the index of dragged track
 function dragTrack(e) {
   e.dataTransfer.setData("start", e.target.getAttribute("data-key"))
 }
 
+// Moves the dragged element in the state array
 function dropTrack(e) {
   e.preventDefault()
   const start = e.dataTransfer.getData("start")
-  let finish
-  if (e.target.classList.contains('mixtapes__track-listing--entry')) {
-    finish = e.target.getAttribute("data-key")
-  }
-  else {
-    finish = e.target.parentElement.getAttribute("data-key")
-  }
-  console.log(start, finish)
+  let finish =
+    e.target.classList.contains('mixtapes__track-listing--entry') ?
+      e.target.getAttribute("data-key") :
+      e.target.parentElement.getAttribute("data-key")
+  // Remove the dragged element from state into new variable
+  let state = [...trackListingState]
+  const dragged = state.splice(start, 1)
+  // Re-insert dragged element at new position
+  state.splice(finish, 0, dragged[0])
+  setState(state)
 }
 
 function allowDrop(e) {

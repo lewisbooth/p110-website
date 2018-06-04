@@ -193,12 +193,12 @@
           width 33%
           box-sizing border-box
 
+          h3
+            margin-top 0
+
           &:nth-child(2)
             padding 0 4rem
-
-            h3
-              margin-top 0
-
+            
             .button
               margin 0
 
@@ -210,6 +210,7 @@
 
   &__track-listing
     margin-bottom 1rem
+    color white
 
     &--entry
       width 100%
@@ -217,14 +218,14 @@
       padding .5rem 0
       border-top 1px solid midGrey
 
-      &:hover
+      &[draggable="true"]:hover
         cursor grab
         background #333
 
       &:first-child
         border none
 
-      > input
+      > div, > input
         margin 0
 
       &--number
@@ -236,7 +237,7 @@
         flex-grow 1
         padding 0 .5rem
 
-        &:hover
+        &[draggable="true"]:hover
           cursor default
 
       &--duration

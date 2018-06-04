@@ -6,5 +6,7 @@ mixin mixtapeListing(mixtape, admin = false)
         img.mixtapes__feed--entry--cover--play-button(src="/images/icons/youtube-logo-grey.svg")
         img.mixtapes__feed--entry--cover--play-button.mixtapes__feed--entry--cover--play-button--rollover(src="/images/icons/youtube-logo-red.svg")
     .mixtapes__feed--entry--text
+      - const released = moment(mixtape.releaseDate).format("Do MMMM YYYY")
       h5= truncate(mixtape.title, 38)
-      p.grey= truncate(mixtape.artists.join(", "), 60)
+      p.yellow= truncate(mixtape.artists.join(", "), 60)
+      p.grey= released

@@ -26,13 +26,9 @@ google.options({
 
 exports.searchById = (id, part = 'snippet,contentDetails,statistics') => {
   return new Promise((resolve, reject) => {
-    if (!id) {
-      reject("Please supply a valid Youtube ID")
-      return
-    }
+    if (!id) return reject("Please supply a valid Youtube ID")
     console.log("Fetching data for Youtube ID " + id)
-    const params = { id, part }
-    youtube.videos.list(params, (err, res) => {
+    youtube.videos.list({ id, part }, (err, res) => {
       if (err) {
         console.log(err)
         reject("Bad request")
@@ -69,7 +65,6 @@ exports.getChannelStats = () => {
 // Searches for the latest 50 videos and adds them to the database
 exports.scrapeLatestVideos = () => {
   return new Promise((resolve, reject) => {
-
     console.log("Scraping latest 50 videos")
 
     const params = {
@@ -104,40 +99,38 @@ exports.scrapeLatestVideos = () => {
     let results = []
 
     youtube.search.list(params, (err, res) => {
-      if (err) {
-        reject(err)
-      } else {
-        res.data.items.reverse().forEach(async (item, i) => {
-          const videoExists = await Video.findOne({ youtubeId: item.id.videoId })
-          if (videoExists) {
-            console.log("Video already exists: " + item.snippet.title)
-            return
-          }
-          const singleParams = {
-            id: item.id.videoId,
-            part: 'snippet'
-          }
-          youtube.videos.list(singleParams, (err, singleRes) => {
-            if (err) {
-              reject(err)
-            } else {
-              const title = formatTitle(item.snippet.title)
-              const data = {
-                title,
-                youtubeId: item.id.videoId,
-                category: detectCategory(item.snippet.title),
-                description: singleRes.data.items[0].snippet.description,
-                rawData: item
-              }
-              results.push(data)
+      if (err) return reject(err)
+      res.data.items.reverse().forEach(async (item, i) => {
+        const videoExists = await Video.findOne({ youtubeId: item.id.videoId })
+        if (videoExists) {
+          console.log("Video already exists: " + item.snippet.title)
+          return
+        }
+        const singleParams = {
+          id: item.id.videoId,
+          part: 'snippet'
+        }
+        youtube.videos.list(singleParams, (err, singleRes) => {
+          if (err) {
+            reject(err)
+          } else {
+            const title = formatTitle(item.snippet.title)
+            const data = {
+              title,
+              youtubeId: item.id.videoId,
+              category: detectCategory(item.snippet.title),
+              description: singleRes.data.items[0].snippet.description,
+              rawData: item
             }
-          })
+            results.push(data)
+          }
         })
+      })
 
-        // Give all the requests time to resolve before saving to DB
-        // Messy, should be Promise.all
-        setTimeout(saveItems, 3000)
-      }
+      // Give all the requests time to resolve before saving to DB
+      // Messy, should be Promise.all
+      setTimeout(saveItems, 3000)
+
     })
 
     const saveItems = () => {

@@ -126,7 +126,7 @@ exports.deleteVideo = async (req, res) => {
     const deleted = await Video.findOneAndRemove({
       youtubeId: req.params.id
     }, (err, doc) => {
-      if (err || !doc) {
+      if (err) {
         req.flash("error", "Error deleting video");
       } else {
         req.flash("success", "Successfully deleted video");
@@ -154,7 +154,6 @@ exports.news = async (req, res) => {
     showUnpublished: true,
     limit: 0
   })
-
   res.render("admin/news", {
     title: "Admin Dashboard | Videos",
     description: "P110 Admin Dashboard",
@@ -301,7 +300,7 @@ exports.mixtapes = async (req, res) => {
 };
 
 exports.editMixtapePage = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  if (req.params.id && !mongoose.Types.ObjectId.isValid(req.params.id)) {
     req.flash("error", "Mixtape not found")
     res.redirect("/admin/mixtapes")
     return

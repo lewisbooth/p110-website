@@ -34,13 +34,14 @@ block dashboardContent
       textarea(name="description" rows="5")= mixtape ? mixtape.description : ""
       label Track List
       label.grey Drag and drop to re-arrange
-      .mixtapes__track-listing.admin      
-        for track, index in mixtape.trackListing
-          .mixtapes__track-listing--entry(draggable="true" ondragstart="dropTrack(e)" data-key=index)
-            .mixtapes__track-listing--entry--number= index
-            input.mixtapes__track-listing--entry--title(type="text" value=track.title)
-            input.mixtapes__track-listing--entry--duration(type="text" value=track.duration)
-            .mixtapes__track-listing--entry--delete ✕
+      .mixtapes__track-listing.admin
+        if mixtape
+          for track, index in mixtape.trackListing
+            .mixtapes__track-listing--entry(draggable="true" ondragstart="dragTrack(event)" ondragover="allowDrop(event)"    ondrop="dropTrack(event)" data-key=index)
+              .mixtapes__track-listing--entry--number= index
+              input.mixtapes__track-listing--entry--title(type="text" value=track.title)
+              input.mixtapes__track-listing--entry--duration(type="text" value=track.duration)
+              .mixtapes__track-listing--entry--delete ✕
       p.mixtapes__track-listing--add-track Add Track
       label Release Date
       -

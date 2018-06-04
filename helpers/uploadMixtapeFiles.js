@@ -46,6 +46,7 @@ updateMixtapeZipTitle = (item) => {
       if (err) reject(err)
       const targetFile = `${targetFolder}/${files[0]}`
       const renamedFile = `${targetFolder}/${item.fullTitle}.zip`
+      if (!fs.existsSync(targetFile)) resolve()
       fs.rename(targetFile, renamedFile, err => {
         if (err)
           reject(err)

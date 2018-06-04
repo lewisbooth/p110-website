@@ -4,6 +4,7 @@ const mongoRestore = require("mongodb-restore");
 const copydir = require('copy-dir');
 const tar = require("tar");
 const fs = require("fs");
+const path = require("path");
 const rmdir = require("rmdir");
 const S3 = require("./S3");
 
@@ -25,45 +26,41 @@ exports.restore = async () => {
     file: downloadFile,
     cwd: "mongodb/temp"
   }).then(err => {
-    if (err) {
-      console.log("Error extracting tarball")
-      console.log(err)
-      process.exit()
-    }
-    // Restore database if a backup was in the tarball
-    if (fs.existsSync("mongodb/temp/mongodb")) {
-      mongoRestore({
-        drop: true,
-        uri: process.env.DATABASE,
-        root: "mongodb/temp/mongodb/backup/p110",
-        callback: err => {
+    if (err) return console.log("Error extracting tarball \n" + err)
+    // Restore /public folder
+    rmdir(path.join(__dirname, '../public'), () => {
+      fs.renameSync(
+        path.join(__dirname, '../mongodb/temp/public'),
+        path.join(__dirname, '../public'))
+    })
+
+    // Restore the database
+    mongoRestore({
+      drop: true,
+      uri: process.env.DATABASE,
+      root: "mongodb/temp/mongodb/backup/p110",
+      callback: err => {
+        if (err)
+          return console.log("Error restoring database \n" + err)
+        // Remove temp folder
+        rmdir('mongodb/temp', err => {
           if (err) {
-            console.log("Error restoring database")
-            console.log(err);
+            console.log("Error deleting temp folder")
+            console.log(err)
+          } else {
+            console.log("Cleaned up temp folder")
           }
-          else {
-            console.log("Successfully restored database")
-            // Remove temp folder
-            rmdir('mongodb/temp', err => {
-              if (err) {
-                console.log("Error deleting temp folder")
-                console.log(err)
-              } else {
-                console.log("Cleaned up temp folder")
-              }
-            })
-          }
-        }
-      });
-    } else {
-      console.log("No database backup found in tarball")
-    }
+        })
+        console.log("Successfully restored database")
+      }
+    });
   })
 
 };
 
 exports.backup = () => {
   console.log("Backing up files");
+
   // Create backup folder if it doesn't already exist
   if (!fs.existsSync("mongodb")) {
     fs.mkdirSync("mongodb")
@@ -91,7 +88,7 @@ exports.backup = () => {
         console.log("Successfully backed up database to mongodb/backup")
         // Tarball the database dump
         tar.c({ file: `mongodb/${timestamp}.tgz` },
-          ["./mongodb/backup"]
+          ["./mongodb/backup", "./public"]
         ).then(_ => {
           // Upload the tarball to S3
           S3.upload(
