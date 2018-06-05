@@ -43,15 +43,19 @@ videoSchema.pre('save', async function (next) {
 videoSchema.statics.getLatestVideos = function ({
   limit = 8,
   exclude = null,
-  filter = {}
+  search = null,
+  filter = {},
+  skip = 0
 } = {}) {
-  if (exclude) {
+  if (search)
+    filter.title = { $regex: search, $options: "i" };
+  if (exclude)
     filter.youtubeId = { $ne: exclude }
-  }
   return this
     .find(filter)
     .sort({ published: -1 })
     .limit(limit)
+    .skip(skip)
 };
 
 module.exports = mongoose.model("Video", videoSchema);

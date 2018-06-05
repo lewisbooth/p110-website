@@ -14,10 +14,10 @@ const { uploadArticleCoverImage } = require("../helpers/uploadArticleCoverImage"
 const { uploadMixtapeFiles } = require("../helpers/uploadMixtapeFiles");
 
 exports.videos = async (req, res) => {
-  const filter = {}
-  if (req.query.search)
-    filter.title = { $regex: req.query.search, $options: "i" };
-  const videos = await Video.getLatestVideos({ filter, limit: 0 })
+  const videos = await Video.getLatestVideos({
+    limit: 20,
+    search: req.query.search || null
+  })
   res.render("admin/videos", {
     title: "Admin Dashboard | Videos",
     description: "P110 Admin Dashboard",
@@ -152,7 +152,7 @@ exports.news = async (req, res) => {
   const articles = await Article.getLatestArticles({
     search: req.query.search || null,
     showUnpublished: true,
-    limit: 0
+    limit: 20
   })
   res.render("admin/news", {
     title: "Admin Dashboard | Videos",
@@ -290,7 +290,7 @@ exports.mixtapes = async (req, res) => {
   const mixtapes = await Mixtape.getLatestMixtapes({
     search: req.query.search || null,
     showUnpublished: true,
-    limit: 0
+    limit: 30
   })
   res.render("admin/mixtapes", {
     title: "Admin Dashboard | Mixtapes",

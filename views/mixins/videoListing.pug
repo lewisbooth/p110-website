@@ -1,4 +1,4 @@
-mixin videoListing(video, admin = false, youtube = false)
+mixin videoListing(video, admin = false, youtube = false)  
   a.video__feed--entry(href=(admin ? `/admin/videos/edit/${video.youtubeId}` : `/videos/id/${video.youtubeId}`))
     .youtube-embed
       img(src=(video.rawData.snippet.thumbnails.medium.url) alt=(video.title))

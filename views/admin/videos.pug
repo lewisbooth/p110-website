@@ -1,6 +1,8 @@
 extends dashboard
 
 block extraFooterScripts
+  script(src="/js/libs/axios.min.js")
+  script(async src="/js/infiniteScroll.js")
   script(async src="/js/addLatestVideos.js")
 
 block lightbox
@@ -21,9 +23,11 @@ block dashboardContent
       a.button.button__green(href="/admin/videos/new") 
         img(src="/images/icons/plus.svg")
         div New Video
-  .video__feed
+  .video__feed#infinite-scroll
     if videos.length === 0
       h4 No Videos Found
     else 
       for video in videos
         +videoListing(video, true)
+  .form-errors.hidden
+    p Error loading videos

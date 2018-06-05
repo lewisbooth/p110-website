@@ -1,5 +1,9 @@
 extends dashboard
 
+block extraFooterScripts
+  script(src="/js/libs/axios.min.js")
+  script(async src="/js/infiniteScroll.js")
+
 block dashboardContent
   .space-between.dashboard__filter    
     form
@@ -8,10 +12,11 @@ block dashboardContent
     a.button.button__green(href="/admin/news/new") 
       img(src="/images/icons/plus.svg")
       div New Article
-  .news__feed
+  .news__feed#infinite-scroll
     if !articles || articles.length === 0
       h4 No Articles Found
     else 
       for article in articles
         +articleListing(article, true)
-    
+  .form-errors.hidden
+    p Error loading videos 

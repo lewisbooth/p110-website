@@ -55,6 +55,8 @@ mixtapeSchema.virtual('fullTitle')
 mixtapeSchema.statics.getLatestMixtapes = function ({
   limit = 6,
   filter = {},
+  skip = 0,
+  sort = { releaseDate: -1 },
   search = null,
   exclude = null,
   showUnpublished = false
@@ -63,7 +65,8 @@ mixtapeSchema.statics.getLatestMixtapes = function ({
   if (search)
     filter['$or'] = [
       { title: { $regex: search, $options: "i" } },
-      { html: { $regex: search, $options: "i" } }
+      { artists: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } }
     ]
 
   if (!showUnpublished)
@@ -74,8 +77,9 @@ mixtapeSchema.statics.getLatestMixtapes = function ({
 
   return this
     .find(filter)
-    .sort({ createdAt: -1 })
+    .sort(sort)
     .limit(limit)
+    .skip(skip)
 };
 
 

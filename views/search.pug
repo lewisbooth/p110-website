@@ -1,0 +1,19 @@
+extends layout
+
+block body
+  .mixtapes
+    .container
+      if videos || mixtapes || articles
+        h1 Search results for "#{query.navsearch}"
+        if videos.length > 0
+          h4 Videos        
+          .video__feed
+            for video in videos
+              +videoListing(video)
+        if mixtapes.length > 0
+          h4 Mixtapes        
+          .mixtapes__feed
+            for mixtape in mixtapes
+              +mixtapeListing(mixtape)
+      else
+        h1 No search results for "#{query.navsearch}"

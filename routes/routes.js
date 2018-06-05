@@ -3,6 +3,8 @@ const router = express.Router();
 const pageController = require("../controllers/pageController");
 const authController = require("../controllers/authController");
 const adminController = require("../controllers/adminController");
+const infiniteScrollController =
+  require("../controllers/infiniteScrollController");
 const { catchErrors } = require("../helpers/errorHandlers");
 const multer = require("multer");
 const upload = multer({
@@ -15,14 +17,30 @@ const upload = multer({
 // NOTE: Use catchErrors() to wrap any async controller methods
 // This will safely pass any errors on to a middleware handler
 
+router.get("*", (req, res, next) => {
+  if (req.query.navsearch && req.path !== "/search")
+    res.redirect(`/search?navsearch=${req.query.navsearch}`)
+  else
+    next()
+});
+
 router.get("/",
   catchErrors(pageController.homepage)
+);
+router.get("/search",
+  catchErrors(pageController.search)
 );
 router.get("/videos",
   catchErrors(pageController.videos)
 );
+router.post("/videos",
+  catchErrors(infiniteScrollController.videos)
+);
 router.get("/videos/:category",
   catchErrors(pageController.videos)
+);
+router.post("/videos/:category",
+  catchErrors(infiniteScrollController.videos)
 );
 router.get("/videos/id/:id",
   catchErrors(pageController.videoArticle)
@@ -30,14 +48,23 @@ router.get("/videos/id/:id",
 router.get("/news",
   catchErrors(pageController.news)
 );
+router.post("/news",
+  catchErrors(infiniteScrollController.news)
+);
 router.get("/news/:slug",
   catchErrors(pageController.newsArticle)
 );
 router.get("/mixtapes",
   catchErrors(pageController.mixtapes)
 );
+router.post("/mixtapes",
+  catchErrors(infiniteScrollController.mixtapes)
+);
 router.get("/mixtapes/:id",
   catchErrors(pageController.mixtapeArticle)
+);
+router.post("/mixtapes/:id",
+  catchErrors(infiniteScrollController.mixtapes)
 );
 router.get("/video-production",
   pageController.videoProduction
@@ -60,12 +87,14 @@ router.get("/login",
   pageController.login
 );
 router.post("/login", authController.login);
-router.get("/create-user", pageController.createUser);
-router.post("/create-user",
-  authController.validateRegister,
-  authController.createUser,
-  authController.login
-);
+
+//  Creates a new user, disabled in production!
+// router.get("/create-user", pageController.createUser);
+// router.post("/create-user",
+//   authController.validateRegister,
+//   authController.createUser,
+//   authController.login
+// );
 
 
 // Admin
@@ -78,6 +107,9 @@ router.get("/admin/", (req, res) => {
 
 router.get("/admin/videos",
   catchErrors(adminController.videos)
+);
+router.post("/admin/videos",
+  catchErrors(infiniteScrollController.videos)
 );
 router.get("/admin/videos/new",
   catchErrors(adminController.newVideoPage)
@@ -101,6 +133,9 @@ router.get("/admin/videos/delete/:id",
 router.get("/admin/news",
   catchErrors(adminController.news)
 );
+router.post("/admin/news",
+  catchErrors(infiniteScrollController.news)
+);
 router.get("/admin/news/new",
   catchErrors(adminController.editArticlePage)
 );
@@ -121,6 +156,9 @@ router.get("/admin/news/delete/:slug",
 
 router.get("/admin/mixtapes",
   catchErrors(adminController.mixtapes)
+);
+router.post("/admin/mixtapes",
+  catchErrors(infiniteScrollController.mixtapes)
 );
 router.get("/admin/mixtapes/new",
   catchErrors(adminController.editMixtapePage)

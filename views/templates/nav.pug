@@ -23,9 +23,9 @@ mixin nav
               img(src="/images/icons/twitter-logo-white.svg" alt="P110 Twitter Page Link")
             a(href="https://www.instagram.com/p110media/" target="_blank")
               img(src="/images/icons/instagram-logo-white.svg" alt="P110 instagram Page Link")
-          .nav__search
+          form.nav__search
             .nav__search--box
-              input(placeholder="Search P110").nav__search--box--input
+              input(name="navsearch" placeholder=(query.navsearch ? query.navsearch : "Search P110")).nav__search--box--input
         .nav__dropdown--toggle
           .nav__dropdown--toggle--button
             div Menu

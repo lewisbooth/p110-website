@@ -1,5 +1,9 @@
 extends layout
 
+block extraFooterScripts
+  script(src="/js/libs/axios.min.js")
+  script(async src="/js/infiniteScroll.js")
+
 block body
   section.video
     .container
@@ -16,9 +20,11 @@ block body
             a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
           li
             a(href="/videos/net-video" class=(currentPath === "/videos/net-video" ? "active" : "")) Net Video
-      .video__feed
+      .video__feed#infinite-scroll
         if videos.length === 0
           h4 No Videos Found
         else 
           for video in videos
             +videoListing(video)
+      .form-errors.hidden
+        p Error loading videos 

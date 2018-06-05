@@ -11,9 +11,9 @@ block body
     ul.dashboard__nav
       li(class=(currentPath.startsWith("/admin/videos") ? "active" : "")) 
         a(href="/admin/videos") Videos
-      li(class=(currentPath.startsWith("/admin/news") ? "active" : "")) 
-        a(href="/admin/news") News
       li(class=(currentPath.startsWith("/admin/mixtapes") ? "active" : "")) 
         a(href="/admin/mixtapes") Mixtapes
+      li(class=(currentPath.startsWith("/admin/news") ? "active" : "")) 
+        a(href="/admin/news") News
     .dashboard__panel
       block dashboardContent

@@ -1,0 +1,10 @@
+a(href=(admin ? `/admin/news/edit/${article.slug}` : `/news/${article.slug}`)).news__feed--entry
+  - const imageURL = article.cover.type === "youtube" ? `https://i.ytimg.com/vi/${article.cover.youtubeId}/mqdefault.jpg` : `/images/articles/${article._id}/thumbnail.jpg`
+  .news__feed--entry--image(class=(article.cover.type === "youtube" ? "youtube-embed" : "") style=(`background-image:url(${imageURL});`))
+    if !admin && article.cover.type === "youtube"
+      img.youtube-embed__logo(src="/images/icons/youtube-logo-grey.svg")
+      img.youtube-embed__logo.youtube-embed__logo--rollover(src="/images/icons/youtube-logo-red.svg")
+  .news__feed--entry--text
+    h5= truncate(article.title, 60)        
+    p= truncate(article.text, 120)
+    .video-description__published=moment(article.createdAt).fromNow()

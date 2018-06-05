@@ -41,6 +41,7 @@ const articleSchema = new Schema(
 // Get latest X articles
 articleSchema.statics.getLatestArticles = function ({
   limit = 8,
+  skip = 0,
   filter = {},
   search = null,
   exclude = null,
@@ -62,6 +63,7 @@ articleSchema.statics.getLatestArticles = function ({
     .find(filter)
     .sort({ createdAt: -1 })
     .limit(limit)
+    .skip(skip)
 };
 
 

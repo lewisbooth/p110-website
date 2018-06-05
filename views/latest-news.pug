@@ -1,12 +1,18 @@
 extends layout
 
+block extraFooterScripts
+  script(src="/js/libs/axios.min.js")
+  script(async src="/js/infiniteScroll.js")
+  
 block body
   section.news
     .container
       h1 Latest News      
-      .news__feed
+      .news__feed#infinite-scroll
         if articles.length === 0
           p No more articles found
         else 
           for article in articles
             +articleListing(article)
+      .form-errors.hidden
+        p Error loading videos 

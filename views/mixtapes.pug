@@ -1,14 +1,20 @@
 extends layout
 
+block extraFooterScripts
+  script(async src="/js/libs/axios.min.js")
+  script(async src="/js/infiniteScroll.js")
+
 block body
   section.mixtapes
     .container
       .section-title
         h2 Mixtapes
         a.underline-hover(href="/mixtapes") View All           
-      .mixtapes__feed
+      .mixtapes__feed#infinite-scroll
         if !mixtapes || mixtapes.length === 0
           h4 No Mixtapes Found
         else 
           for mixtape in mixtapes
             +mixtapeListing(mixtape)
+      .form-errors.hidden
+        p Error loading mixtapes

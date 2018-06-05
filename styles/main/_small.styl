@@ -54,7 +54,8 @@
 
 .news__feed--entry
   border-bottom 1px solid #ccc
-  padding 1rem 0
+  padding 0 0 1rem 0
+  margin-bottom 2rem
 
   &:last-child
     border-bottom none
@@ -69,6 +70,34 @@
 
   h5
     margin-top 0
+
+.mixtapes
+
+  &__feed
+    flex-direction row
+
+    &--entry
+      width calc(50% - 1rem)
+      margin-right 1rem
+      flex-direction column
+      margin-bottom 1.5rem
+
+      &:nth-child(2n)
+        margin-right 0
+
+  &__article--content--sections
+    flex-direction column
+
+    > div
+      width 100%
+
+      &:nth-child(2)
+        padding 3rem 0
+
+      .button
+
+        img 
+          max-width 3rem
 
 .social-sharing-icons p
   display none

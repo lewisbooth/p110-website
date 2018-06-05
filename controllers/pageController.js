@@ -10,7 +10,7 @@ const Settings = mongoose.model("Settings");
 exports.homepage = async (req, res) => {
   // Promise.all starts queries in parallel
   // Only use when queries are not dependent on each other
-  [videos, mixtapes, articles, featuredVideo] = await Promise.all([
+  const [videos, mixtapes, articles, featuredVideo] = await Promise.all([
     Video.getLatestVideos(),
     Mixtape.getLatestMixtapes(),
     Article.getLatestArticles(),
@@ -28,12 +28,35 @@ exports.homepage = async (req, res) => {
   });
 };
 
+exports.search = async (req, res) => {
+  if (!req.query.navsearch) {
+    return res.redirect("/")
+  }
+  const search = req.query.navsearch
+  const [videos, mixtapes, articles] = await Promise.all([
+    Video.getLatestVideos({ search, limit: 0 }),
+    Mixtape.getLatestMixtapes({ search }),
+    Article.getLatestArticles({ search })
+  ])
+  console.log(videos)
+  res.render("search", {
+    videos,
+    articles,
+    mixtapes,
+    title: "Search results for " + req.params.search
+  });
+};
+
 exports.videos = async (req, res) => {
   const filter = {}
-  if (req.params.category) {
+  if (req.params.category)
     filter.category = req.params.category
-  }
-  const videos = await Video.getLatestVideos({ filter, limit: 0 })
+
+  const videos = await Video.getLatestVideos({
+    limit: 20,
+    search: req.query.search || null,
+    filter
+  })
   res.render("latest-videos", {
     videos,
     title: "Latest Videos",
@@ -41,6 +64,7 @@ exports.videos = async (req, res) => {
       "View our latest UK grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
   });
 };
+
 
 exports.videoArticle = async (req, res) => {
   [video, latestVideos] = await Promise.all([
@@ -64,7 +88,10 @@ exports.videoArticle = async (req, res) => {
 };
 
 exports.news = async (req, res) => {
-  const articles = await Article.getLatestArticles()
+  const articles = await Article.getLatestArticles({
+    search: req.query.search || null,
+    limit: 20
+  })
   res.render("latest-news", {
     articles,
     title: "Latest Grime & Rap News Articles",
@@ -95,7 +122,10 @@ exports.newsArticle = async (req, res) => {
 };
 
 exports.mixtapes = async (req, res) => {
-  const mixtapes = await Mixtape.getLatestMixtapes()
+  const mixtapes = await Mixtape.getLatestMixtapes({
+    search: req.query.search || null,
+    limit: 30
+  })
   res.render("mixtapes", {
     mixtapes,
     title: "Latest Mixtapes from the UK Grime & Rap Scene",
@@ -188,7 +218,7 @@ exports.login = async (req, res) => {
 };
 
 // Used for safely creating user accounts
-// Obviously not connected in production
+// Obviously not connected
 exports.createUser = async (req, res) => {
   res.render("create-user", {
     title: "Create User",
