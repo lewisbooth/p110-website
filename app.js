@@ -18,6 +18,8 @@ const device = require("device")
 const { logging } = require("./helpers/logging")
 const errorHandlers = require("./helpers/errorHandlers")
 const { numberFormatter } = require("./helpers/numberFormatter")
+const { detectCategory } = require("./helpers/detectCategory")
+const { formatTitle } = require("./helpers/formatTitle")
 const { truncate } = require("./helpers/truncate")
 const { hashify } = require("./helpers/hashify")
 const cookieParser = require('cookie-parser')
@@ -94,6 +96,9 @@ app.use(async (req, res, next) => {
   res.locals.hashes = hashes
   // For formatting dates
   res.locals.moment = moment
+  // For formatting video listings
+  res.locals.detectCategory = detectCategory
+  res.locals.formatTitle = formatTitle
   // For formatting numbers, e.g. 198,485 to 198K
   res.locals.numberFormatter = numberFormatter
   // Safely format descriptions

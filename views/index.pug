@@ -14,55 +14,13 @@ block body
             .video-description__type= featuredVideo.category.split("-").join(" ")
             .video-description__title= truncate(featuredVideo.title, 50)
     .promoted__right-column
-      .promoted__hottest-videos
-        h1 Top Grime Videos
-        h2 Most Viewed This Week
-        ul.promoted__hottest-videos--list
-          li
-            a.promoted__hottest-videos--list--item(href="/")
-              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
-              .video-description
-                .video-description__type #1take
-                .video-description__title Dext - #1TAKE (PT.2)
-              .video-viewcount
-                .video-viewcount__count 53,590
-                .video-viewcount__views Views
-          li
-            a.promoted__hottest-videos--list--item(href="/")
-              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
-              .video-description
-                .video-description__type P110 Premiere
-                .video-description__title SparkaMan - Know How It Goes
-              .video-viewcount
-                .video-viewcount__count 42,011
-                .video-viewcount__views Views
-          li
-            a.promoted__hottest-videos--list--item(href="/")
-              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
-              .video-description
-                .video-description__type #1take
-                .video-description__title Brett Haze - #1TAKE
-              .video-viewcount
-                .video-viewcount__count 27,781
-                .video-viewcount__views Views
-          li
-            a.promoted__hottest-videos--list--item(href="/")
-              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
-              .video-description
-                .video-description__type Scene smasher
-                .video-description__title ESCO X SHADOW ON THE BEAT
-              .video-viewcount
-                .video-viewcount__count 11,043
-                .video-viewcount__views Views
-          li
-            a.promoted__hottest-videos--list--item(href="/")
-              img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
-              .video-description
-                .video-description__type Scene smasher
-                .video-description__title Stoney x Jsav x Slitz
-              .video-viewcount
-                .video-viewcount__count 9,189
-                .video-viewcount__views Views
+      if channelStats.hottestVideos.length > 0
+        .promoted__hottest-videos
+          h1 Hottest Videos
+          h2 Most Viewed This Month
+          ul.promoted__hottest-videos--list
+            for video in channelStats.hottestVideos
+              +hottestVideoListing(video)
       a.promoted__store-banner(href="https://p110store.bigcartel.com/" target="_blank")        
         img(src="/images/banners/p110-store-banner-400.jpg" alt="P110 Merchandise Store")
       a(href="/album").p110-album-banner--mobile
@@ -108,6 +66,7 @@ block body
     .container
       .video-production__image
       .video-production__text
-        p Video Production
+        h3 Video Production
         h2 Get your#[br]video online
+        p.video-production__text--view-count #{channelStats.viewCount.toLocaleString()} views and counting
         a.button.button-secondary(href="/video-production") Start Now

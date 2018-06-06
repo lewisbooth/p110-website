@@ -9,7 +9,8 @@ const channelSchema = new Schema(
     viewCount: { type: Number },
     commentCount: { type: Number },
     subscriberCount: { type: Number },
-    videoCount: { type: Number }
+    videoCount: { type: Number },
+    hottestVideos: []
   },
   {
     timestamps: true
@@ -21,19 +22,21 @@ channelSchema.statics.getStats = async function () {
     const currentStats = await this.findOne()
     const currentTime = Date.now()
     const age = currentTime - Date.parse(currentStats.updatedAt)
-    // 6 hour cache
+    // 6 hour cache = 21600000
     if (age < 21600000) {
       resolve(currentStats)
     } else {
-      channelSchema.statics.updateStats(this).then(updatedStats => {
-        resolve(updatedStats)
-      })
+      channelSchema.statics.updateStats(this)
+        .then(updatedStats => {
+          resolve(updatedStats)
+        })
     }
   })
 };
 
 channelSchema.statics.updateStats = function (model) {
   return new Promise((resolve, reject) => {
+    console.log("Updating channel stats")
     youtube.getChannelStats().then(async stats => {
       const videoSave = await model.findOneAndUpdate(
         {},

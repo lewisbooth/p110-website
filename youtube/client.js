@@ -6,8 +6,12 @@ const OAuth2 = google.auth.OAuth2;
 const credentials = require("../variables.google.json")
 
 const mongoose = require("mongoose");
+const formatTitle = require("../helpers/formatTitle");
+const detectCategory = require("../helpers/detectCategory");
 const User = mongoose.model("User");
 const Video = mongoose.model("Video");
+
+const CHANNEL_ID = "UC_2WoPonjo8MdKOF5VCpr9g"
 
 var oauth2Client = new OAuth2(
   credentials.client_id,
@@ -42,9 +46,22 @@ exports.searchById = (id, part = 'snippet,contentDetails,statistics') => {
 }
 
 exports.getChannelStats = () => {
+  return new Promise(async (resolve, reject) => {
+    const [stats, hottestVideos] = await Promise.all([
+      this.getOverviewStats(),
+      this.getHottestVideoStats()
+    ])
+    if (!stats || !hottestVideos)
+      return reject("Error updating channel stats")
+    stats.hottestVideos = hottestVideos
+    resolve(stats)
+  })
+}
+
+exports.getOverviewStats = () => {
   return new Promise((resolve, reject) => {
     const params = {
-      id: "UC_2WoPonjo8MdKOF5VCpr9g",
+      id: CHANNEL_ID,
       part: "statistics"
     }
     youtube.channels.list(params, (err, res) => {
@@ -62,39 +79,55 @@ exports.getChannelStats = () => {
   })
 }
 
+exports.getHottestVideoStats = () => {
+  return new Promise((resolve, reject) => {
+    const thisMonth = new Date()
+    thisMonth.setMonth(thisMonth.getMonth() - 1)
+    const params = {
+      channelId: CHANNEL_ID,
+      publishedAfter: thisMonth,
+      part: "snippet",
+      order: "viewCount",
+      maxResults: "5"
+    }
+    youtube.search.list(params, (err, res) => {
+      if (err) {
+        console.log("Error fetching channel stats")
+        console.log(err)
+        reject()
+      } else if (res.data.items.length === 0) {
+        console.log("No channels found")
+        reject()
+      } else {
+        res.data.items.forEach((video, i) => {
+          console.log(video.id.videoId)
+          this.searchById(video.id.videoId, "statistics")
+            .then(data => {
+              res.data.items[i].statistics = data.statistics
+              if (i === res.data.items.length - 1)
+                setTimeout(() => {
+                  resolve(res.data.items)
+                }, 1000)
+            })
+        })
+      }
+    })
+  })
+}
+
 // Searches for the latest 50 videos and adds them to the database
 exports.scrapeLatestVideos = () => {
   return new Promise((resolve, reject) => {
     console.log("Scraping latest 50 videos")
 
     const params = {
-      channelId: "UC_2WoPonjo8MdKOF5VCpr9g",
+      channelId: CHANNEL_ID,
       type: "video",
       part: "snippet",
       maxResults: "50",
       order: "date"
     }
 
-    const detectCategory = title => {
-      if (title.match(/P110 Premiere/i)) return "music-video"
-      if (title.match(/Scene Smasher/i)) return "scene-smasher"
-      if (title.match(/Music Video/i)) return "music-video"
-      if (title.match(/Net Video/i)) return "net-video"
-      if (title.match(/#1TAKE/i)) return "1take"
-      return "music-video"
-    }
-
-    const formatTitle = string => {
-      return string
-        .replace(/P110 - /i, '')
-        .replace(/\| P110/i, '')
-        .replace(/\[.*\]/i, '')
-        .replace(/- #1TAKE/i, '')
-        .replace(/\| #1TAKE/i, '')
-        .replace(/#1TAKE/i, '')
-        .replace(/- Scene Smasher/i, '')
-        .replace(/Scene Smasher/i, '')
-    }
 
     let results = []
 

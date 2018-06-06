@@ -4,16 +4,23 @@ block body
   .mixtapes
     .container
       if videos || mixtapes || articles
-        h1 Search results for "#{query.navsearch}"
+        - const total = videos.length + mixtapes.length + articles.length
+        - const results = total === 1 ? "result" : "results"
+        h1 #{total} Search #{results} for "#{query.navsearch}"
         if videos.length > 0
-          h4 Videos        
+          h4 Videos (#{videos.length})
           .video__feed
             for video in videos
               +videoListing(video)
         if mixtapes.length > 0
-          h4 Mixtapes        
+          h4 Mixtapes (#{mixtapes.length}) 
           .mixtapes__feed
             for mixtape in mixtapes
               +mixtapeListing(mixtape)
+        if articles.length > 0
+          h4 Articles (#{articles.length}) 
+          .news__feed
+            for article in articles
+              +articleListing(article)
       else
         h1 No search results for "#{query.navsearch}"
