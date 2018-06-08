@@ -6,11 +6,10 @@ const OAuth2 = google.auth.OAuth2;
 const credentials = require("../variables.google.json")
 
 const mongoose = require("mongoose");
-const formatTitle = require("../helpers/formatTitle");
-const detectCategory = require("../helpers/detectCategory");
+const { formatTitle } = require("../helpers/formatTitle");
+const { detectCategory } = require("../helpers/detectCategory");
 const User = mongoose.model("User");
 const Video = mongoose.model("Video");
-
 const CHANNEL_ID = "UC_2WoPonjo8MdKOF5VCpr9g"
 
 var oauth2Client = new OAuth2(
@@ -127,7 +126,6 @@ exports.scrapeLatestVideos = () => {
       maxResults: "50",
       order: "date"
     }
-
 
     let results = []
 

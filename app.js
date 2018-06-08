@@ -25,9 +25,6 @@ const { hashify } = require("./helpers/hashify")
 const cookieParser = require('cookie-parser')
 const moment = require('moment')
 
-// Load Pug views
-app.set("views", "views")
-app.set("view engine", "pug")
 
 // Enable gzip
 app.use(compression())
@@ -37,7 +34,23 @@ app.use(compression())
 const maxAge = process.env.NODE_ENV === "production" ? 31536000 : 1
 app.use(express.static(path.join(__dirname, "public"), { maxAge }))
 
-// Parses POST data
+// Cache-bust CSS files with a query string of the MD5 file hash
+// e.g. <link src="main.css?v=7815696ecbf1c96e6894b779456d330e">
+// The hash is passed into the template variables further down
+const hashes = {
+  mainCSS: hashify("/css/main.css"),
+  adminArticleForm: hashify("/js/adminArticleForm.js"),
+  adminVideoForm: hashify("/js/adminVideoForm.js")
+}
+
+// Load Pug views
+app.set("views", "views")
+app.set("view engine", "pug")
+
+// Log page request info to stdout
+app.use(logging)
+
+// Parses POST data into usable format
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -66,18 +79,6 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Log non-static requests with a timestamp, HTTP method, path and IP address
-app.use(logging)
-
-// Cache-bust CSS files with a query string of the MD5 file hash
-// e.g. <link src="main.css?v=7815696ecbf1c96e6894b779456d330e">
-// The hash is passed into the template variables further down
-const hashes = {
-  mainCSS: hashify("/css/main.css"),
-  adminArticleForm: hashify("/js/adminArticleForm.js"),
-  adminVideoForm: hashify("/js/adminVideoForm.js")
-}
-
 // Expose variables and functions for use in Pug templates
 app.use(async (req, res, next) => {
   // Parses the User Agent into desktop, phone, tablet, phone, bot or car
@@ -86,11 +87,9 @@ app.use(async (req, res, next) => {
   res.locals.flashes = req.flash()
   // Expose the current user data if logged in
   res.locals.user = req.user || null
-  // Expose the public URL for building sharing links etc
   res.locals.publicURL = process.env.PUBLIC_URL
-  // Expose the URL path
   res.locals.currentPath = req.path
-  // Expose the URL query strings
+  // Expose the URL query strings (if any)
   res.locals.query = req.query
   // Cache-busting hashes
   res.locals.hashes = hashes
@@ -106,9 +105,8 @@ app.use(async (req, res, next) => {
   // P110 Youtube channel stats
   res.locals.channelStats = await Channel.getStats()
   // Detect production mode for inlining CSS
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === "production")
     res.locals.production = true
-  }
   next()
 })
 
@@ -124,11 +122,10 @@ app.use("/", routes)
 // 404 if no routes are found
 app.use((req, res, next) => {
   if (req.accepts("html") && res.status(404)) {
-    // Avoid spamming 404 console errors when sitemap is generated
-    // The sitemap tries all kinds of weird URLs so there are lots of 404s
-    if (!req.headers['user-agent'].includes('Node/SitemapGenerator')) {
+    // The sitemap generates 404 errors, so we avoid logging them
+    const isSitemap = req.headers['user-agent'].includes('Node/SitemapGenerator')
+    if (!isSitemap)
       console.error(`🚫  🔥  Error 404 ${req.method} ${req.path}`)
-    }
     res.render("404")
   }
 })

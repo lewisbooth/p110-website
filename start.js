@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
-const mongo = require("./helpers/mongo");
-const sitemap = require("./helpers/sitemap");
-const cron = require("node-cron");
-const ip = require("ip");
+const mongoose = require("mongoose")
+const mongo = require("./helpers/mongo")
+const sitemap = require("./helpers/sitemap")
+const cron = require("node-cron")
+const ip = require("ip")
 
 // Load environment variables
-require("dotenv").config({ path: "variables.env" });
+require("dotenv").config({ path: "variables.env" })
 
 // Expose an easy path to root directory for scripts that are nested in folders
-process.env.ROOT = __dirname;
+process.env.ROOT = __dirname
 
 // Initiate the database connection
 mongoose.connect(process.env.DATABASE, {
@@ -16,53 +16,53 @@ mongoose.connect(process.env.DATABASE, {
   reconnectTries: 100,
   reconnectInterval: 5000
 }, err => {
-  if (err) {
-    console.error("🚫 Error connecting to MongoDB");
-  } else {
+  if (err)
+    console.error("🚫 Error connecting to MongoDB")
+  else
     console.log("Connected to MongoDB")
-  }
-});
+})
 
 // Use better promises for Mongo queries
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 
 // Load the MongoDB models
-require("./models/User");
-require("./models/Video");
-require("./models/Article");
-require("./models/Mixtape");
-require("./models/Settings");
-require("./models/Channel");
+const User = require("./models/User")
+const Video = require("./models/Video")
+const Article = require("./models/Article")
+const Mixtape = require("./models/Mixtape")
+const Settings = require("./models/Settings")
+const Channel = require("./models/Channel")
 
-// Start tracking stats
-require("./youtube/statTracker")
+// Update stats every 6 hours
+// Includes total channel views, hottest videos etc
+cron.schedule("0 */6 * * *", () => {
+  Channel.getStats()
+})
 
 // Schedule daily backups at 4am
 // Manual database management is available using helpers/mongo-backup.js and helpers/mongo-restore.js
 cron.schedule("0 4 * * *", () => {
   mongo.backup()
-});
-
-// Generate a fresh sitemap 
-// Skipped if sitemap is < 6 hours old
-sitemap.generate()
+})
 
 // Schedule daily sitemaps at 5am
 cron.schedule("0 5 * * *", () => {
   sitemap.generate()
-});
+})
+
+// Skipped if sitemap is < 6 hours old
+sitemap.generate()
 
 // Load server scripts
-const app = require("./app");
-app.set("port", process.env.PORT || 8888);
+const app = require("./app")
+app.set("port", process.env.PORT || 8888)
 
 // Initiate the server
 const server = app.listen(app.get("port"), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
-  if (process.env.NODE_ENV === "production") {
-    console.log("⚡  Production Mode ⚡");
-  } else {
-    console.log("🐌  Development Mode 🐌 ");
-  }
-  console.log("Local address: " + ip.address());
-});
+  console.log(`Express running → PORT ${server.address().port}`)
+  if (process.env.NODE_ENV === "production")
+    console.log("⚡  Production Mode ⚡")
+  else
+    console.log("🐌  Development Mode 🐌 ")
+  console.log("Local address: " + ip.address())
+})

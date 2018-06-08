@@ -101,17 +101,15 @@ function submitYoutubeData(e) {
     })
 }
 
-const formatTitle = string => {
-  return string
-    .replace(/P110 - /i, '')
-    .replace(/\| P110/i, '')
-    .replace(/\[.*\]/i, '')
-    .replace(/- #1TAKE/i, '')
-    .replace(/\| #1TAKE/i, '')
-    .replace(/#1TAKE/i, '')
-    .replace(/- Scene Smasher/i, '')
-    .replace(/Scene Smasher/i, '')
-}
+const formatTitle = string => string
+  .replace(/P110 - /i, '')
+  .replace(/\| P110/i, '')
+  .replace(/\[.*\]/i, '')
+  .replace(/- #1TAKE/i, '')
+  .replace(/\| #1TAKE/i, '')
+  .replace(/#1TAKE/i, '')
+  .replace(/- Scene Smasher/i, '')
+  .replace(/Scene Smasher/i, '')
 
 const detectCategory = title => {
   if (title.match(/P110 Premiere/i)) return "music-video"
