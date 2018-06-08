@@ -11,10 +11,10 @@ block body
         h2 Mixtapes
         a.underline-hover(href="/mixtapes") View All           
       .mixtapes__feed#infinite-scroll
-        if !mixtapes || mixtapes.length === 0
-          h4 No Mixtapes Found
-        else 
+        if mixtapes.length
           for mixtape in mixtapes
             +mixtapeListing(mixtape)
+        else 
+          p No Mixtapes Found
       .form-errors.hidden
         p Error loading mixtapes

@@ -38,27 +38,23 @@ block body
         else 
           for video in videos
             +videoListing(video)
-  section.mixtapes.mixtapes__grey
-    .container
-      .section-title
-        h2 Latest Mixtapes
-        a.underline-hover(href="/mixtapes") View All      
-      .mixtapes__feed
-        if mixtapes.length === 0
-          h4 No mixtapes Found
-        else 
+  if mixtapes.length
+    section.mixtapes.mixtapes__grey
+      .container
+        .section-title
+          h2 Latest Mixtapes
+          a.underline-hover(href="/mixtapes") View All      
+        .mixtapes__feed     
           for mixtape in mixtapes
             +mixtapeListing(mixtape)
          
-  section.news
-    .container
-      .section-title
-        h2 Latest News
-        a.underline-hover(href="/news") View All
-      .news__feed
-        if articles.length === 0
-          h4 No Articles Found
-        else 
+  if articles.length
+    section.news
+      .container
+        .section-title
+          h2 Latest News
+          a.underline-hover(href="/news") View All
+        .news__feed
           for article in articles
             +articleListing(article)
         

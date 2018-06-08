@@ -9,10 +9,10 @@ block body
     .container
       h1 Latest News      
       .news__feed#infinite-scroll
-        if articles.length === 0
-          p No more articles found
-        else 
+        if articles.length
           for article in articles
             +articleListing(article)
+        else 
+          p No articles found
       .form-errors.hidden
         p Error loading videos 
