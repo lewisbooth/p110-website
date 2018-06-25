@@ -1,1 +1,1 @@
-"use strict";var nav=document.querySelector("nav"),menuButton=document.querySelector(".nav__dropdown--toggle--button");menuButton.addEventListener("click",function(t){nav.classList.toggle("active")});
+"use strict";var nav=document.querySelector("nav"),menuButton=document.querySelector(".nav__dropdown--toggle--button");menuButton.addEventListener("click",function(){nav.classList.toggle("active")});

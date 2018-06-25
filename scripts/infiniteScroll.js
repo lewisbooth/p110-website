@@ -2,12 +2,15 @@ const errorMessage = document.querySelector('.form-errors')
 const rootNode = document.querySelector('#infinite-scroll')
 const footer = document.querySelector('footer')
 
+document.addEventListener('scroll', infiniteScroll)
+
 // Request more entries when bottom of viewport  
 // is TRIGGER_OFFSET pixels away from the footer
 const TRIGGER_OFFSET = 500
 const DEBOUNCE = 300
 
-document.addEventListener('scroll', infiniteScroll)
+// Flag for debouncing
+let fetchingPosts = false
 
 // These variables need to be re-calculated regularly
 // so they are written as arrow functions
@@ -22,8 +25,6 @@ const readyForPosts = () =>
 
 const nodeCount = () =>
   rootNode.childNodes.length
-
-let fetchingPosts = false
 
 function infiniteScroll() {
   if (!readyForPosts()) return

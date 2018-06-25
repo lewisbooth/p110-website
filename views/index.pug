@@ -8,7 +8,7 @@ block body
           img(src=(`https://i.ytimg.com/vi/${featuredVideo.youtubeId}/${device === "phone" ? "mqdefault" : "maxresdefault"}.jpg`) alt=(featuredVideo.title))
           img.youtube-embed__logo(src="/images/icons/youtube-logo-grey.svg")
           img.youtube-embed__logo.youtube-embed__logo--rollover(src="/images/icons/youtube-logo-red.svg")
-          h2.youtube-embed__featured Featured
+          h2.youtube-embed__featured Featured Video
         a.promoted__left-column--video-description(href=`/videos/id/${featuredVideo.youtubeId}`)
           .video-description(href=`/videos/id/${featuredVideo.youtubeId}`)
             .video-description__type= featuredVideo.category.split("-").join(" ")
@@ -17,7 +17,7 @@ block body
       if channelStats.hottestVideos.length > 0
         .promoted__hottest-videos
           h1 Hottest Videos
-          h2 Most Viewed This Month
+          p Most Viewed This Month
           ul.promoted__hottest-videos--list
             for video in channelStats.hottestVideos
               +hottestVideoListing(video)

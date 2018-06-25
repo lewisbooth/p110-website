@@ -35,7 +35,8 @@ html
     block subscribeNow            
       a(href="https://www.youtube.com/user/P110HD" target="_blank").subscribe-now
         .container
-          img.subscribe-now__youtube-logo(src='/images/icons/youtube-logo-white.svg' alt="Youtube Icon")
+          //- Inline max-height to stop flashing giant logo on page load
+          img.subscribe-now__youtube-logo(src='/images/icons/youtube-logo-white.svg' style="max-height: 4rem;" alt="Youtube Icon")
           h3 Subscribe to p110 media
           if channelStats            
             span.subscribe-now__subscriber-count= numberFormatter(channelStats.subscriberCount)

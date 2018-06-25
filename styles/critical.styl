@@ -14,7 +14,7 @@ body
   padding-top 11.2rem
 
 .nav
-  background-color p110Blue
+  background-color darkGrey
   width 100%
   position fixed
   top 0
@@ -23,7 +23,7 @@ body
 
   .container
     display flex
-    background-color p110Blue
+    background-color darkGrey
 
   &__dropdown
     display flex
@@ -39,7 +39,7 @@ body
 
     img
       height 5rem
-      width 8.7rem
+      width 11.5rem
       padding 1rem 0
 
   &__menu
@@ -58,8 +58,11 @@ body
         height 100%
         align-items center
 
-        &.active, &:hover
-          background-color p110BlueLight
+        &.active
+          background-color midGrey
+
+        &:hover
+          background-color p110Blue
 
   &__social-media-icons
     display flex
@@ -83,7 +86,7 @@ body
     margin 0 -1rem
 
     &--box
-      background-color p110BlueLight
+      background-color midGrey
       border-radius 50px  
 
       &--input
@@ -98,18 +101,18 @@ body
         width 100%
 
         &::placeholder
-          color p110BlueExtraLight
+          color softGrey
 
         &:focus
           outline-width 0
 
   &__secondary
-    background-color p110BlueDark
+    background-color midLightGrey
 
     .container
       display flex
       justify-content space-between
-      background-color p110BlueDark
+      background-color midLightGrey
       white-space nowrap
 
     &--menu
@@ -127,8 +130,11 @@ body
           height 100%
           align-items center
 
-          &.active, &:hover
-            background-color p110BlueMidDark
+          &.active
+            background-color midGrey
+
+          &:hover
+            background-color p110Yellow
 
     &--items
       display flex
@@ -160,7 +166,7 @@ body
             background-color youtubeRedHover
 
         &--control-panel
-          background-color p110Yellow
+          background-color midGrey
 
           &:hover
             background-color p110YellowDark
@@ -239,7 +245,7 @@ body
     flex-wrap wrap
 
   &__hottest-videos
-    background-color p110Blue
+    background-color black
     padding 1.6rem 2rem 1rem 2rem
     margin-bottom 2rem
     width 100%
@@ -250,11 +256,11 @@ body
       line-height 1em
       margin 0
 
-    h2
+    p
       font-size 1.6rem
-      line-height 1.4em
       margin 0
-      color p110BlueExtraLight
+      font-family helveticaNeueMedium
+      color softGrey
 
     &--list
       margin-top 1rem
@@ -267,7 +273,7 @@ body
         margin 0 -2rem
 
         &:hover
-          background-color p110BlueDark
+          background-color p110Blue
 
         .video-description
           line-height .75em
@@ -277,10 +283,10 @@ body
 
           &__type
             font-size 1.2rem
-            color p110BlueExtraLight
+            color softGrey
             
           &__title
-            line-height 1em
+            line-height 1.25em
             font-size 1.8rem
 
         .video-viewcount
@@ -290,7 +296,7 @@ body
           &__views
             text-transform uppercase
             font-size 1.2rem
-            color p110BlueExtraLight
+            color softGrey
 
   &__store-banner
     background-color #2c333d
@@ -343,7 +349,7 @@ body
     helveticaCondensed()
     font-size 3.2rem
     color white
-    padding .5rem 2rem 1rem 2rem
+    padding 1rem 2rem
 
 .video-description
   
