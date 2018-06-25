@@ -28,7 +28,9 @@ exports.videos = async (req, res) => {
 exports.newVideoPage = async (req, res) => {
   res.render("admin/videoEdit", {
     title: "Admin Dashboard | New Video",
-    description: "P110 Admin Dashboard"
+    description: "P110 Admin Dashboard",
+    video: {},
+    featured: false
   });
 };
 

@@ -4,11 +4,10 @@ mixin openGraph
       let imageURL = publicURL + "/images/p110.jpg"
       // Test for absolute or local URLs
       if (openGraphImage) {
-        if (openGraphImage.startsWith("http")) {
+        if (openGraphImage.startsWith("http"))
           imageURL = openGraphImage
-        } else {
+        else
           imageURL = publicURL + openGraphImage
-        }
       }
     meta(property="og:site_name" content="P110 Media")
     meta(property="og:locale" content="en_UK")
