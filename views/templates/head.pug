@@ -32,11 +32,13 @@ mixin head
     else
       link(rel='stylesheet' href=`/css/critical.css` type="text/css")
       link(rel='stylesheet' href=`/css/main.css` type="text/css")
-      
+
     if device !== bot
       script(async src="https://www.googletagmanager.com/gtag/js?id=UA-104172468-3")
       script
         include ../../public/js/googleAnalytics.js
+      script
+        include ../../public/js/facebookPixel.js
 
     //- External non-critical styles asynchronously
     //- link(rel='stylesheet' href=hashes.mainCSS type="text/css" media="none" onload="if(media!='all')media='all'")
