@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const { contactForm } = require("../helpers/contactForm");
-const User = mongoose.model("User");
-const Video = mongoose.model("Video");
-const Article = mongoose.model("Article");
-const Channel = mongoose.model("Channel");
-const Mixtape = mongoose.model("Mixtape");
-const Settings = mongoose.model("Settings");
+const mongoose = require("mongoose")
+const { contactForm } = require("../helpers/contactForm")
+const User = mongoose.model("User")
+const Video = mongoose.model("Video")
+const Article = mongoose.model("Article")
+const Channel = mongoose.model("Channel")
+const Mixtape = mongoose.model("Mixtape")
+const Settings = mongoose.model("Settings")
 
 exports.homepage = async (req, res) => {
   // Promise.all starts queries in parallel
@@ -25,8 +25,8 @@ exports.homepage = async (req, res) => {
     title: "Grime, Rap & Freestyle Music Videos - The Home Of UK Urban Entertainment",
     description:
       "Watch the hottest UK grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more. Get your videos produced on the P110 platform today."
-  });
-};
+  })
+}
 
 exports.search = async (req, res) => {
   if (!req.query.navsearch) {
@@ -44,8 +44,8 @@ exports.search = async (req, res) => {
     articles,
     mixtapes,
     title: "Search results for " + req.params.search
-  });
-};
+  })
+}
 
 exports.videos = async (req, res) => {
   const filter = {}
@@ -62,8 +62,8 @@ exports.videos = async (req, res) => {
     title: "Latest Videos",
     description:
       "View our latest UK grime & rap freestyles, live performances, documentaries & high quality music videos from Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
-  });
-};
+  })
+}
 
 
 exports.videoArticle = async (req, res) => {
@@ -82,10 +82,11 @@ exports.videoArticle = async (req, res) => {
   res.render("video-article", {
     video,
     latestVideos,
+    openGraphImage: `https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`,
     title: video.title,
     description: video.description
-  });
-};
+  })
+}
 
 exports.news = async (req, res) => {
   const articles = await Article.getLatestArticles({
@@ -97,12 +98,14 @@ exports.news = async (req, res) => {
     title: "Latest Grime & Rap News Articles",
     description:
       "Get the latest news & trends from the UK grime & rap scene."
-  });
-};
+  })
+}
 
 exports.newsArticle = async (req, res) => {
   [article, latestArticles] = await Promise.all([
-    Article.findOne({ slug: req.params.slug }),
+    Article.findOne({
+      slug: req.params.slug
+    }),
     Article.getLatestArticles({
       limit: 4,
       exclude: req.params.slug
@@ -111,15 +114,18 @@ exports.newsArticle = async (req, res) => {
   if (!article) {
     req.flash("error", "Article not found")
     res.redirect("back")
-  } else {
-    res.render("news-article", {
-      article,
-      latestArticles,
-      title: article.title,
-      description: article.text
-    });
+    return
   }
-};
+  const openGraphImage = `/images/articles/${article._id}/large.jpg`
+  res.render("news-article", {
+    article,
+    latestArticles,
+    openGraphImage,
+    title: article.title,
+    description: article.text
+  })
+
+}
 
 exports.mixtapes = async (req, res) => {
   const mixtapes = await Mixtape.getLatestMixtapes({
@@ -131,8 +137,8 @@ exports.mixtapes = async (req, res) => {
     title: "Latest Mixtapes from the UK Grime & Rap Scene",
     description:
       "Explore the Hottest Mixtapes, EPs, Albums & Singles from the Urban UK Grime & Rap scene."
-  });
-};
+  })
+}
 
 exports.mixtapeArticle = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -150,31 +156,33 @@ exports.mixtapeArticle = async (req, res) => {
   if (!mixtape) {
     req.flash("error", "Mixtape not found")
     res.redirect("back")
-  } else {
-    res.render("mixtape-article", {
-      mixtape,
-      latestMixtapes,
-      title: mixtape.fullTitle,
-      description: mixtape.description
-    });
+    return
   }
-};
+  const openGraphImage = `/images/mixtapes/${mixtape._id}/large.jpg`
+  res.render("mixtape-article", {
+    mixtape,
+    latestMixtapes,
+    openGraphImage,
+    title: mixtape.fullTitle,
+    description: mixtape.description
+  })
+}
 
 exports.videoProduction = (req, res) => {
   res.render("video-production", {
     title: "Video Production -  Get Featured On P110 Media Today",
     description:
       "Get your own P110 music video produced by our team of experienced videographers and be promoted through our platform along with Skepta, Mist, Giggs, Bugzy Malone, Section Boyz, Potter Payper, Jaykae and more."
-  });
-};
+  })
+}
 
 exports.album = (req, res) => {
   res.render("album", {
     title: "The Album - Featuring Mist, Fredo, Jaykae, Astar, Ard Ardz, Tempa, Stardom & Splinta",
     description:
       "P110 The Album is Out Now! Featuring Mist, Fredo, Jaykae, Astar, Ard Ardz, Tempa, Stardom & Splinta. Stream Now Via Spotify, Apple Music & Google Play."
-  });
-};
+  })
+}
 
 exports.videoProductionForm = async (req, res, next) => {
   const name = String(req.body.name)
@@ -184,38 +192,38 @@ exports.videoProductionForm = async (req, res, next) => {
 
   // Invisible <input> field to capture some bots
   if (bot.length > 0) {
-    console.log('🤖  Bot detected');
+    console.log('🤖  Bot detected')
     req.flash("error", "Error sending message, please try again later")
-    res.status(400).send();
+    res.status(400).send()
     return
   }
 
-  await contactForm({ messageData: { name, email, message } }).then(err => {
-    if (err) {
-      req.flash("error", "Error sending message, please try again later")
-    } else {
-      req.flash("success", "Thank you for contacting P110, we'll be in touch soon.")
-    }
-    // Always use res.redirect() on POST controllers, otherwise req.flash() does not work. Flashes are only shown on subsequent requests.
+  await contactForm({
+    messageData: { name, email, message }
+  }).then(() => {
+    req.flash("success", "Thank you for contacting P110, we'll be in touch soon.")
+    res.redirect('/video-production')
+  }).catch(err => {
+    req.flash("error", "Error sending message, please try again later")
     res.redirect('/video-production')
   })
-};
+}
 
 exports.about = (req, res) => {
   res.render("about", {
     title: "About Us -  The Home of Urban Entertainment",
     description:
       "P110 is a broadcasting platform working with new and current talent. We offer a range of platforms within the channel, including freestyles, live performances, documentaries & high quality music videos."
-  });
-};
+  })
+}
 
 exports.login = async (req, res) => {
   res.render("login", {
     title: "Log In",
     description:
       "Log In"
-  });
-};
+  })
+}
 
 // Used for safely creating user accounts
 // Obviously not connected
@@ -224,5 +232,5 @@ exports.createUser = async (req, res) => {
     title: "Create User",
     description:
       "Create a user with no validation"
-  });
-};
+  })
+}

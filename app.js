@@ -3,6 +3,7 @@ const routes = require("./routes/routes")
 const app = express()
 const fs = require("fs")
 const path = require("path")
+const cors = require("cors")
 const { promisify } = require("es6-promisify")
 const compression = require("compression")
 const mongoose = require("mongoose")
@@ -33,6 +34,13 @@ app.use(compression())
 // Static content should be served by an Nginx proxy in production
 const maxAge = process.env.NODE_ENV === "production" ? 31536000 : 1
 app.use(express.static(path.join(__dirname, "public"), { maxAge }))
+
+var corsOptions = {
+  origin: 'https://amp.studio'
+}
+
+// Self-hosted analytics
+app.get("/js/analytics/*", cors(corsOptions))
 
 // Cache-bust CSS files with a query string of the MD5 file hash
 // e.g. <link src="main.css?v=7815696ecbf1c96e6894b779456d330e">

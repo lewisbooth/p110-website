@@ -333,11 +333,6 @@ exports.newMixtape = async (req, res) => {
     .split(",")
     .map(artist => artist.replace(/\s/g, ''))
 
-  if (!req.files.zip || req.files.zip[0].mimetype !== "application/zip") {
-    res.status(400);
-    res.json({ "error": "Please upload a ZIP containing the mixtape files" })
-    return
-  }
   if (req.files.artwork)
     mixtape.coverAvailable = true
 
@@ -376,17 +371,21 @@ exports.editMixtape = async (req, res) => {
   const mixtapeSave = await Mixtape.findOneAndUpdate(
     { _id: req.params.id },
     { $set: mixtape },
-    { new: true },
+    {
+      new: true,
+      runValidators: true
+    },
     (err, item) => {
       if (err) {
-        console.log(err)
+        const message = err.message.split(":").slice(-1)[0]
+        console.log(message)
         res.status(400);
-        res.json({ "error": "Error saving to database, please try again" })
+        res.json({ "error": message })
       } else {
         item.save()
         uploadMixtapeFiles(req, item)
           .then(() => {
-            req.flash("success", "Successfully added mixtape");
+            req.flash("success", "Successfully edited mixtape");
             res.status(200);
             res.send();
           }).catch(err => {

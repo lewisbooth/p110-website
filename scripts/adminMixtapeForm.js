@@ -10,6 +10,14 @@ const releaseDateInput
   = form.querySelector('[name="releaseDate"]')
 const publishedInput
   = form.querySelector('[name="published"]')
+const mixtapeType
+  = form.querySelector('[name="mixtape-type"]')
+const mixtapeTypeFiles
+  = form.querySelector('.dashboard__edit-mixtape--type--files')
+const mixtapeTypeLink
+  = form.querySelector('.dashboard__edit-mixtape--type--link')
+const linkInput
+  = form.querySelector('[name="externalLink"]')
 const zipInput
   = form.querySelector('[name="zip"]')
 const artworkInput
@@ -50,13 +58,32 @@ function submitForm(e) {
   formData.append("description", descriptionInput.value)
   formData.append("published", publishedInput.checked)
   formData.append("releaseDate", releaseDateInput.value)
+  formData.append("type", mixtapeType.value.toLowerCase())
   formData.append("trackListing", JSON.stringify(trackListingState))
-  if (zipInput.files && zipInput.files[0])
-    formData.append("zip", zipInput.files[0])
+
+  let errors = []
+
+  if (mixtapeType.value === "Files")
+    if (zipInput.files && zipInput.files[0])
+      formData.append("zip", zipInput.files[0])
+    else
+      errors.push("Please upload zip files")
+
+  if (mixtapeType.value === "Link")
+    if (linkInput.value.length > 0)
+      formData.append("externalLink", linkInput.value)
+    else
+      errors.push("Please add a link to the mixtape")
+
   if (artworkInput.files && artworkInput.files[0])
     formData.append("artwork", artworkInput.files[0])
+
   if (artworkInput.files[0] || zipInput.files[0])
     progressBarContainer.classList.remove('hidden')
+
+  if (errors.length)
+    return errorFlash(errors)
+
 
   // Progress bar for uploading data
   const onUploadProgress = progress => {
@@ -89,8 +116,25 @@ function errorFlash(errors = []) {
   })
 }
 
+function handleTypeChange() {
+  if (mixtapeType.value === "Files") {
+    mixtapeTypeFiles.classList.remove("hidden")
+    mixtapeTypeFiles.attributes.required = true
+    mixtapeTypeLink.classList.add("hidden")
+    mixtapeTypeLink.attributes.required = false
+  } else {
+    mixtapeTypeLink.classList.remove("hidden")
+    mixtapeTypeLink.attributes.required = true
+    mixtapeTypeFiles.classList.add("hidden")
+    mixtapeTypeFiles.attributes.required = false
+  }
+}
+
+handleTypeChange()
+mixtapeType.addEventListener('change', handleTypeChange)
+
 // Instant preview of cover artwork from local storage
-artworkInput.addEventListener('change', function (e) {
+artworkInput.addEventListener('change', e => {
   if (artworkInput.files && artworkInput.files[0]) {
     var reader = new FileReader()
     reader.onload = e => {

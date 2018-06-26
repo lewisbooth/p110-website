@@ -26,10 +26,20 @@ block dashboardContent
   form.dashboard__edit-article(method="POST")
     div
       label Title
-      input(type="text" name="title" value=(mixtape ? mixtape.title : "") required)
+      input(
+        type="text" 
+        name="title" 
+        value=(mixtape ? mixtape.title : "") 
+        required
+      )
       label Artists
       label.grey Separate multiple artists with a comma
-      input(type="text" name="artists" value=(mixtape ? mixtape.artistList : "") required)
+      input(
+        type="text" 
+        name="artists" 
+        value=(mixtape ? mixtape.artistList : "") 
+        required
+      )
       label Description
       textarea(name="description" rows="5")= mixtape ? mixtape.description : ""
       label Track List
@@ -37,11 +47,17 @@ block dashboardContent
       .mixtapes__track-listing.admin
         if mixtape
           for track, index in mixtape.trackListing
-            .mixtapes__track-listing--entry(draggable="true" ondragstart="dragTrack(event)" ondragover="allowDrop(event)"    ondrop="dropTrack(event)" data-key=index)
+            .mixtapes__track-listing--entry(
+              draggable="true" 
+              ondragstart="dragTrack(event)" 
+              ondragover="allowDrop(event)"    
+              ondrop="dropTrack(event)" 
+              data-key=index
+            )
               .mixtapes__track-listing--entry--number= index
               input.mixtapes__track-listing--entry--title(type="text" value=track.title)
               input.mixtapes__track-listing--entry--duration(type="text" value=track.duration)
-              .mixtapes__track-listing--entry--delete ✕
+              .mixtapes__track-list ing--entry--delete ✕
       p.mixtapes__track-listing--add-track Add Track
       label Release Date
       -
@@ -50,7 +66,11 @@ block dashboardContent
           moment().format("YYYY-MM-DD")          
       input(type="date" name="releaseDate" value=(date))
       .checkbox
-        input(type="checkbox" name="published" checked=(mixtape && mixtape.published))
+        input(
+          type="checkbox" 
+          name="published" 
+          checked=(mixtape && mixtape.published)
+        )
         label Published
       .progress-bar.hidden
         h5 Uploading files... #[span.progress-bar__percent-completed]
@@ -58,10 +78,21 @@ block dashboardContent
       .form-errors
       button.button__green(type="submit")=(mixtape ? "Edit mixtape" : "Add mixtape")
     div
-      label Upload Mixtape
-      label.grey ZIP file containing MP3s
-      input(type="file" name="zip" accept=".zip" required=(mixtape ? false : true))
+      label Mixtape Type
+      select(name="mixtape-type")
+        option(name="files" selected=(mixtape && mixtape.type === "files")) Files
+        option(name="link" selected=(mixtape && mixtape.type === "link")) Link
+      div.dashboard__edit-mixtape--type--files
+        label Upload Mixtape
+        label.grey ZIP file containing MP3s
+        input(type="file" name="zip" accept=".zip")
+      div.dashboard__edit-mixtape--type--link
+        label Mixtape Link
+        input(type="text" name="externalLink" value=(mixtape ? mixtape.externalLink : ""))
       label Mixtape Artwork
       label.grey Artwork will be cropped to square ratio when uploaded
       input(type="file" accept="image/*" name="coverImage")
-      img.dashboard__edit-mixtape--artwork(src=(mixtape && mixtape.coverAvailable ? `/images/mixtapes/${mixtape._id}/large.jpg` : "/images/mixtapes/mixtape-default.png"))
+      img.dashboard__edit-mixtape--artwork(
+        src=(mixtape && mixtape.coverAvailable ? 
+        `/images/mixtapes/${mixtape._id}/large.jpg` : "/images/mixtapes/mixtape-default.png")
+      )

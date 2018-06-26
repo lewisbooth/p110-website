@@ -14,11 +14,22 @@ block body
             h1= mixtape.title
           .mixtapes__article--content--sections
             div
-              img(src=`/images/mixtapes/${mixtape._id}/large.jpg`)
+              img(src=(
+                mixtape.coverAvailable ? 
+                `/images/mixtapes/${mixtape._id}/large.jpg` :
+                "/images/mixtapes/mixtape-default.png"
+                ))
               +socialSharingIcons
             div              
               h3 Listen Now
-              a.button.button__yellow(href=`/mixtapes/${mixtape._id}/${mixtape.fullTitle}.zip`) 
+              -
+                const downloadLink = mixtape.type === "files" ? 
+                `/mixtapes/${mixtape._id}/${mixtape.fullTitle}.zip` :
+                mixtape.externalLink
+              a.button.button__yellow(
+                href=downloadLink
+                target=(mixtape.type === "link" ? "_blank" : "")
+              )
                 img(src="/images/icons/download-button.svg")
                 div Download Mixtape
               - const released = moment(mixtape.releaseDate).format("Do MMMM YYYY")

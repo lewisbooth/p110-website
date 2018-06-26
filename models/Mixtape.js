@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const mongodbErrorHandler = require("mongoose-mongodb-errors");
+const validator = require("validator");
 const { removeNewLines } = require("../helpers/removeNewLines");
 const { updateMixtapeTitle } = require("../helpers/uploadMixtapeFiles");
 const slugify = require("slugify");
@@ -33,6 +34,25 @@ const mixtapeSchema = new Schema(
     coverAvailable: {
       type: Boolean,
       default: false
+    },
+    type: {
+      type: String
+    },
+    externalLink: {
+      type: String,
+      validate: {
+        validator: function (v) {
+          return validator.isURL(v);
+        },
+        message: '{VALUE} is not a valid URL'
+      },
+      required: function () {
+        return this.type === "link"
+      }
+    },
+    filesAvailable: {
+      type: Boolean,
+      default: false
     }
   },
   {
@@ -50,6 +70,14 @@ mixtapeSchema.virtual('fullTitle')
   .get(function () {
     return `${this.artistList} - ${this.title}`
   });
+
+mixtapeSchema.pre('save', async function (next) {
+  if (this.type !== "link")
+    return
+  if (!this.externalLink.startsWith("http"))
+    this.externalLink = "http://" + this.externalLink
+  next()
+})
 
 // Get latest X mixtapes
 mixtapeSchema.statics.getLatestMixtapes = function ({

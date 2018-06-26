@@ -29,6 +29,7 @@
     "connect-mongo": "^2.0.0",
     "cookie-parser": "^1.4.3",
     "copy-dir": "^0.3.0",
+    "cors": "^2.8.4",
     "cssnano": "^3.10.0",
     "device": "^0.3.8",
     "dotenv": "^5.0.1",
