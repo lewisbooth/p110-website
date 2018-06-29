@@ -41,10 +41,10 @@ block dashboardContent
       label Category
       select(name="category" required)
         option(value="music-video" selected=(video && video.category === "music-video" ? true : false)) Music Video
-        option(value="net-video" selected=(video && video.category === "net-video" ? true : false)) Net Video
         option(value="p110-premiere" selected=(video && video.category === "p110-premiere" ? true : false)) P110 Premiere
         option(value="scene-smasher" selected=(video && video.category === "scene-smasher" ? true : false)) Scene Smasher
         option(value="1take" selected=(video && video.category === "1take" ? true : false)) 1Take
+        option(value="hoods-hottest" selected=(video && video.category === "hoods-hottest" ? true : false)) Hoods Hottest
       .checkbox
         input(type="checkbox" name="featured" checked=(featured) disabled=(featured))
         label Set as featured video

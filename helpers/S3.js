@@ -1,28 +1,28 @@
-const fs = require("fs");
-const moment = require("moment");
-const readline = require('readline');
-const AWS = require("aws-sdk");
-AWS.config.loadFromPath(__dirname + "/../variables.aws.json");
-const s3 = new AWS.S3();
+const fs = require("fs")
+const moment = require("moment")
+const readline = require('readline')
+const AWS = require("aws-sdk")
+AWS.config.loadFromPath(__dirname + "/../variables.aws.json")
+const s3 = new AWS.S3()
 
 // Upload a file to an S3 bucket, using the same relative path
 exports.upload = (Bucket, Key) => {
-  console.log(`Uploading ${Key} to ${Bucket}`);
+  console.log(`Uploading ${Key} to ${Bucket}`)
   // Read the file from disk
-  const Body = fs.readFileSync(Key);
+  const Body = fs.readFileSync(Key)
   // Use the same relative path for simplicity
-  const options = { Body, Bucket, Key };
+  const options = { Body, Bucket, Key }
   // Upload the file to S3
   s3.upload(options, (err, data) => {
     if (err) {
-      console.log("🚫  Error uploading to S3");
-      console.log(err.message);
+      console.log("🚫  Error uploading to S3")
+      console.log(err.message)
     } else {
-      console.log("Upload successful");
-      console.log(data.Location);
+      console.log("Upload successful")
+      console.log(data.Location)
     }
-  });
-};
+  })
+}
 
 // Downloads a given file to a target folder
 exports.download = (Bucket, Key, saveFolder) => {
@@ -54,7 +54,7 @@ exports.download = (Bucket, Key, saveFolder) => {
       resolve(false)
     })
   })
-};
+}
 
 // Presents the user with a list of the latest entries
 // User selects which file to download
@@ -80,7 +80,7 @@ exports.downloadIndex = (Bucket, saveFolder) => {
         console.log(`[${i}] ${moment(file.LastModified)} (${time})`)
       })
       // Prompt user to select which backup they want
-      const selectedFile = await userSelect(files);
+      const selectedFile = await userSelect(files)
       // Get the key for the user-selected file
       const Key = files[Object.keys(files)[selectedFile]].Key
       // Download the file
@@ -99,7 +99,7 @@ exports.cleanBucket = (Bucket, limit) => {
     if (err) {
       console.log("🚫  Error retrieving bucket information")
       console.log(err.message)
-      return;
+      return
     }
     // If there are more files than the given limit, delete them
     if (data.KeyCount > limit) {
@@ -122,7 +122,7 @@ exports.cleanBucket = (Bucket, limit) => {
       })
     }
   })
-};
+}
 
 // Ask user to select which file they want via terminal input
 function userSelect(files) {
@@ -142,8 +142,8 @@ function userSelect(files) {
         userSelect(files)
       }
       // Close the terminal input session
-      input.close();
-      process.stdin.destroy();
+      input.close()
+      process.stdin.destroy()
     })
   })
 }

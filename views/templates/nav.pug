@@ -40,13 +40,15 @@ mixin nav
           li
             a(href="/videos" class=(currentPath === "/videos" ? "active" : "")) All Videos
           li
-            a(href="/videos/music-video" class=(currentPath === "/videos/music-video" ? "active" : "")) Music Video
+            a(href="/videos/p110-premiere" class=(currentPath === "/videos/p110-premiere" ? "active" : "")) P110 Premiere
           li
-            a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
+            a(href="/videos/music-video" class=(currentPath === "/videos/music-video" ? "active" : "")) Music Video
           li
             a(href="/videos/1take" class=(currentPath === "/videos/1take" ? "active" : "")) #1Take
           li
-            a(href="/videos/net-video" class=(currentPath === "/videos/net-video" ? "active" : "")) Net Video
+            a(href="/videos/scene-smasher" class=(currentPath === "/videos/scene-smasher" ? "active" : "")) Scene Smasher
+          li
+            a(href="/videos/hoods-hottest" class=(currentPath === "/videos/hoods-hottest" ? "active" : "")) Hoods Hottest
         .nav__secondary--items
           if user
             a(href="/admin")        

@@ -35,6 +35,7 @@ exports.videos = async (req, res) => {
     __dirname,
     '../views/mixins/videoListingRaw.pug'
   )
+  res.locals.admin = req.path.includes("admin")
   const html = renderHTML(videos, template, res.locals, "video")
   res.json({ html })
 };

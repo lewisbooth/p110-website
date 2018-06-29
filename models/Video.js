@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const mongodbErrorHandler = require("mongoose-mongodb-errors");
-mongoose.Promise = global.Promise;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
+const mongodbErrorHandler = require("mongoose-mongodb-errors")
+mongoose.Promise = global.Promise
 
 const videoSchema = new Schema({
   youtubeId: {
@@ -30,9 +30,9 @@ const videoSchema = new Schema({
     type: Object,
     required: "Please supply the Youtube data"
   }
-});
+})
 
-videoSchema.plugin(mongodbErrorHandler);
+videoSchema.plugin(mongodbErrorHandler)
 
 videoSchema.pre('save', async function (next) {
   this.published = Date.parse(this.rawData.snippet.publishedAt)
@@ -42,13 +42,16 @@ videoSchema.pre('save', async function (next) {
 // Get latest X videos
 videoSchema.statics.getLatestVideos = function ({
   limit = 8,
+  category = null,
   exclude = null,
   search = null,
   filter = {},
   skip = 0
 } = {}) {
   if (search)
-    filter.title = { $regex: search, $options: "i" };
+    filter.title = { $regex: search, $options: "i" }
+  if (category)
+    filter.category = category
   if (exclude)
     filter.youtubeId = { $ne: exclude }
   return this
@@ -56,6 +59,6 @@ videoSchema.statics.getLatestVideos = function ({
     .sort({ published: -1 })
     .limit(limit)
     .skip(skip)
-};
+}
 
-module.exports = mongoose.model("Video", videoSchema);
+module.exports = mongoose.model("Video", videoSchema)
