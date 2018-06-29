@@ -34,7 +34,7 @@ mixin head
       link(rel='stylesheet' href=`/css/main.css` type="text/css")
 
     if device !== bot
-      script(async src="https://www.googletagmanager.com/gtag/js?id=UA-104172468-3")
+      script(async defer src="https://www.googletagmanager.com/gtag/js?id=UA-104172468-3")
       script
         include ../../public/js/googleAnalytics.js
       script
