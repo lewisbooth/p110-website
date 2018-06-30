@@ -39,7 +39,8 @@ app.use(express.static(path.join(__dirname, "public"), { maxAge }))
 const hashes = {
   mainCSS: hashify("/css/main.css"),
   adminArticleForm: hashify("/js/adminArticleForm.js"),
-  adminVideoForm: hashify("/js/adminVideoForm.js")
+  adminVideoForm: hashify("/js/adminVideoForm.js"),
+  adminMixtapeForm: hashify("/js/adminMixtapeForm.js")
 }
 
 // Load Pug views

@@ -2,7 +2,7 @@ extends dashboard
 
 block extraFooterScripts
   script(async src="/js/libs/axios.min.js")
-  script(async src="/js/adminMixtapeForm.js")
+  script(src=hashes.adminMixtapeForm)
 
 block lightbox
   if mixtape
