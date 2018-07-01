@@ -116,7 +116,10 @@ exports.newsArticle = async (req, res) => {
     res.redirect("back")
     return
   }
-  const openGraphImage = `/images/articles/${article._id}/large.jpg`
+  const openGraphImage =
+    article.cover.type === "youtube" ?
+      `https://i.ytimg.com/vi/${article.cover.youtubeId}/maxresdefault.jpg` :
+      `/images/articles/${article._id}/large.jpg`
   res.render("news-article", {
     article,
     latestArticles,
