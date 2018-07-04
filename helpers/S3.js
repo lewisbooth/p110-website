@@ -32,9 +32,8 @@ exports.download = (Bucket, Key, saveFolder) => {
     // e.g. /backups/archive/backup-02-12-18.tgz becomes backup-02-12-18.tgz
     const filename = Key.split("/").slice(-1).pop()
     // Make sure the target folder exists
-    if (!fs.existsSync(saveFolder)) {
+    if (!fs.existsSync(saveFolder))
       fs.mkdirSync(saveFolder)
-    }
     // Generate the final save location
     const saveFileLocation = `${saveFolder}/${filename}`
     // Open a write stream to the target file
@@ -102,25 +101,31 @@ exports.cleanBucket = (Bucket, limit) => {
       return
     }
     // If there are more files than the given limit, delete them
-    if (data.KeyCount > limit) {
-      // Find the oldest items
-      const outdatedItems = data.Contents
-        .slice(0, data.KeyCount - limit)
-        .map(item => {
-          return { Key: item.Key }
-        })
-      const deleteOptions = {
-        Bucket,
-        Delete: { Objects: outdatedItems }
-      }
-      // Delete the outdated items
-      s3.deleteObjects(deleteOptions, (err, data) => {
-        if (err) {
-          console.log("🚫  Error deleting items")
-          console.log(err.message)
-        }
+    if (!data.KeyCount > limit)
+      return
+    // Find the oldest items
+    const outdatedItems = data.Contents
+      .sort((a, b) => {
+        const dateA = new Date(a.LastModified)
+        const dateB = new Date(b.LastModified)
+        return dateA - dateB
       })
+      .slice(0, data.KeyCount - limit)
+      .map(item => {
+        return { Key: item.Key }
+      })
+    const deleteOptions = {
+      Bucket,
+      Delete: { Objects: outdatedItems }
     }
+    // Delete the outdated items
+    s3.deleteObjects(deleteOptions, (err, data) => {
+      if (err) {
+        console.log("🚫  Error deleting items")
+        console.log(err.message)
+      }
+    })
+
   })
 }
 
