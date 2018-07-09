@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
-const mongo = require("./helpers/mongo")
-const sitemap = require("./helpers/sitemap")
 const cron = require("node-cron")
 const ip = require("ip")
+const mongo = require("./helpers/mongo")
+const sitemap = require("./helpers/sitemap")
 
 // Load environment variables
 require("dotenv").config({ path: "variables.env" })
@@ -32,6 +32,7 @@ const Article = require("./models/Article")
 const Mixtape = require("./models/Mixtape")
 const Settings = require("./models/Settings")
 const Channel = require("./models/Channel")
+const { scrapeLatestVideos } = require("./youtube/client")
 
 // Update stats every 6 hours
 // Includes total channel views, hottest videos etc
@@ -48,6 +49,11 @@ cron.schedule("0 4 * * *", () => {
 // Schedule daily sitemaps at 5am
 cron.schedule("0 5 * * *", () => {
   sitemap.generate()
+})
+
+// Scrape for any new videos at 6am
+cron.schedule("0 6 * * *", () => {
+  scrapeLatestVideos()
 })
 
 // Skipped if sitemap is < 6 hours old

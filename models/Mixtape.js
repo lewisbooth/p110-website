@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const mongodbErrorHandler = require("mongoose-mongodb-errors");
-const validator = require("validator");
-const { removeNewLines } = require("../helpers/removeNewLines");
-const { updateMixtapeTitle } = require("../helpers/uploadMixtapeFiles");
-const slugify = require("slugify");
-mongoose.Promise = global.Promise;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
+const mongodbErrorHandler = require("mongoose-mongodb-errors")
+const validator = require("validator")
+const { removeNewLines } = require("../helpers/removeNewLines")
+const { updateMixtapeTitle } = require("../helpers/uploadMixtapeFiles")
+const slugify = require("slugify")
+mongoose.Promise = global.Promise
 
 const mixtapeSchema = new Schema(
   {
@@ -42,7 +42,7 @@ const mixtapeSchema = new Schema(
       type: String,
       validate: {
         validator: function (v) {
-          return validator.isURL(v);
+          return validator.isURL(v)
         },
         message: '{VALUE} is not a valid URL'
       },
@@ -59,17 +59,33 @@ const mixtapeSchema = new Schema(
     timestamps: true,
     virtuals: true
   }
-);
+)
+
+mixtapeSchema.set('toJSON', { virtuals: true })
 
 mixtapeSchema.virtual('artistList')
   .get(function () {
     return this.artists.join(", ")
-  });
+  })
 
 mixtapeSchema.virtual('fullTitle')
   .get(function () {
     return `${this.artistList} - ${this.title}`
-  });
+  })
+
+mixtapeSchema.virtual('image')
+  .get(function () {
+    return this.coverAvailable ?
+      `/images/mixtapes/${this._id}/large.jpg` :
+      "/images/mixtapes/mixtape-default.png"
+  })
+
+mixtapeSchema.virtual('fileURL')
+  .get(function () {
+    return this.type === "files" ?
+      `/mixtapes/${this._id}/${this.fullTitle}.zip` :
+      this.externalLink
+  })
 
 mixtapeSchema.pre('save', async function (next) {
   if (this.type !== "link")
@@ -108,9 +124,9 @@ mixtapeSchema.statics.getLatestMixtapes = function ({
     .sort(sort)
     .limit(limit)
     .skip(skip)
-};
+}
 
 
-mixtapeSchema.plugin(mongodbErrorHandler);
+mixtapeSchema.plugin(mongodbErrorHandler)
 
-module.exports = mongoose.model("Mixtape", mixtapeSchema);
+module.exports = mongoose.model("Mixtape", mixtapeSchema)

@@ -2,30 +2,30 @@
 
 const { google } = require('googleapis')
 const youtube = google.youtube('v3')
-const OAuth2 = google.auth.OAuth2;
+const OAuth2 = google.auth.OAuth2
 const credentials = require("../variables.google.json")
 
-const mongoose = require("mongoose");
-const { formatTitle } = require("../helpers/formatTitle");
-const { detectCategory } = require("../helpers/detectCategory");
-const User = mongoose.model("User");
-const Video = mongoose.model("Video");
+const mongoose = require("mongoose")
+const { formatTitle } = require("../helpers/formatTitle")
+const { detectCategory } = require("../helpers/detectCategory")
+const User = mongoose.model("User")
+const Video = mongoose.model("Video")
 const CHANNEL_ID = "UC_2WoPonjo8MdKOF5VCpr9g"
 
 var oauth2Client = new OAuth2(
   credentials.client_id,
   credentials.client_secret,
   credentials.redirect_uris[0]
-);
+)
 
 oauth2Client.setCredentials({
   access_token: credentials.access_token,
   refresh_token: credentials.refresh_token
-});
+})
 
 google.options({
   auth: oauth2Client
-});
+})
 
 exports.searchById = (id, part = 'snippet,contentDetails,statistics') => {
   return new Promise((resolve, reject) => {
@@ -130,13 +130,14 @@ exports.scrapeLatestVideos = () => {
     let results = []
 
     youtube.search.list(params, (err, res) => {
-      if (err) return reject(err)
+      if (err)
+        return reject(err)
       res.data.items.reverse().forEach(async (item, i) => {
-        const videoExists = await Video.findOne({ youtubeId: item.id.videoId })
-        if (videoExists) {
-          console.log("Video already exists: " + item.snippet.title)
+        const videoExists = await Video.findOne({
+          youtubeId: item.id.videoId
+        })
+        if (videoExists)
           return
-        }
         const singleParams = {
           id: item.id.videoId,
           part: 'snippet'
@@ -153,15 +154,13 @@ exports.scrapeLatestVideos = () => {
               description: singleRes.data.items[0].snippet.description,
               rawData: item
             }
+            console.log(`New video found: ${title}`)
             results.push(data)
           }
         })
       })
-
       // Give all the requests time to resolve before saving to DB
-      // Messy, should be Promise.all
       setTimeout(saveItems, 3000)
-
     })
 
     const saveItems = () => {
@@ -181,7 +180,7 @@ exports.scrapeLatestVideos = () => {
             } else {
               console.log("Saved video: " + result.title)
             }
-          });
+          })
       })
       console.log("Successfully scraped latest 50 videos")
       resolve(results.length)

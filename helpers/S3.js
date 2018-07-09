@@ -125,7 +125,6 @@ exports.cleanBucket = (Bucket, limit) => {
         console.log(err.message)
       }
     })
-
   })
 }
 

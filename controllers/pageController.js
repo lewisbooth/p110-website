@@ -29,16 +29,14 @@ exports.homepage = async (req, res) => {
 }
 
 exports.search = async (req, res) => {
-  if (!req.query.navsearch) {
+  if (!req.query.navsearch)
     return res.redirect("/")
-  }
   const search = req.query.navsearch
   const [videos, mixtapes, articles] = await Promise.all([
     Video.getLatestVideos({ search, limit: 0 }),
     Mixtape.getLatestMixtapes({ search }),
     Article.getLatestArticles({ search })
   ])
-  console.log(videos)
   res.render("search", {
     videos,
     articles,

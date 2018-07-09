@@ -38,6 +38,22 @@ const articleSchema = new Schema(
   }
 );
 
+articleSchema.set('toJSON', { virtuals: true })
+
+articleSchema.virtual('image')
+  .get(function () {
+    return this.cover['type'] === "youtube" ?
+      `https://i.ytimg.com/vi/${article.cover.youtubeId}/maxresdefault.jpg` :
+      `/images/articles/${article._id}/large.jpg`
+  })
+
+articleSchema.virtual('thumbnail')
+  .get(function () {
+    return this.cover['type'] === "youtube" ?
+      `https://i.ytimg.com/vi/${article.cover.youtubeId}/mqdefault.jpg` :
+      `/images/articles/${article._id}/thumbnail.jpg`
+  })
+
 // Get latest X articles
 articleSchema.statics.getLatestArticles = function ({
   limit = 8,
@@ -47,18 +63,18 @@ articleSchema.statics.getLatestArticles = function ({
   exclude = null,
   showUnpublished = false
 } = {}) {
-  if (search) {
+  if (search)
     filter['$or'] = [
       { title: { $regex: search, $options: "i" } },
       { html: { $regex: search, $options: "i" } }
     ]
-  }
-  if (!showUnpublished) {
+
+  if (!showUnpublished)
     filter.published = true
-  }
-  if (exclude) {
+
+  if (exclude)
     filter.slug = { $ne: exclude }
-  }
+
   return this
     .find(filter)
     .sort({ createdAt: -1 })

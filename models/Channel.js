@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const mongodbErrorHandler = require("mongoose-mongodb-errors");
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
+const mongodbErrorHandler = require("mongoose-mongodb-errors")
 const youtube = require('../youtube/client')
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 
 const channelSchema = new Schema(
   {
@@ -15,7 +15,7 @@ const channelSchema = new Schema(
   {
     timestamps: true
   }
-);
+)
 
 channelSchema.statics.getStats = async function () {
   return new Promise(async (resolve, reject) => {
@@ -32,7 +32,7 @@ channelSchema.statics.getStats = async function () {
         })
     }
   })
-};
+}
 
 channelSchema.statics.updateStats = function (model) {
   return new Promise((resolve, reject) => {
@@ -51,11 +51,11 @@ channelSchema.statics.updateStats = function (model) {
             resolve(stats)
           }
         }
-      );
+      )
     })
   })
 }
 
-channelSchema.plugin(mongodbErrorHandler);
+channelSchema.plugin(mongodbErrorHandler)
 
-module.exports = mongoose.model("Channel", channelSchema);
+module.exports = mongoose.model("Channel", channelSchema)

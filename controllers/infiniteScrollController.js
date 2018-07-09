@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const pug = require("pug");
-const path = require("path");
-const Video = mongoose.model("Video");
-const Article = mongoose.model("Article");
-const Mixtape = mongoose.model("Mixtape");
+const mongoose = require("mongoose")
+const pug = require("pug")
+const path = require("path")
+const Video = mongoose.model("Video")
+const Article = mongoose.model("Article")
+const Mixtape = mongoose.model("Mixtape")
 
 // Renders DB documents into a given template and returns the HTML
 const renderHTML = (docs, template, options, name) => {
@@ -38,7 +38,7 @@ exports.videos = async (req, res) => {
   res.locals.admin = req.path.includes("admin")
   const html = renderHTML(videos, template, res.locals, "video")
   res.json({ html })
-};
+}
 
 exports.mixtapes = async (req, res) => {
   const filter = {}
@@ -57,7 +57,7 @@ exports.mixtapes = async (req, res) => {
   )
   const html = renderHTML(mixtapes, template, res.locals, "mixtape")
   res.json({ html })
-};
+}
 
 exports.news = async (req, res) => {
   const filter = {}
@@ -76,4 +76,4 @@ exports.news = async (req, res) => {
   )
   const html = renderHTML(news, template, res.locals, "article")
   res.json({ html })
-};
+}

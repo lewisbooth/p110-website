@@ -24,7 +24,6 @@ const { hashify } = require("./helpers/hashify")
 const cookieParser = require('cookie-parser')
 const moment = require('moment')
 
-
 // Enable gzip
 app.use(compression())
 
@@ -123,7 +122,8 @@ app.use("/", routes)
 app.use((req, res, next) => {
   if (req.accepts("html") && res.status(404)) {
     // The sitemap generates 404 errors, so we avoid logging them
-    const isSitemap = req.headers['user-agent'].includes('Node/SitemapGenerator')
+    const isSitemap = req.headers['user-agent']
+      .includes('Node/SitemapGenerator')
     if (!isSitemap)
       console.error(`🚫  🔥  Error 404 ${req.method} ${req.path}`)
     res.render("404")

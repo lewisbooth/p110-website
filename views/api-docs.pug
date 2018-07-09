@@ -1,0 +1,60 @@
+extends layout
+
+block p110AlbumBanner
+
+block body
+  section.news
+    .container
+      h1 API Documentation
+      h4 Accessing the API
+      p The API is found at #[code https://p110.co.uk/api/v1] and currently requires no authentication or tokens. All paths given below will be relative to this root URL.
+      h4 Specifications
+      p The API allows listings or individual records of videos, mixtapes and news articles, as well as the current P110 YouTube channel stats and hottest videos of the month.
+      p The server will return either a 200 response with relevant data or 400 containing { "error": "message" }
+      h4 Listings
+      p By default all listings will return the 20 most recent items, sorted by last created and fully populated with individual data for each entry.
+      p #[code /videos/list]
+      p #[code /news/list]
+      p #[code /mixtapes/list]
+      .pad-left
+        h5 Parameters
+        p #[code limit (integer, max 50)]
+        p #[code page (integer, use for pagination)]
+        p #[code search (string)]
+        p #[code category (string, videos only)]
+      p Full example
+      p #[code https://p110.co.uk/api/v1/videos/list?limit=50&page=2&search=zeph&category=scene-smasher]
+      h4 Individual records
+      p Here's a run down of the JSON response for each type of API call. More data may be returned than is documented but it is unlikely to be relevant, or we've already used it as a flag to generate the more useful data.
+      p #[code /videos/id/:youtubeId]
+      .pad-left
+        p #[code title]
+        p #[code published]
+        p #[code description]
+        p #[code category]
+        p #[code youtubeId] The video ID given by YouTube
+        p #[code rawData] Raw JSON response from YouTube API
+        p #[code rawData.snippet.thumbnails] YouTube-hosted thumbnails in multiple sizes
+        p NOTE: use #[code https://i.ytimg.com/vi/:youtubeId/maxresdefault.jpg] to reliably get the high res thumbnail. Even though it is not shown in the rawData response, YouTube doesn't always host every size of every thumbnail.
+      p #[code /news/article/:slug]
+      .pad-left
+        p #[code title]
+        p #[code html] Rendered HTML of the article content
+        p #[code text] Plain text version of the above with formatting stripped 
+        p #[code slug] Used to generate the article URL
+        p #[code image]
+        p #[code thumbnail]
+        p #[code cover.type] Set to "youtube" or "image". If "youtube", the article contains an embedded YouTube video with ID #[code cover.type.youtubeId]
+      p #[code /mixtapes/id/:mixtapeId]
+      .pad-left
+        p #[code _id] Used to generate mixtape URL
+        p #[code title]
+        p #[code fullTitle] Concatenated title and artists
+        p #[code description]
+        p #[code image]
+        p #[code releaseDate]
+        p #[code artists] Object containing artist lists
+        p #[code artistList] Concatenated artists into string with commas
+        p #[code fileURL] Downloads the ZIP or links externally 
+        p #[code type] Flag for generating the fileURL, set to "files" or "link"
+        
