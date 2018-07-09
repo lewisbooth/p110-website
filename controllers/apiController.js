@@ -20,8 +20,8 @@ const generateListParams = (req, maxLimit = 50, defaultLimit = 20) => {
     errors.push(`Max limit of ${maxLimit} articles`)
   const skip = parseInt(req.query.page) * limit - limit || 0
   const filter = {}
-  if (req.params.category && req.path.includes("videos"))
-    filter.category = req.params.category
+  if (req.query.category && req.path.includes("videos"))
+    filter.category = req.query.category
   const params = {
     skip,
     filter,
