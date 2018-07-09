@@ -18,12 +18,12 @@ block body
       p #[code /mixtapes/list]
       .pad-left
         h5 Parameters (Query string)
-        p #[code limit (integer, max 50)]
-        p #[code page (integer, use for pagination)]
+        p #[code limit (integer, default 20, max 50)]
+        p #[code page (integer, default 1, use for pagination)]
         p #[code search (string)]
         p #[code category (string, videos only)]
       p Full example
-      p #[code https://p110.co.uk/api/v1/videos/list?search=zeph]
+      p #[code https://p110.co.uk/api/v1/videos/list?limit=50&page=1&search=zeph&category=scene-smasher]
       h4 Individual records
       p Here's a run down of the JSON response for each type of API call. More data may be returned than is documented but it is unlikely to be relevant, or we've already used it as a flag to generate the more useful data.
       p #[code /videos/id/:youtubeId]
