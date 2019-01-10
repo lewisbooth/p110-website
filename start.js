@@ -1,11 +1,11 @@
+// Load environment variables
+require("dotenv").config({ path: "variables.env" })
+
 const mongoose = require("mongoose")
 const cron = require("node-cron")
 const ip = require("ip")
 const mongo = require("./helpers/mongo")
 const sitemap = require("./helpers/sitemap")
-
-// Load environment variables
-require("dotenv").config({ path: "variables.env" })
 
 // Expose an easy path to root directory for scripts that are nested in folders
 process.env.ROOT = __dirname
