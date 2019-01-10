@@ -3,7 +3,7 @@ mixin hottestVideoListing(video)
     a.promoted__hottest-videos--list--item(href=(`/videos/id/${video.id.videoId}`))
       img.play-icon(src="/images/icons/play-icon-white.svg" alt="Play Icon")
       .video-description
-        .video-description__type= detectCategory(video.snippet.title)
+        .video-description__type= detectCategory(video.snippet)
         .video-description__title= truncate(formatTitle(video.snippet.title), 28)
       .video-viewcount
         if video.statistics

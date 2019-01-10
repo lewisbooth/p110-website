@@ -143,7 +143,6 @@ exports.searchById = async (req, res) => {
       res.json(data)
     })
     .catch(err => {
-      console.log(err)
       res.status(400)
       res.json({ err })
     })

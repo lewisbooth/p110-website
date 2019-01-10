@@ -46,9 +46,6 @@ const hashes = {
 app.set("views", "views")
 app.set("view engine", "pug")
 
-// Log page request info to stdout
-app.use(logging)
-
 // Parses POST data into usable format
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -77,6 +74,9 @@ app.use(
 // PassportJS handles user logins
 app.use(passport.initialize())
 app.use(passport.session())
+
+// Log page request info to stdout
+app.use(logging)
 
 // Expose variables and functions for use in Pug templates
 app.use(async (req, res, next) => {

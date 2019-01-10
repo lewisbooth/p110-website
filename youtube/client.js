@@ -1,4 +1,4 @@
-// Docs at https://github.com/google/google-api-nodejs-client/
+// Docs for Google API available at https://github.com/google/google-api-nodejs-client/
 
 const { google } = require('googleapis')
 const youtube = google.youtube('v3')
@@ -8,7 +8,6 @@ const credentials = require("../variables.google.json")
 const mongoose = require("mongoose")
 const { formatTitle } = require("../helpers/formatTitle")
 const { detectCategory } = require("../helpers/detectCategory")
-const User = mongoose.model("User")
 const Video = mongoose.model("Video")
 const CHANNEL_ID = "UC_2WoPonjo8MdKOF5VCpr9g"
 
@@ -150,7 +149,7 @@ exports.scrapeLatestVideos = () => {
             const data = {
               title,
               youtubeId: item.id.videoId,
-              category: detectCategory(item.snippet.title),
+              category: detectCategory(item.snippet),
               description: singleRes.data.items[0].snippet.description,
               rawData: item
             }

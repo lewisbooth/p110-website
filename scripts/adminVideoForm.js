@@ -56,7 +56,7 @@ function getYoutubeData(e) {
       // Clear flash errors
       flashError({ error: false })
       videoData.youtubeId = id
-      videoData.category = detectCategory(res.data.snippet.title)
+      videoData.category = detectCategory(res.data.snippet)
       videoData.title = formatTitle(res.data.snippet.title)
       videoData.description = res.data.snippet.description
       videoData.rawData = res.data
@@ -114,14 +114,15 @@ const formatTitle = string => string
   .replace(/#HoodsHottest/i, '')
   .replace(/Hoods Hottest/i, '')
 
-const detectCategory = title => {
-  if (title.match(/P110 Premiere/i)) return "p110-premiere"
-  if (title.match(/Scene Smasher/i)) return "scene-smasher"
-  if (title.match(/#HoodsHottest/i)) return "hoods-hottest"
-  if (title.match(/Hoods Hottest/i)) return "hoods-hottest"
-  if (title.match(/Music Video/i)) return "music-video"
-  if (title.match(/Net Video/i)) return "music-video"
-  if (title.match(/#1TAKE/i)) return "1take"
+function detectCategory(snippet) {
+  if (snippet.title.match(/P110 Premiere/i) || snippet.description.match(/P110 Premiere/i))
+    return "p110-premiere"
+  if (snippet.title.match(/Scene Smasher/i))
+    return "scene-smasher"
+  if (snippet.title.match(/#HoodsHottest|Hoods Hottest/i))
+    return "hoods-hottest"
+  if (snippet.title.match(/#1TAKE/i))
+    return "1take"
   return "music-video"
 }
 

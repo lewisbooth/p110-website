@@ -14,7 +14,8 @@ process.env.ROOT = __dirname
 mongoose.connect(process.env.DATABASE, {
   autoReconnect: true,
   reconnectTries: 100,
-  reconnectInterval: 5000
+  reconnectInterval: 5000,
+  useNewUrlParser: true
 }, err => {
   if (err)
     console.error("🚫 Error connecting to MongoDB")
@@ -52,7 +53,7 @@ cron.schedule("0 5 * * *", () => {
 })
 
 // Scrape for any new videos at 6am
-cron.schedule("0 6 * * *", () => {
+cron.schedule("0 */6 * * *", () => {
   scrapeLatestVideos()
 })
 

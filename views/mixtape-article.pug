@@ -30,8 +30,8 @@ block body
                 href=downloadLink
                 target=(mixtape.type === "link" ? "_blank" : "")
               )
-                img(src="/images/icons/download-button.svg")
-                div Download Mixtape
+                img(src="/images/icons/play-icon-white.svg")
+                div Get the Mixtape
               - const released = moment(mixtape.releaseDate).format("Do MMMM YYYY")
               p.release-date
                 em Released on #{released}
@@ -51,7 +51,8 @@ block body
                       if track.duration !== "0:00"
                         .mixtapes__track-listing--entry--duration= track.duration
         aside.mixtapes__article--sidebar
-          h3 Latest mixtapes
-          .mixtapes__feed
-            for mixtape in latestMixtapes
-              +mixtapeListing(mixtape)
+          if latestMixtapes.length > 0
+            h3 Latest mixtapes
+            .mixtapes__feed
+              for mixtape in latestMixtapes
+                +mixtapeListing(mixtape)

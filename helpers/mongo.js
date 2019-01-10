@@ -1,7 +1,6 @@
 require("dotenv").config({ path: "variables.env" })
 const mongoBackup = require("mongodb-backup")
 const mongoRestore = require("mongodb-restore")
-const copydir = require('copy-dir')
 const tar = require("tar")
 const fs = require("fs")
 const path = require("path")
@@ -15,7 +14,6 @@ exports.restore = async () => {
   // Create backup folder if it doesn't already exist
   if (!fs.existsSync("mongodb"))
     fs.mkdirSync("mongodb")
-
   if (!fs.existsSync("mongodb/temp"))
     fs.mkdirSync("mongodb/temp")
 
@@ -68,6 +66,8 @@ exports.backup = () => {
   // Create backup folder if it doesn't already exist
   if (!fs.existsSync("mongodb"))
     fs.mkdirSync("mongodb")
+  if (!fs.existsSync("mongodb/backup"))
+    fs.mkdirSync("mongodb/backup")
   // Format timestamp to weekday-month-date-year-hour-min-sec
   // E.g thu-feb-15-2018-10-11-01 
   const timestamp = new Date()
